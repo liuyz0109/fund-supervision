@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.gtmap.fundsupervision.mapper.FcjyCyztCyqyjbxxMapper">
+
+    <select id = "findAll" parameterType="java.lang.String" resultType="com.gtmap.fundsupervision.entity.FcjyCyztCyqyjbxxEntity">
+
+        SELECT
+            qyid,
+            qybh,
+            qylb,
+            qymc,
+            qyjc,
+            zzjgdm,
+            szss,
+            qxh,
+            jyfw,
+            zcdz,
+            lxdz,
+            yzbm,
+            lxr,
+            lxdh,
+            cz,
+            dzyj,
+            wz,
+            zzdj,
+            zzzsbh,
+            zzzsyxqsrq,
+            zzzsyxzzrq,
+            yzczyrs,
+            gjzcrs,
+            zcryzs,
+            zjzcrs,
+            cjzcrs,
+            yyzzhm,
+            yyzzjyqxqsr,
+            yyzzjyqxdqr,
+            jzc,
+            zzc,
+            zczb,
+            zczbdw,
+            zjl,
+            fddbr,
+            frdblxdh,
+            frdbzjmc,
+            frdbzjhm,
+            djqxh,
+            cjsj,
+            xgsj,
+            sfyx,
+            cyqyzt,
+            qyxz,
+            clrq,
+            pzcsfdcywrq,
+            bz
+        FROM
+            fcjy_cyzt_cyqyjbxx
+        where
+            qybh = #{qybh}
+
+ </select>
+
+    <select id="findCyqyjbxxByQybh" parameterType="java.lang.String" resultType="com.gtmap.fundsupervision.entity.FcjyCyztCyqyjbxxEntity">
+        SELECT
+            qyid,
+            qybh,
+            qylb,
+            qymc,
+            qyjc,
+            zzjgdm,
+            szss,
+            qxh,
+            jyfw,
+            zcdz,
+            lxdz,
+            yzbm,
+            lxr,
+            lxdh,
+            cz,
+            dzyj,
+            wz,
+            zzdj,
+            zzzsbh,
+            zzzsyxqsrq,
+            zzzsyxzzrq,
+            yzczyrs,
+            gjzcrs,
+            zcryzs,
+            zjzcrs,
+            cjzcrs,
+            yyzzhm,
+            yyzzjyqxqsr,
+            yyzzjyqxdqr,
+            jzc,
+            zzc,
+            zczb,
+            zczbdw,
+            zjl,
+            fddbr,
+            frdblxdh,
+            frdbzjmc,
+            frdbzjhm,
+            djqxh,
+            cjsj,
+            xgsj,
+            sfyx,
+            cyqyzt,
+            qyxz,
+            clrq,
+            pzcsfdcywrq,
+            bz
+        FROM
+            fcjy_cyzt_cyqyjbxx
+        where
+            QYID = #{qybh}
+    </select>
+
+</mapper>

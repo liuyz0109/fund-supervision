@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.gtmap.fundsupervision.mapper.FcjyClfZjjgzhMapper">
+
+    <insert id="insertZjjgzh" parameterType="com.gtmap.fundsupervision.entity.FcjyClfZjjgzhEntity">
+        INSERT INTO fcjy_clf_zjjgzh (
+            zhid,
+            zhbh,
+            jgid,
+            mmsfbz,
+            zhlb,
+            sfdg,
+            zhsyr,
+            zhh,
+            yhbh,
+            yhmc,
+            khyh,
+            khhbh,
+            yhjhh,
+            csje,
+            hcjelj,
+            hjjelj,
+            dqje,
+            yhdqye,
+            hbzl,
+            jzbz,
+            jzsj,
+            jzrbh,
+            zt,
+            bz
+        ) VALUES (
+            #{zhid},
+            #{zhbh},
+            #{jgid},
+            #{mmsfbz},
+            #{zhlb},
+            #{sfdg},
+            #{zhsyr},
+            #{zhh},
+            #{yhbh},
+            #{yhmc},
+            #{khyh},
+            #{khhbh},
+            #{yhjhh},
+            #{csje},
+            #{hcjelj},
+            #{hjjelj},
+            #{dqje},
+            #{yhdqye},
+            #{hbzl},
+            #{jzbz},
+            #{jzsj},
+            #{jzrbh},
+            #{zt},
+            #{bz}
+        )
+    </insert>
+
+</mapper>

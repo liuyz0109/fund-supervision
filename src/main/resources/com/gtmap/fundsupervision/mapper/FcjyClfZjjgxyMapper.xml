@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.gtmap.fundsupervision.mapper.FcjyClfZjjgxyMapper">
+
+    <!--获取总数-->
+    <select id = "getDataCount" resultType="java.lang.Integer">
+
+        select count(JGID) AS "count" from FCJY_CLF_ZJJGXY
+
+    </select>
+
+    <!--获取全部数据-->
+    <select id="getAllData" resultType="com.gtmap.fundsupervision.entity.FcjyClfZjjgxyEntity">
+
+        SELECT
+            jgid,
+            jgbh,
+            jgfwjgbh,
+            jgfwjgmc,
+            jgfwrybh,
+            hbzl,
+            htzje,
+            zjgje,
+            msrzyzjje,
+            msrdkje,
+            zyzjjkqx,
+            gjjdkje,
+            sydkje,
+            qdxyrq,
+            msrmm,
+            cmrmm,
+            cmrdyjyzt,
+            cxsj,
+            gdsj,
+            zt,
+            sfyx,
+            bz
+        FROM
+            fcjy_clf_zjjgxy
+
+    </select>
+
+    <!--获取资金监管箱页面展示数据-->
+    <select id="getZjjgxVo" parameterType="java.lang.String" resultType="com.gtmap.fundsupervision.vo.ZjjgxVo">
+        select f1.jgbh as "djbh",f1.jgid as "xybh",f1.bz as "ywxx",f2.ztxm as "zrf",f3.ztxm as "srf",f2.ztxm as "zqr",f4.fwzl as "fwzl",f4.fwsyqzh as "qzhm",f4.htbh as "htbh",f5.xm as "dqblr",f6.qymc as "bldw",f1.qdxyrq as "qdrq",f1.zt as "sfcx"
+        from fcjy_clf_zjjgxy f1
+        join (select jgid,ztxm from fcjy_clf_zjjght_zt where ztlb = 1) f2
+        on f1.jgid = f2.jgid
+        join (select jgid,ztxm from fcjy_clf_zjjght_zt where ztlb = 0) f3
+        on f1.jgid = f3.jgid
+        join FCJY_CLF_ZJJGHT f4
+        on f1.jgid = f4.jgid
+        join FCJY_CYZT_CYRYJBXX f5
+        on f1.jgfwrybh = f5.ryid
+        join FCJY_CYZT_CYQYJBXX f6
+        on f1.jgfwjgbh = f6.qyid
+        where f1.jgbh like '%${searchDjbh}%' and f1.jgid like '%${searchXybh}%' and f4.htbh like '%${searchHtbh}%'
+        order by f1.jgbh
+    </select>
+
+    <insert id="insertZjjgxy" parameterType="com.gtmap.fundsupervision.entity.FcjyClfZjjgxyEntity">
+        INSERT INTO fcjy_clf_zjjgxy (
+            jgid,
+            jgbh,
+            jgfwjgbh,
+            jgfwjgmc,
+            jgfwrybh,
+            hbzl,
+            htzje,
+            zjgje,
+            msrzyzjje,
+            msrdkje,
+            zyzjjkqx,
+            gjjdkje,
+            sydkje,
+            qdxyrq,
+            msrmm,
+            cmrmm,
+            cmrdyjyzt,
+            cxsj,
+            gdsj,
+            zt,
+            sfyx,
+            bz
+        ) VALUES (
+            #{jgid},
+            #{jgbh},
+            #{jgfwjgbh},
+            #{jgfwjgmc},
+            #{jgfwrybh},
+            #{hbzl},
+            #{htzje},
+            #{zjgje},
+            #{msrzyzjje},
+            #{msrdkje},
+            #{zyzjjkqx},
+            #{gjjdkje},
+            #{sydkje},
+            #{qdxyrq},
+            #{msrmm},
+            #{cmrmm},
+            #{cmrdyjyzt},
+            #{cxsj},
+            #{gdsj},
+            #{zt},
+            #{sfyx},
+            #{bz}
+        )
+    </insert>
+
+    <!--根据监管id查询监管协议-->
+    <select id="findZjjgxyByJgid" parameterType="java.lang.String" resultType="com.gtmap.fundsupervision.entity.FcjyClfZjjgxyEntity">
+        SELECT
+            jgid,
+            jgbh,
+            jgfwjgbh,
+            jgfwjgmc,
+            jgfwrybh,
+            hbzl,
+            htzje,
+            zjgje,
+            msrzyzjje,
+            msrdkje,
+            zyzjjkqx,
+            gjjdkje,
+            sydkje,
+            qdxyrq,
+            msrmm,
+            cmrmm,
+            cmrdyjyzt,
+            cxsj,
+            gdsj,
+            zt,
+            sfyx,
+            bz
+        FROM
+            fcjy_clf_zjjgxy
+        where
+            JGID = #{jgid}
+    </select>
+
+    <!--更新资金监管协议的状态zt-->
+    <update id="updateZjjgxyByJgidToCx" parameterType="java.lang.String">
+        UPDATE fcjy_clf_zjjgxy
+        SET
+            ZT = '301'
+        WHERE
+            jgid = #{jgid}
+    </update>
+
+    <!--修改协议状态-支取确认-->
+    <update id="updateZjjgxyZtByJgid" parameterType="java.lang.String">
+        UPDATE fcjy_clf_zjjgxy
+        SET
+            ZT = #{zt}
+        WHERE
+            jgid = #{jgid}
+    </update>
+
+    <!--获取资金监管协议页面展示数据-->
+    <select id="findZjjgxyAll" parameterType="com.gtmap.fundsupervision.dto.ZjjgxySearchDto" resultType="com.gtmap.fundsupervision.vo.ZjjgxyVo">
+        select distinct f1.jgbh as "djbh",f1.jgid as "xybh",f1.bz as "ywxx",f2.ztxm as "zrf",f3.ztxm as "srf",f2.ztxm as "zqr",f4.fwzl as "fwzl",f4.fwsyqzh as "qzhm",f7.zhbh as "jgzh",f1.zjgje as "jgje",f4.htbh as "htbh",f5.xm as "dqblr",f6.qymc as "bldw",f1.qdxyrq as "qdrq",f1.zt as "xyzt",f8.dgfkyhmc as "jgyh"
+        from fcjy_clf_zjjgxy f1
+        join (select jgid,ztxm from fcjy_clf_zjjght_zt where ztlb = 1) f2
+        on f1.jgid = f2.jgid
+        join (select jgid,ztxm from fcjy_clf_zjjght_zt where ztlb = 0) f3
+        on f1.jgid = f3.jgid
+        join FCJY_CLF_ZJJGHT f4
+        on f1.jgid = f4.jgid
+        join FCJY_CYZT_CYRYJBXX f5
+        on f1.jgfwrybh = f5.ryid
+        join FCJY_CYZT_CYQYJBXX f6
+        on f1.jgfwjgbh = f6.qyid
+        join FCJY_CLF_ZJJGZH f7
+        on f1.jgid = f7.jgid
+        join FCJY_CLF_ZJJGRZJL f8
+        on f1.jgid = f8.jgid
+        <where>
+            <if test="searchQdrq != null and searchQdrq != ''">
+                to_char(f1.qdxyrq,'yyyy-mm-dd') = #{searchQdrq}
+            </if>
+            <if test="searchJsrq != null and searchJsrq != ''">
+                and to_char(f1.gdsj,'yyyy-mm-dd') = #{searchJsrq}
+            </if>
+            <if test="searchXybh != null and searchXybh != ''">
+                and f1.jgid like '%${searchXybh}%'
+            </if>
+            <if test="searchZrf != null and searchZrf != ''">
+                and f2.ztxm like '%${searchZrf}%'
+            </if>
+            <if test="searchSrf != null and searchSrf != ''">
+                and f3.ztxm like '%${searchSrf}%'
+            </if>
+            <if test="searchDjbh != null and searchDjbh != ''">
+                and f1.jgbh like '%${searchDjbh}%'
+            </if>
+            <if test="searchXyzt != null and searchXyzt != ''">
+                and f1.zt like '%${searchXyzt}%'
+            </if>
+            <if test="searchJgyh != null and searchJgyh != ''">
+                and f8.dgfkyhmc like '%${searchJgyh}%'
+            </if>
+            <if test="searchHtbh != null and searchHtbh != ''">
+                and f4.htbh like '%${searchHtbh}%'
+            </if>
+        </where>
+        order by f1.jgbh
+    </select>
+
+    <!--获取资金监管协议统计页面数据-->
+    <select id="getZjjgxyCountData" parameterType="com.gtmap.fundsupervision.dto.ZjjgxyCountSearchDto" resultType="com.gtmap.fundsupervision.vo.ZjjgxyCountVo">
+        select f2.qymc as "bldw",f3.dgfkyhmc as "jgyh",f4.fwmj as "jzmj",f1.htzje as "cjje",f1.zjgje as "jgje",f3.je as "rzje",f6.je as "zqje"
+        from FCJY_CLF_ZJJGXY f1
+        join FCJY_CYZT_CYQYJBXX f2
+        on f1.jgfwjgbh = f2.qyid
+        join FCJY_CLF_ZJJGRZJL f3
+        on f1.jgid = f3.jgid
+        join FCJY_CLF_ZJJGHT f4
+        on f1.jgid = f4.jgid
+        join FCJY_CLF_ZJJGCZJL f6
+        on f1.jgid = f6.jgid
+        <where>
+            <if test="searchJyrq != null and searchJyrq != ''">
+                to_char(f1.qdxyrq,'yyyy-mm-dd') = #{searchJyrq}
+            </if>
+            <if test="searchJsrq != null and searchJsrq != ''">
+                and to_char(f1.gdsj,'yyyy-mm-dd') = #{searchJsrq}
+            </if>
+            <if test="searchJgyh != null and searchJgyh != ''">
+                and f3.dgfkyhmc like '%${searchJgyh}%'
+            </if>
+        </where>
+        order by f1.jgbh
+    </select>
+
+</mapper>

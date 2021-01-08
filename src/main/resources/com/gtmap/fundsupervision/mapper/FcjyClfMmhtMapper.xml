@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.gtmap.fundsupervision.mapper.FcjyClfMmhtMapper">
+
+    <!--存量房买卖合同列表-->
+    <select id="findClfMmhtListVoByHtbh" parameterType="java.lang.String" resultType="com.gtmap.fundsupervision.vo.ClfMmhtListVo">
+        select f1.htbh as "htbh",f2.syqr as "cqr",f1.fwzl as "cqzl"
+        from FCJY_CLF_MMHT f1
+        join FCJY_CLF_MMHT_FWQSGK f2
+        on f1.htid = f2.htid
+        where f1.htbh like '%${htbhOld}%'
+    </select>
+
+    <!--存量房买卖合同Vo-->
+    <select id="findClfMmhtVoByHtbh" parameterType="java.lang.String" resultType="com.gtmap.fundsupervision.dto.ZjjgxyDto">
+        select f1.htbh as "htbh",f3.mc as "qzlx",f1.cqzh as "qzhm",f1.qdrq as "htrq",f1.fwzl as "slzl",f1.jzmj as "jzmj",f4.mmfjk as "cjjg",f4.fkfs as "fkfs",f4.ycxfkjgje as "sfje",f4.yhdkdkje as "dkje",f4.zjjgje as "jgzje"
+        from FCJY_CLF_MMHT f1
+        join FCJY_CLF_MMHT_FWQSGK f2
+        on f1.htid = f2.htid
+        join FCJY_ZD_QSZT f3
+        on f2.qszt = f3.dm
+        join FCJY_CLF_MMHT_CJJGFKFS f4
+        on f1.htid = f4.htid
+        where f1.htbh = #{htbhOld}
+    </select>
+
+    <!--存量房买卖合同信息查询-->
+    <select id="findClfMmhtByHtbh" parameterType="java.lang.String" resultType="com.gtmap.fundsupervision.entity.FcjyClfMmhtEntity">
+        SELECT
+            htid,
+            htbh,
+            cqzh,
+            hbh,
+            fwzl,
+            fwlx,
+            fwjg,
+            hx,
+            jzmj,
+            tnjzmj,
+            jg,
+            htbz,
+            fklx,
+            dkfs,
+            fksj,
+            qdrq,
+            qrsj,
+            qrqzsj,
+            zhbgtgsj,
+            cxsj,
+            jssj,
+            zt,
+            sfyx,
+            wqrxm,
+            bdcdjblzt,
+            barq
+        FROM
+            fcjy_clf_mmht
+        where htbh = #{htbh}
+    </select>
+
+    <!--存量房买卖合同房屋权属概况-->
+    <select id="findFwqsgkByHtid" parameterType="java.lang.String" resultType="com.gtmap.fundsupervision.entity.FcjyClfMmhtFwqsgkEntity">
+        SELECT
+            id,
+            htid,
+            hbh,
+            fwzl,
+            fwlx,
+            fwjg,
+            hx,
+            jzmj,
+            tnjzmj,
+            syqr,
+            syqzh,
+            symj,
+            ftmj,
+            ghyt,
+            czs,
+            jcnf,
+            fwxzqtsm,
+            bz,
+            qszt
+        FROM
+            fcjy_clf_mmht_fwqsgk
+        where
+            htid = #{htid}
+    </select>
+
+    <!--根据合同编号获取存量房买卖合同主体-->
+    <select id="findMmhtZtByHtbh" parameterType="java.lang.String" resultType="com.gtmap.fundsupervision.entity.FcjyClfMmhtZtEntity">
+        SELECT
+            ztid,
+            ztbh,
+            htbh,
+            ztlb,
+            ztxm,
+            xb,
+            csrq,
+            zjlb,
+            zjhm,
+            fzjg,
+            dz,
+            lxdh,
+            yb,
+            dzyj,
+            gjdq,
+            hjszs1,
+            hjszs2,
+            jzszs1,
+            jzszs2,
+            yh,
+            hm,
+            zh,
+            dlrxm,
+            dlrzjlb,
+            dlrzjhm,
+            dlrdz,
+            dlrlxdh,
+            bz
+        FROM
+            fcjy_clf_mmht_zt
+        where
+            htbh = #{htbh}
+    </select>
+
+    <!--根据合同id获取存量房买卖房价款及支付方式-->
+    <select id="findCjjgfkfsByHtid" parameterType="java.lang.String" resultType="com.gtmap.fundsupervision.entity.FcjyClfMmhtCjjgfkfsEntity">
+        SELECT
+            id,
+            htid,
+            sfdl,
+            mmfjk,
+            fkfs,
+            ycxfkjgje,
+            ycxfkyh,
+            ycxfkhm,
+            ycxfkzh,
+            yhdksf,
+            yhdkdkje,
+            yhdkdkzl,
+            grzhkhyh,
+            grzhhm,
+            grzhzh,
+            sfzjjg,
+            zjjgje
+        FROM
+            fcjy_clf_mmht_cjjgfkfs
+        where htid = #{htid}
+    </select>
+
+    <!--根据合同id获取存量房买卖合同房屋交付-->
+    <select id="findFwjfByHtid" parameterType="java.lang.String" resultType="com.gtmap.fundsupervision.entity.FcjyClfMmhtFwjfEntity">
+        SELECT
+            id,
+            htid,
+            jffs,
+            qdhjfr,
+            mfycxjfr,
+            mfsfkjfr,
+            mfskjfr,
+            qt
+        FROM
+            fcjy_clf_mmht_fwjf
+        where
+            htid = #{htid}
+    </select>
+
+    <!--根据产权账号获取房产信息-->
+    <select id="findFcxxVoByHtbh" parameterType="java.lang.String" resultType="com.gtmap.fundsupervision.vo.FcxxVo">
+        select f1.cqzh as "cqzh",f1.fwzl as "fwzl",f2.ztxm as "salexm",f2.zjhm as "salesfzh"
+        from FCJY_CLF_MMHT f1
+        join FCJY_CLF_MMHT_ZT f2
+        on f1.htbh = f2.htbh
+        where f1.cqzh like '%${cqzh}%' and f2.ztlb = '1'
+    </select>
+
+    <!--获取选择的房产信息-->
+    <select id="findZJjgFcxxVoByCqzh" parameterType="java.lang.String" resultType="com.gtmap.fundsupervision.vo.ZJjgFcxxVo">
+        select f2.ztxm as "salexm",f2.lxdh as "salelxfs",f2.zjhm as "salesfzh",f2.dlrxm as "salewtr",f2.dlrlxdh as "salewtrlxfs",f3.ztxm as "buyxm",f3.lxdh as "buylxfs",f3.zjhm as "buysfzh",f3.dlrxm as "buywtr",f3.dlrlxdh as "buywtrlxfs",f1.cqzh as "cqzh",f1.fwzl as "fwzl",f4.mmfjk as "mmzj",f4.yhdkdkje as "chdk",f4.yhdkdkje as "buydk",f4.zjjgje as "jgje"
+        from FCJY_CLF_MMHT f1
+        join FCJY_CLF_MMHT_ZT f2
+        on f1.htbh = f2.htbh and f2.ztlb = '1'
+        join FCJY_CLF_MMHT_ZT f3
+        on f1.htbh = f3.htbh and f3.ztlb = '0'
+        join FCJY_CLF_MMHT_CJJGFKFS f4
+        on f1.htid = f4.htid
+        where f1.cqzh = #{cqzh}
+    </select>
+
+    <!--查询权证查询信息-->
+    <select id="findAllQzcxVo" parameterType="java.util.Map" resultType="com.gtmap.fundsupervision.vo.QzcxVo">
+        select f3.qlr as "xm",f3.zjhm as "sfzh",f1.cqzh as "qzhm",f1.fwzl as "zl"
+        from FCJY_CLF_MMHT f1
+        join FCJY_CLF_JJHTFW f2
+        on f1.hbh = f2.hbh
+        join FCJY_CLF_JJHT f3
+        on f2.jjhtbh = f3.jjhtbh
+        where f1.cqzh like '%${searchCqzh}%' and f3.qlr like '%${searchXm}%' and f3.zjhm like '%${searchSfzh}%'
+    </select>
+
+</mapper>

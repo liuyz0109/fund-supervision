@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.gtmap.fundsupervision.mapper.UserLoginMapper">
+
+    <select id = "getUserByUsername" parameterType="java.lang.String" resultType="com.gtmap.fundsupervision.entity.UserLoginEntity">
+
+            SELECT
+        id,
+        username,
+        password
+    FROM
+        user_login
+    where
+        username = #{username}
+
+    </select>
+
+    <select id="getPermissionsByUsername" parameterType="java.lang.String" resultType="java.lang.String">
+        select d.permission
+            from user_login a
+                   join user_role b on a.id = b.userid
+                   join role_permission c on b.roleid = c.roleid
+                   join permission d on c.permissionid = d.id
+            where a.username = #{username}
+            union
+            select c.permission
+            from user_login a
+                   join user_permission b on a.id = b.userid
+                   join permission c on b.permissionid = c.id
+            where a.username = #{username}
+    </select>
+
+    <select id="getRolesByUsername" parameterType="java.lang.String" resultType="java.lang.String">
+        select c.role
+            from user_login a
+                   join user_role b on a.id = b.userid
+                   join role c on b.roleid = c.id
+            where a.username = #{username}
+    </select>
+
+</mapper>

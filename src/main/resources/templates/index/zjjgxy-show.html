@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+        <meta http-equiv="Content-Type" content="application/json;charset=utf-8"/>
+		<meta name="renderer" content="webkit">
+  		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>资金监管协议展示</title>
+		<link rel="stylesheet" type="text/css" href="../static/layui/css/layui.css"/>
+		<link rel="stylesheet" type="text/css" href="../static/admin/css/admin.css"/>
+	</head>
+	<body>
+        <div class="layui-form column-content-detail">
+            <div class="layui-tab">
+                <ul class="layui-tab-title">
+                    <li class="layui-this">监管信息</li>
+                    <li id="secondTitle">办理进度</li>
+                    <li id="thirdTitle">交款明细</li>
+                    <li id="forthTitle">支取明细</li>
+                </ul>
+                <div class="layui-tab-content">
+                    <div class="layui-tab-item layui-show" >
+                        <!--第一栏-->
+                        <form id="firstFormShow">
+                            <!--隐藏标签栏，保存协议状态-->
+                            <input type="hidden" id="zt" name="zt">
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label"><b>协议编号</b></label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" id="xybh" name="xybh" readonly autocomplete="off" class="layui-input" style="width: 200px">
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">登记编号</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" readonly id="djbh" name="djbh" autocomplete="off" class="layui-input" style="width: 200px">
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">合同编号</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="htbh" id="htbh" readonly autocomplete="off" class="layui-input" style="width: 200px">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">合同总金额</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="htzje" readonly id="htzje" autocomplete="off" class="layui-input" style="width: 200px">
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">总监管金额</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" id="zjgje" name="zjgje" readonly autocomplete="off" class="layui-input" style="width: 200px">
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">签订日期</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" id="qdxyrq" readonly name="qdxyrq" autocomplete="off" class="layui-input" style="width: 200px">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">房屋坐落</label>
+                                    <div class="layui-input-inline">
+                                        <input readonly type="text" id="fwzl" name="fwzl" autocomplete="off" class="layui-input" style="width: 525px">
+                                    </div>
+                                </div>
+                                <div class="layui-inline" style="float: right;padding-right: 55px">
+                                    <label class="layui-form-label">房屋面积</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" id="fwmj" name="fwmj" readonly autocomplete="off" class="layui-input" style="width: 200px">
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label"><b>买方姓名</b></label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" id="buyxm" name="buyxm" readonly autocomplete="off" class="layui-input" style="width: 200px">
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">证件类别</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" id="buyzjlb" name="buyzjlb" readonly autocomplete="off" class="layui-input" style="width: 200px">
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">证件号码</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="buyzjhm" id="buyzjhm" readonly autocomplete="off" class="layui-input" style="width: 200px">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">退款银行</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="buyyh" id="buyyh" lay-verify="yh" autocomplete="off" class="layui-input" style="width: 525px">
+                                    </div>
+                                </div>
+                                <div class="layui-inline" style="float: right;padding-right: 55px">
+                                    <label class="layui-form-label">买方账户</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="buyzh" id="buyzh" lay-verify="zh" autocomplete="off" class="layui-input" style="width: 200px">
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label"><b>卖方姓名</b></label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" id="salexm" name="salexm" readonly autocomplete="off" class="layui-input" style="width: 200px">
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">证件类别</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" id="salzjlb" name="salzjlb" readonly autocomplete="off" class="layui-input" style="width: 200px">
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">证件号码</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="salezjhm" id="salezjhm" readonly autocomplete="off" class="layui-input" style="width: 200px">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">收款银行</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="saleyh" id="saleyh" lay-verify="yh" autocomplete="off" class="layui-input" style="width: 525px">
+                                    </div>
+                                </div>
+                                <div class="layui-inline" style="float: right;padding-right: 55px">
+                                    <label class="layui-form-label">卖方账户</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="salezh" id="salezh" lay-verify="zh" autocomplete="off" class="layui-input" style="width: 200px">
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="layui-form-item" style="padding-left: 10px;">
+                                <div class="layui-input-block" style="float: right">
+                                    <button type="button" class="layui-btn layui-btn-normal" onclick="window.print()" id="firstFormPrint">打印</button>
+                                    <button type="button" class="layui-btn layui-btn-normal" id="jktz">交款通知</button>
+                                    <button type="button" class="layui-btn layui-btn-normal" id="zhxxSave" lay-submit="" lay-filter="demo1">保存</button>
+                                    <a type="button" class="layui-btn layui-btn-normal" href="../zjjgx/helpDownload">帮助</a>
+                                    <button type="button" class="layui-btn layui-btn-normal" id="closeOne">关闭</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="layui-tab-item">
+                        <!--第二栏-->
+                        <form id="formSecond">
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">协议编号</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" id="xybhjd" name="xybhjd" readonly autocomplete="off" class="layui-input" style="width: 200px">
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">签订人</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" id="xyqdrjd" name="xyqdrjd" readonly autocomplete="off" class="layui-input" style="width: 200px">
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">签订日期</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="xyqdrqjd" id="xyqdrqjd" readonly autocomplete="off" class="layui-input" style="width: 200px">
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="layui-form-item">
+                                <span style="padding-left: 37px">生成交款通知</span>
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <div class="layui-input-inline" style="padding-left: 110px;margin-top: -10px">
+                                        <input type="checkbox" name="jktzsfsc" id="jktzsfsc" disabled lay-skin="primary" title="是否生成" value="1">
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">生成人</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" id="jktzscr" name="jktzscr" readonly autocomplete="off" class="layui-input" style="width: 200px">
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">生成日期</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="jktzscrq" id="jktzscrq" readonly autocomplete="off" class="layui-input" style="width: 200px">
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="layui-form-item">
+                                <span style="padding-left: 37px">交款确认</span>
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <div class="layui-input-inline" style="padding-left: 110px;margin-top: -10px">
+                                        <input type="checkbox" name="jkqrsfqr" id="jkqrsfqr" disabled lay-skin="primary" title="是否确认">
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">确认人</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" id="jkqrqrr" name="jkqrqrr" readonly autocomplete="off" class="layui-input" style="width: 200px">
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">确认日期</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="jkqrqrrq" id="jkqrqrrq" readonly autocomplete="off" class="layui-input" style="width: 200px">
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="layui-form-item">
+                                <span style="padding-left: 37px">协议撤销</span>
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <div class="layui-input-inline" style="padding-left: 110px;margin-top: -10px">
+                                        <input type="checkbox" name="xycxsfcx" id="xycxsfcx" disabled lay-skin="primary" title="是否撤销">
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">撤销人</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" id="xycxcxr" name="xycxcxr" readonly autocomplete="off" class="layui-input" style="width: 200px">
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">撤销日期</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="xycxcxrq" id="xycxcxrq" readonly autocomplete="off" class="layui-input" style="width: 200px">
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="layui-form-item">
+                                <span style="padding-left: 37px">生成支取凭证</span>
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <div class="layui-input-inline" style="padding-left: 110px;margin-top: -10px">
+                                        <input type="checkbox" name="sczqpzsfsc" id="sczqpzsfsc" disabled lay-skin="primary" title="是否生成">
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">生成人</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" id="sczqpzscr" name="sczqpzscr" readonly autocomplete="off" class="layui-input" style="width: 200px">
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">生成日期</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="sczqpzscrq" id="sczqpzscrq" readonly autocomplete="off" class="layui-input" style="width: 200px">
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="layui-form-item">
+                                <span style="padding-left: 37px">支取确认</span>
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <div class="layui-input-inline" style="padding-left: 110px;margin-top: -10px">
+                                        <input type="checkbox" name="zqqrsfqr" id="zqqrsfqr" disabled lay-skin="primary" title="是否确认">
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">确认人</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" id="zqqrqrr" name="zqqrqrr" readonly autocomplete="off" class="layui-input" style="width: 200px">
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">确认日期</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="zqqrqrrq" id="zqqrqrrq" readonly autocomplete="off" class="layui-input" style="width: 200px">
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="layui-form-item">
+                                <span style="padding-left: 37px">办结确认</span>
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <div class="layui-input-inline" style="padding-left: 110px;margin-top: -10px">
+                                        <input type="checkbox" name="bjqrsfbj" id="bjqrsfbj" disabled lay-skin="primary" title="是否办结">
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">办结人</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" id="bjqrbjr" name="bjqrbjr" readonly autocomplete="off" class="layui-input" style="width: 200px">
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">办结日期</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="bjqrbjrq" id="bjqrbjrq" readonly autocomplete="off" class="layui-input" style="width: 200px">
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="layui-form-item" style="padding-left: 10px;">
+                                <div class="layui-input-block" style="float: right">
+                                    <button type="button" class="layui-btn layui-btn-normal" onclick="window.print()">打印</button>
+                                    <a type="button" class="layui-btn layui-btn-normal" href="../zjjgx/helpDownload">帮助</a>
+                                    <button type="button" class="layui-btn layui-btn-normal" id="closeSecond">关闭</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="layui-tab-item">
+                        <!--第三栏-->
+                        <form>
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label"><b>监管开户行</b></label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" readonly name="jgkhh-third" id="jgkhh-third" autocomplete="off" class="layui-input" style="width: 290px">
+                                    </div>
+                                </div>
+                                <div class="layui-inline" style="float: right;padding-right: 135px">
+                                    <label class="layui-form-label">结算账户</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" readonly name="jszh-third" id="jszh-third" autocomplete="off" class="layui-input" style="width: 290px">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">监管资金额</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" readonly name="jgzje-third" id="jgzje-third" autocomplete="off" class="layui-input" style="width: 290px">
+                                    </div>
+                                </div>
+                                <div class="layui-inline" style="float: right;padding-right: 135px">
+                                    <label class="layui-form-label">需交款金额</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" readonly name="xjkje-third" id="xjkje-third" autocomplete="off" class="layui-input" style="width: 290px">
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label"><b>交款人姓名</b></label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" readonly name="jkrxm-third" id="jkrxm-third" autocomplete="off" class="layui-input" style="width: 290px">
+                                    </div>
+                                </div>
+                                <div class="layui-inline" style="float: right;padding-right: 135px">
+                                    <label class="layui-form-label">证件号码</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" readonly name="jkrzjhm-third" id="jkrzjhm-third" autocomplete="off" class="layui-input" style="width: 290px">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">交款银行名</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" readonly name="jkryh-third" id="jkryh-third" autocomplete="off" class="layui-input" style="width: 290px">
+                                    </div>
+                                </div>
+                                <div class="layui-inline" style="float: right;padding-right: 135px">
+                                    <label class="layui-form-label">交款人账户</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" readonly name="jkrzh-third" id="jkrzh-third" autocomplete="off" class="layui-input" style="width: 290px">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">交款确认额</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" readonly name="jkqre-third" id="jkqre-third" autocomplete="off" class="layui-input" style="width: 290px">
+                                    </div>
+                                </div>
+                                <div class="layui-inline" style="padding-left: 300px">
+                                    <input type="checkbox" name="jkqrbox" id="jkqrbox" lay-skin="primary" title="是否确认">
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label style="padding-left: 25px"><b>交款明细记录</b></label>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <table class="layui-hide" id="test" lay-filter="test"></table>
+                            </div>
+                            <hr>
+                            <div class="layui-form-item" style="padding-left: 10px;">
+                                <div class="layui-input-block" style="float: right">
+                                    <button type="button" class="layui-btn layui-btn-normal" onclick="window.print()">打印</button>
+                                    <button type="button" class="layui-btn layui-btn-normal" id="jkqr">交款确认</button>
+                                    <button type="button" class="layui-btn layui-btn-disabled">保存</button>
+                                    <a type="button" class="layui-btn layui-btn-normal" href="../zjjgx/helpDownload">帮助</a>
+                                    <button type="button" class="layui-btn layui-btn-normal" id="closeThird">关闭</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="layui-tab-item">
+                        <!--第四栏-->
+                        <form>
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label"><b>监管开户行</b></label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" readonly name="jgkhh-forth" id="jgkhh-forth" autocomplete="off" class="layui-input" style="width: 290px">
+                                    </div>
+                                </div>
+                                <div class="layui-inline" style="float: right;padding-right: 135px">
+                                    <label class="layui-form-label">结算账户</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" readonly name="jszh-forth" id="jszh-forth" autocomplete="off" class="layui-input" style="width: 290px">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">监管资金额</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" readonly name="jgzje-forth" id="jgzje-forth" autocomplete="off" class="layui-input" style="width: 290px">
+                                    </div>
+                                </div>
+                                <div class="layui-inline" style="float: right;padding-right: 135px">
+                                    <label class="layui-form-label">支取金额</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" readonly name="xjkje-forth" id="xjkje-forth" autocomplete="off" class="layui-input" style="width: 290px">
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label"><b>支取人姓名</b></label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" readonly name="jkrxm-forth" id="jkrxm-forth" autocomplete="off" class="layui-input" style="width: 290px">
+                                    </div>
+                                </div>
+                                <div class="layui-inline" style="float: right;padding-right: 135px">
+                                    <label class="layui-form-label">证件号码</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" readonly name="jkrzjhm-forth" id="jkrzjhm-forth" autocomplete="off" class="layui-input" style="width: 290px">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">支取银行名</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" readonly name="jkryh-forth" id="jkryh-forth" autocomplete="off" class="layui-input" style="width: 290px">
+                                    </div>
+                                </div>
+                                <div class="layui-inline" style="float: right;padding-right: 135px">
+                                    <label class="layui-form-label">支取人账户</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" readonly name="jkrzh-forth" id="jkrzh-forth" autocomplete="off" class="layui-input" style="width: 290px">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">支取确认额</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" readonly name="jkqre-third" id="jkqre-forth" autocomplete="off" class="layui-input" style="width: 290px">
+                                    </div>
+                                </div>
+                                <div class="layui-inline" style="padding-left: 300px">
+                                    <input type="checkbox" name="zqqrcheckbox" id="zqqrcheckbox" lay-skin="primary" title="是否确认">
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label style="padding-left: 25px"><b>支取明细记录</b></label>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <table class="layui-hide" id="test4" lay-filter="test"></table>
+                            </div>
+                            <hr>
+                            <div class="layui-form-item" style="padding-left: 10px;">
+                                <div class="layui-input-block" style="float: right">
+                                    <button type="button" class="layui-btn layui-btn-normal" onclick="window.print()">打印</button>
+                                    <button type="button" class="layui-btn layui-btn-normal" id="zqpz">支取凭证</button>
+                                    <button type="button" class="layui-btn layui-btn-normal" id="zqqr">支取确认</button>
+                                    <button type="button" class="layui-btn layui-btn-disabled">保存</button>
+                                    <a type="button" class="layui-btn layui-btn-normal" href="../zjjgx/helpDownload">帮助</a>
+                                    <button type="button" class="layui-btn layui-btn-normal" id="closeForth">关闭</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+	</body>
+    <script src="../static/login/js/jquery-2.1.1.min.js"></script>
+    <script src="../static/js/jquery.jqprint-0.3.js"></script>
+    <script src="../static/layui/layui.js"></script>
+	<script src="../static/admin/js/common.js" type="text/javascript" charset="utf-8"></script>
+
+    <script>
+        //点击关闭按钮，关闭页面
+        var index = parent.layer.getFrameIndex(window.name);//获取窗口索引
+        $('#closeOne').click(function () {
+            parent.layer.close(index);
+        });
+        $('#closeSecond').click(function () {
+            parent.layer.close(index);
+        });
+        $('#closeThird').click(function () {
+            parent.layer.close(index);
+        });
+        $('#closeForth').click(function () {
+            parent.layer.close(index);
+        });
+
+        //生成32uuid
+        function getUUID() {
+            function S4() {
+                return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+            }
+            return (S4() + S4() + S4() + S4() + S4() + S4() + S4() + S4());
+        }
+    </script>
+
+    <script>
+        layui.use('form',function () {
+            var form = layui.form;
+
+            //自定义验证
+            form.verify({
+                yh: [
+                    /^[\u4e00-\u9fa5]{4,12}$/
+                    ,"<em style='color: #74CBB5'>" + "银行名称必须是4到12位的纯汉字" + "</em>"
+                ]
+                ,zh: [
+                    /^[\S]{6,12}$/
+                    ,"<em style='color: #74CBB5'>" + "账户必须是6到12位无空格的纯数字" + "</em>"
+                ]
+            });
+
+            //账户信息修改保存
+            form.on('submit(demo1)', function(){
+                layui.use('jquery',function(){
+                    var $=layui.$;
+                    $.ajax({
+                        url: '../zjjgx/zhxxSave',
+                        data: $("#firstFormShow").serialize(),
+                        dataType: 'json',
+                        type: 'post',
+                        success: function (obj) {
+                            if (obj.success){
+                                layer.alert(obj.msg,'',function () {
+                                    location.reload();
+                                });
+                            }else {
+                                layer.alert(obj.msg,'',function () {
+                                    location.reload();
+                                });
+                            }
+                        },
+                        error: function () {
+                            layer.alert("后端请求错误，请重试",'',function () {
+                                location.reload();
+                            })
+                        }
+                    });
+                });
+                return false;//禁止跳转，否则会提交两次，且页面会刷新
+            });
+
+            //交款通知
+            $("#jktz").click(function () {
+                //监管id
+                var xybh = $('#xybh').val();
+                $.ajax({
+                    url: '../zjjgx/jktz?xybh='+xybh,
+                    dataType: 'json',
+                    success: function (obj) {
+                        if (obj.success){
+                            layer.alert(obj.msg);
+                        }else {
+                            layer.alert(obj.msg);
+                        }
+                    },
+                    error: function () {
+                        layer.alert("后端请求错误，请重试",'',function () {
+                            location.reload();
+                        });
+                    }
+                });
+            });
+
+            //交款确认
+            $("#jkqr").click(function () {
+                //获取jkqrbox复选框的状态
+                var jkqrbox = $("#jkqrbox").prop('checked');
+                if (!jkqrbox){
+                    layer.alert("请确认完成后再进行操作");
+                    return;
+                }
+
+                //监管id
+                var xybh = $('#xybh').val();
+
+                $.ajax({
+                    url: '../zjjgx/jkqr?xybh='+xybh,
+                    dataType: 'json',
+                    success: function (obj) {
+                        if (obj.success){
+                            layer.alert(obj.msg,'',function () {
+                                location.reload();
+                            });
+                        }else {
+                            layer.alert(obj.msg);
+                        }
+                    },
+                    error: function () {
+                        layer.alert("后端请求错误，请重试",'',function () {
+                            location.reload();
+                        });
+                    }
+                });
+            });
+
+            //获取办理进度
+            $("#secondTitle").click(function () {
+                //监管id
+                var xybh = $('#xybh').val();
+                $("#xybhjd").val(xybh); //协议编号-进度
+
+                //后端查询数据
+                $.ajax({
+                    url: '../zjjgx/findBljd?xybh='+xybh,
+                    dataType: 'json',
+                    success: function (obj) {
+                        if (obj.success){
+
+                            $("#xyqdrjd").val(obj.data.xyqdrjd); //协议签订人
+                            $("#xyqdrqjd").val(obj.data.xyqdrqjd); //协议签订日期
+                            //交款通知是否生成
+                            if (obj.data.jktzsfsc === '1') {
+                                $("#jktzsfsc").prop("checked","checked");
+                            }
+                            $("#jktzscr").val(obj.data.jktzscr); //交款通知生成人
+                            $("#jktzscrq").val(obj.data.jktzscrq); //交款通知生成日期
+                            //交款确认是否确认
+                            if (obj.data.jkqrsfqr === '1') {
+                                $("#jkqrsfqr").prop("checked","checked");
+                            }
+                            $("#jkqrqrr").val(obj.data.jkqrqrr); //交款确认确认人
+                            $("#jkqrqrrq").val(obj.data.jkqrqrrq); //交款确认确认日期
+                            //协议撤销是否撤销
+                            if (obj.data.xycxsfcx === '1') {
+                                $("#xycxsfcx").prop("checked","checked");
+                            }
+                            $("#xycxcxr").val(obj.data.xycxcxr); //协议撤销撤销人
+                            $("#xycxcxrq").val(obj.data.xycxcxrq); //协议撤销撤销日期
+                            //生成支取凭证是否生成
+                            if (obj.data.sczqpzsfsc === '1') {
+                                $("#sczqpzsfsc").prop("checked","checked");
+                            }
+                            $("#sczqpzscr").val(obj.data.sczqpzscr); //生成支取凭证生成人
+                            $("#sczqpzscrq").val(obj.data.sczqpzscrq); //生成支取凭证生成日期
+                            //支取确认是否确认
+                            if (obj.data.zqqrsfqr === '1') {
+                                $("#zqqrsfqr").prop("checked","checked");
+                            }
+                            $("#zqqrqrr").val(obj.data.zqqrqrr);  //支取确认确认人
+                            $("#zqqrqrrq").val(obj.data.zqqrqrrq);  //支取确认确认日期
+                            //办结确认是否办结
+                            if (obj.data.bjqrsfbj === '1') {
+                                $("#bjqrsfbj").prop("checked","checked");
+                            }
+                            $("#bjqrbjr").val(obj.data.bjqrbjr); //办结确认办结人
+                            $("#bjqrbjrq").val(obj.data.bjqrbjrq); //办结确认办结日期
+                            //使用layui重新渲染checkbox，不然不会显示
+                            layui.use('form',function () {
+                                var form = layui.form;
+                                form.render('checkbox');
+                            });
+                        }else {
+                            layer.alert(obj.msg);
+                        }
+                    },
+                    error: function () {
+                        layer.alert("后端请求参数错误，请重试");
+                    }
+                });
+            });
+
+            //获取交款明细
+            $("#thirdTitle").click(function () {
+                //监管id
+                var xybh = $('#xybh').val();
+                //获取交款明细头部数据
+                $.ajax({
+                    url:'../zjjgx/getzkmxHead?xybh='+xybh,
+                    dataType:'json',
+                    success: function (obj) {
+                        if (obj.success){
+                            //监管开户行
+                            $('#jgkhh-third').val(obj.data.jgkhh);
+                            //结算账户
+                            $('#jszh-third').val(obj.data.jszh);
+                            //监管资金额
+                            $('#jgzje-third').val(obj.data.jgzje);
+                            //需交款金额
+                            $('#xjkje-third').val(obj.data.jgzje);
+                            //交款确认额
+                            $("#jkqre-third").val(obj.data.jgzje);
+                            //交款人姓名
+                            $("#jkrxm-third").val(obj.data.jkrxm);
+                            //交款人证件号码
+                            $("#jkrzjhm-third").val(obj.data.jkrzjhm);
+                            //交款银行名
+                            $("#jkryh-third").val(obj.data.jkryh);
+                            //交款人账户
+                            $("#jkrzh-third").val(obj.data.jkrzh);
+                        }else {
+                            layer.alert(obj.msg);
+                        }
+                    },
+                    error: function () {
+                        layer.alert("后端请求参数错误，请重试");
+                    }
+                });
+
+                //交款明细记录数据
+                layui.use('table', function() {
+                    var table = layui.table;
+                    table.render({
+                        elem: '#test'
+                        ,url:'../zjjgx/findJkmxByXybh?xybh='+xybh
+                        ,cols: [
+                            [
+                                {field:'', title:'序号', width:80,type:'numbers', fixed: 'left'}
+                                ,{field:'jkrq', title:'交款日期'}
+                                ,{field:'jkje', title:'交款金额'}
+                                ,{field:'pos', title:'POS机交款'}
+                                ,{field:'ljjkje', title:'累计交款金额'}
+                                ,{field:'sfwcjk', title:'是否完成交款'}
+                                ,{field:'yhjyls', title:'银行交易流水'}
+                            ]
+                        ]
+                    });
+                })
+            });
+
+            //获取支取明细
+            $("#forthTitle").click(function () {
+                //监管id
+                var xybh = $('#xybh').val();
+                //获取交款明细头部数据
+                $.ajax({
+                    url:'../zjjgx/getzqmxHead?xybh='+xybh,
+                    dataType:'json',
+                    success: function (obj) {
+                        if (obj.success){
+                            //监管开户行
+                            $('#jgkhh-forth').val(obj.data.jgkhh);
+                            //结算账户
+                            $('#jszh-forth').val(obj.data.jszh);
+                            //监管资金额
+                            $('#jgzje-forth').val(obj.data.jgzje);
+                            //支取金额
+                            $('#xjkje-forth').val(obj.data.jgzje);
+                            //支取确认额
+                            $("#jkqre-forth").val(obj.data.jgzje);
+                            //支取人姓名
+                            $("#jkrxm-forth").val(obj.data.jkrxm);
+                            //支取人证件号码
+                            $("#jkrzjhm-forth").val(obj.data.jkrzjhm);
+                            //支取银行名
+                            $("#jkryh-forth").val(obj.data.jkryh);
+                            //支取人账户
+                            $("#jkrzh-forth").val(obj.data.jkrzh);
+                        }else {
+                            layer.alert(obj.msg);
+                        }
+                    },
+                    error: function () {
+                        layer.alert("后端请求参数错误，请重试");
+                    }
+                });
+
+                //支取明细记录数据
+                layui.use('table', function() {
+                    var table = layui.table;
+                    table.render({
+                        elem: '#test4'
+                        ,url:'../zjjgx/findZqmxByXybh?xybh='+xybh
+                        ,cols: [
+                            [
+                                {field:'', title:'序号', width:80,type:'numbers', fixed: 'left'}
+                                ,{field:'jkrq', title:'支取日期'}
+                                ,{field:'jkje', title:'支取金额'}
+                                ,{field:'pos', title:'POS机支取'}
+                                ,{field:'ljjkje', title:'累计支取金额'}
+                                ,{field:'sfwcjk', title:'是否完成支取'}
+                                ,{field:'yhjyls', title:'银行交易流水'}
+                            ]
+                        ]
+                    });
+                })
+            });
+
+            //支取凭证
+            $("#zqpz").click(function () {
+                //监管id
+                var xybh = $('#xybh').val();
+                $.ajax({
+                    url: '../zjjgx/zqpz?xybh='+xybh,
+                    dataTpye: 'json',
+                    success: function (obj) {
+                        if (obj.success){
+                            layer.alert(obj.msg);
+                        }else {
+                            layer.alert(obj.msg);
+                        }
+                    },
+                    error: function () {
+                        layer.alert("后端请求错误，请联系管理员");
+                    }
+                });
+            });
+
+            //支取确认
+            $("#zqqr").click(function () {
+                //获取zqqrcheckbox复选框的状态
+                var zqqrcheckbox = $("#zqqrcheckbox").prop('checked');
+                if (!zqqrcheckbox){
+                    layer.alert("请确认完成后再进行操作");
+                    return;
+                }
+
+                //监管id
+                var xybh = $('#xybh').val();
+                $.ajax({
+                    url: '../zjjgx/zqqr?xybh='+xybh,
+                    dataTpye: 'json',
+                    success: function (obj) {
+                        if (obj.success){
+                            layer.alert(obj.msg,'',function () {
+                                location.reload();
+                            });
+                        }else {
+                            layer.alert(obj.msg);
+                        }
+                    },
+                    error: function () {
+                        layer.alert("后端请求错误，请联系管理员",'',function () {
+                            location.reload();
+                        });
+                    }
+                });
+            });
+
+        });
+
+    </script>
+
+    <script>
+        //资金监管信息数据查询
+        function zjjgxyByJgid() {
+            var index = parent.layer.getFrameIndex(window.name);//获取窗口索引
+            $.ajax({
+                url: '../zjjgx/zjjgxxByJgid',
+                dataType: 'json',
+                success:function (obj) {
+                    if (obj.success){
+                        //参数赋值
+                        $("#zt").val(obj.data.zt);
+                        $("#xybh").val(obj.data.xybh);
+                        $("#djbh").val(obj.data.djbh);
+                        $("#htzje").val(obj.data.htzje);
+                        $("#zjgje").val(obj.data.zjgje);
+                        $("#qdxyrq").val(obj.data.qdxyrq);
+                        $("#htbh").val(obj.data.htbh);
+                        $("#fwzl").val(obj.data.fwzl);
+                        $("#fwmj").val(obj.data.fwmj);
+                        $("#buyxm").val(obj.data.buyxm);
+                        $("#buyzjlb").val(obj.data.buyzjlb);
+                        $("#buyzjhm").val(obj.data.buyzjhm);
+                        $("#buyyh").val(obj.data.buyyh);
+                        $("#buyzh").val(obj.data.buyzh);
+                        $("#salexm").val(obj.data.salexm);
+                        $("#salzjlb").val(obj.data.salzjlb);
+                        $("#salezjhm").val(obj.data.salezjhm);
+                        $("#saleyh").val(obj.data.saleyh);
+                        $("#salezh").val(obj.data.salezh);
+                    }else {
+                        alert(obj.msg);
+                        parent.layer.close(index);
+                    }
+                },
+                error: function () {
+                    alert("请求参数错误，请重试");
+                    parent.layer.close(index);
+                }
+            });
+        };
+
+        window.onload=zjjgxyByJgid;
+    </script>
+
+</html>

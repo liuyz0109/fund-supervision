@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+        <meta http-equiv="Content-Type" content="application/json;charset=utf-8"/>
+		<meta name="renderer" content="webkit">
+  		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>监管审核</title>
+		<link rel="stylesheet" type="text/css" href="../static/layui/css/layui.css"/>
+		<link rel="stylesheet" type="text/css" href="../static/admin/css/admin.css"/>
+	</head>
+	<body>
+        <div class="layui-form column-content-detail">
+            <div class="layui-tab">
+                <ul class="layui-tab-title">
+                    <li class="layui-this">基本信息</li>
+                </ul>
+                <div class="layui-tab-content">
+                    <div class="layui-tab-item layui-show" id="firstPrint">
+                        <!--第一栏-->
+                        <form class="layui-form" id="jgshForm">
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label"><b>申请编号</b></label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" id="sqbh" name="sqbh" readonly autocomplete="off" class="layui-input" style="width: 200px">
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <div class="layui-input-inline">
+                                        <button type="button" id="tryGetData" style="height:23px;width:100px;margin-left: 43px;background-color: #1E9FFF;border-style: none;cursor:pointer">
+                                            <span style="color: #FFFFFF;font-size: 14px">重新提取</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">业务类型</label>
+                                    <div class="layui-input-inline">
+                                        <select name="ywlxone" id="ywlxone" class="layui-select" lay-verify="required" lay-filter="ywlxone" style="width: 200px">
+                                            <option value="">请选择</option>
+                                            <option value="1">不纳入资金监管</option>
+                                            <option value="2">部分监管</option>
+                                        </select>
+                                    </div>
+                                    <div class="layui-input-inline">
+                                        <select name="ywlxtwo" id="ywlxtwo" class="layui-select" lay-verify="required" lay-filter="ywlxtwo" style="width: 200px">
+
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">卖方姓名</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" id="salexm" name="salexm" readonly autocomplete="off" class="layui-input" style="width: 200px">
+                                    </div>
+                                </div>
+                                <div class="layui-inline" style="float: right;padding-right: 45px">
+                                    <label class="layui-form-label">联系方式</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" id="salelxfs" name="salelxfs" readonly autocomplete="off" class="layui-input" style="width: 200px">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">身份证号</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" id="salesfzh" name="salesfzh" readonly autocomplete="off" class="layui-input" style="width: 200px">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">卖方委托人</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" id="salewtr" name="salewtr" readonly autocomplete="off" class="layui-input" style="width: 200px">
+                                    </div>
+                                </div>
+                                <div class="layui-inline" style="float: right;padding-right: 45px">
+                                    <label class="layui-form-label">联系方式</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" id="salewtrlxfs" name="salewtrlxfs" readonly autocomplete="off" class="layui-input" style="width: 200px">
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">买方姓名</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" id="buyxm" name="buyxm" readonly autocomplete="off" class="layui-input" style="width: 200px">
+                                    </div>
+                                </div>
+                                <div class="layui-inline" style="float: right;padding-right: 45px">
+                                    <label class="layui-form-label">联系方式</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" id="buylxfs" name="buylxfs" readonly autocomplete="off" class="layui-input" style="width: 200px">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">身份证号</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" id="buysfzh" name="buysfzh" readonly autocomplete="off" class="layui-input" style="width: 200px">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">买方委托人</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" id="buywtr" name="buywtr" readonly autocomplete="off" class="layui-input" style="width: 200px">
+                                    </div>
+                                </div>
+                                <div class="layui-inline" style="float: right;padding-right: 45px">
+                                    <label class="layui-form-label">联系方式</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" id="buywtrlxfs" name="buywtrlxfs" readonly autocomplete="off" class="layui-input" style="width: 200px">
+                                    </div>
+                                </div>
+                            </div>
+                            <!--动态拼接-部分监管的时候才有-->
+                            <div id="ywlx"></div>
+                            <!------------------------------->
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">产权证号</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" id="cqzh" name="cqzh" autocomplete="off" class="layui-input" style="width: 200px">
+                                    </div>
+                                    <button type="button" id="findHt" style="height:23px;width:50px;margin-left: 43px;margin-top:5px;background-color: #1E9FFF;border-style: none;cursor:pointer">
+                                        <span style="color: #FFFFFF;font-size: 14px">选择</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">房屋坐落</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" id="fwzl" name="fwzl" readonly autocomplete="off" class="layui-input" style="width: 600px">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">登记机构</label>
+                                    <div class="layui-input-block" style="width: 420px">
+                                        <select name="jfkhh" id="jfkhh" lay-verify="required">
+                                            <option value="">请选择登记机构</option>
+                                            <option value="登记机构1">登记机构1</option>
+                                            <option value="登记机构2">登记机构2</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">受理人</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" id="slr" name="slr" readonly autocomplete="off" class="layui-input" style="width: 200px">
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">收件日期</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" id="sjrq" name="sjrq" readonly autocomplete="off" class="layui-input" style="width: 200px">
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="layui-form-item" style="padding-left: 10px;">
+                                <div class="layui-input-block" style="float: right">
+                                    <button type="button" class="layui-btn layui-btn-normal" onclick="window.print()" id="firstFormPrint">打印</button>
+                                    <button type="button" class="layui-btn layui-btn-normal" lay-submit="" lay-filter="demo1" id="saveData">保存</button>
+                                    <a type="button" class="layui-btn layui-btn-normal" href="../zjjgx/helpDownload">帮助</a>
+                                    <button type="button" class="layui-btn layui-btn-normal" id="closeOne">关闭</button>
+                                </div>
+                            </div>
+                        </form>
+                        <iframe id="rfFrame1" name="rfFrame1" src="about:blank" style="display:none;"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+	</body>
+    <script src="../static/login/js/jquery-2.1.1.min.js"></script>
+    <script src="../static/js/jquery.jqprint-0.3.js"></script>
+    <script src="../static/layui/layui.js"></script>
+	<script src="../static/admin/js/common.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+        //点击关闭按钮，关闭页面
+        var index = parent.layer.getFrameIndex(window.name);//获取窗口索引
+        $('#closeOne').click(function () {
+            parent.layer.close(index);
+        });
+
+        //生成32uuid
+        function getUUID() {
+            function S4() {
+                return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+            }
+            return (S4() + S4() + S4() + S4() + S4() + S4() + S4() + S4());
+        }
+
+    </script>
+
+    <!--部分监管页面-->
+    <script type="text/html" id="bfjglx">
+        <hr>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">买卖总价</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="mmzj" name="mmzj" readonly autocomplete="off" class="layui-input" style="width: 200px">
+                </div>
+            </div>
+            <div class="layui-inline" style="float: right;padding-right: 45px">
+                <label class="layui-form-label">偿还贷款</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="chdk" name="chdk" readonly autocomplete="off" class="layui-input" style="width: 200px">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">买方贷款</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="buydk" name="buydk" readonly autocomplete="off" class="layui-input" style="width: 200px">
+                </div>
+            </div>
+            <div class="layui-inline" style="float: right;padding-right: 45px">
+                <label class="layui-form-label">监管金额</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="jgje" name="jgje" readonly autocomplete="off" class="layui-input" style="width: 200px">
+                </div>
+            </div>
+        </div>
+        <hr>
+    </script>
+
+    <script>
+        //获取房产信息
+        $('#findHt').click(function () {
+            //产权证号
+            var cqzh = $('#cqzh').val();
+            layer.open({
+                title: "房产信息",
+                //调整弹框的大小
+                area:['600px','300px'],
+                shadeClose:false,//点击旁边地方自动关闭
+                //动画
+                anim:2,
+                //弹出层的基本类型
+                type: 2,
+                //刚才定义的弹窗页面
+                content: '../zjjght/findFcxx?cqzh='+cqzh
+            });
+        });
+
+        //定义数组，存储数据
+        var ywlx1 = ['交易双方为直系亲属','房屋征收中发生产权调换','因债务纠纷以房抵债','单位内部调换住房','经法院或者仲裁机构对房产继续宁判决、裁决','通过拍卖取得房屋产权','自行划转交易资金'];
+        var ywlx2 = ['买方为卖方偿还所有购房屋银行贷款','自行划转交易资金'];
+
+        layui.use('form', function () {
+            var form = layui.form;
+
+            //自定义验证
+            form.verify({
+                htbh: function (value) {
+                    if (null == value || '' === value){
+                        return "<em style='color: black'>" + "请先选择合同再继续" + "</em>";
+                    }
+                }
+                ,djbh: [
+                    /^[\S]{6,12}$/
+                    ,"<em style='color: #74CBB5'>" + "登记编号必须是6到12位无空格的纯数字" + "</em>"
+                ]
+            });
+
+            //监听下拉框ywlxone
+            form.on('select(ywlxone)', function(data){
+                $('#ywlxtwo').empty(); //清空下拉框
+                $('#ywlx').empty(); //清空页面内容
+                var val = data.value; //是下拉框的option的value
+                var op = '';
+                if (val === '1'){
+                    for(var i = 0;i<ywlx1.length;i++){
+                        op = op + '<option value="' + ywlx1[i] + '">' + ywlx1[i] + '</option>';
+                    }
+                    $('#ywlxtwo').append(op);
+                    form.render('select');
+                }
+                if (val === '2'){
+                    for(var j = 0;j<ywlx2.length;j++){
+                        op = op + '<option value="' + ywlx2[j] + '">' + ywlx2[j] + '</option>';
+                    }
+                    $('#ywlxtwo').append(op);
+
+                    //页面内容展示-部分监管
+                    var _html=document.getElementById('bfjglx').innerHTML;
+                    document.getElementById('ywlx').innerHTML=_html;
+
+                    form.render('select');
+                }
+            });
+
+            //重新提取数据
+            $("#tryGetData").click(function () {
+                var cqzh = $("#cqzh").val(); //获取产权证号
+                if (null == cqzh || '' === cqzh){
+                    layer.alert("请先选择产权证号");
+                    return false;
+                }
+                //向后台发送请求
+                $.ajax({
+                    url:'../zjjght/findDataByCqzh?cqzh='+cqzh, //获取选择的房产信息
+                    type:'get',
+                    dataType:'json',
+                    success: function (obj) {
+                        //获取父页面元素，进行赋值
+                        $(window.document).find('#salexm').val(obj.salexm);
+                        $(window.document).find('#salelxfs').val(obj.salelxfs);
+                        $(window.document).find('#salesfzh').val(obj.salesfzh);
+                        $(window.document).find('#salewtr').val(obj.salewtr);
+                        $(window.document).find('#salewtrlxfs').val(obj.salewtrlxfs);
+                        $(window.document).find('#buyxm').val(obj.buyxm);
+                        $(window.document).find('#buylxfs').val(obj.buylxfs);
+                        $(window.document).find('#buysfzh').val(obj.buysfzh);
+                        $(window.document).find('#buywtr').val(obj.buywtr);
+                        $(window.document).find('#buywtrlxfs').val(obj.buywtrlxfs);
+                        $(window.document).find('#cqzh').val(obj.cqzh);
+                        $(window.document).find('#fwzl').val(obj.fwzl);
+                        $(window.document).find('#mmzj').val(obj.mmzj);
+                        $(window.document).find('#chdk').val(obj.chdk);
+                        $(window.document).find('#buydk').val(obj.buydk);
+                        $(window.document).find('#jgje').val(obj.jgje);
+                        $(window.document).find('#slr').val(obj.slr);
+                        $(window.document).find('#sjrq').val(obj.sjrq);
+                    },
+                    error: function () {
+                        layer.alert("出错了，请重试");
+                        location.reload();
+                    }
+                });
+            });
+
+            //保存
+            form.on('submit(demo1)', function(){
+                //申请编号赋值uuid
+                $('#sqbh').val(getUUID());
+
+                layui.use('jquery',function(){
+                    var $=layui.$;
+                    $.ajax({
+                        url: '../zjjgx/getJgshData',
+                        data: $("#jgshForm").serialize(),
+                        dataType: 'json',
+                        type: 'post',
+                        success: function (obj) {
+                            if (obj.success){
+                                layer.alert(obj.msg);
+                            }else {
+                                layer.alert(obj.msg);
+                            }
+                        },
+                        error: function () {
+                            layer.alert("后端请求错误，请重试");
+                        }
+                    });
+                });
+                return false;//禁止跳转，否则会提交两次，且页面会刷新
+            });
+
+        });
+
+    </script>
+
+</html>

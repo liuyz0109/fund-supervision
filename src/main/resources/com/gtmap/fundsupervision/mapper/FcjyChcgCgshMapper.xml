@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.gtmap.fundsupervision.mapper.FcjyChcgCgshMapper">
+
+    <select id = "findAll" resultType="com.gtmap.fundsupervision.entity.FcjyChcgCgshEntity">
+
+          SELECT
+            sjxxbh,
+            xmbh,
+            shyd,
+            shyj,
+            shjg,
+            bz
+        FROM
+            fcjy_chcg_cgsh
+
+ </select>
+
+</mapper>

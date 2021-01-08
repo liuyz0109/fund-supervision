@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.gtmap.fundsupervision.mapper.FcjyClfZjjgrzjlMapper">
+
+    <!--保存资金监管入账记录-->
+    <insert id="insertZjjgrzjl" parameterType="com.gtmap.fundsupervision.entity.FcjyClfZjjgrzjlEntity">
+        INSERT INTO fcjy_clf_zjjgrzjl (
+            rzjlid,
+            rzjlbh,
+            jgid,
+            hkzlbh,
+            zhh,
+            je,
+            hbzl,
+            fkrxm,
+            fkrzh,
+            jgyhbh,
+            dgfkyhbh,
+            dgfzyhbh,
+            dgtkhm,
+            dgtkzh,
+            dgfkyhmc,
+            dgfkyhjhh,
+            dgyhzh,
+            sjczsj,
+            yhlsh,
+            sfdg,
+            sflx,
+            sftk,
+            fhqk,
+            fhbz,
+            fhr,
+            fhrxm,
+            fhsj,
+            shrxm,
+            shsj,
+            shqk,
+            czrxm,
+            sfyx,
+            bz
+        ) VALUES (
+            #{rzjlid},
+            #{rzjlbh},
+            #{jgid},
+            #{hkzlbh},
+            #{zhh},
+            #{je},
+            #{hbzl},
+            #{fkrxm},
+            #{fkrzh},
+            #{jgyhbh},
+            #{dgfkyhbh},
+            #{dgfzyhbh},
+            #{dgtkhm},
+            #{dgtkzh},
+            #{dgfkyhmc},
+            #{dgfkyhjhh},
+            #{dgyhzh},
+            #{sjczsj},
+            #{yhlsh},
+            #{sfdg},
+            #{sflx},
+            #{sftk},
+            #{fhqk},
+            #{fhbz},
+            #{fhr},
+            #{fhrxm},
+            #{fhsj},
+            #{shrxm},
+            #{shsj},
+            #{shqk},
+            #{czrxm},
+            #{sfyx},
+            #{bz}
+        )
+    </insert>
+
+    <select id="findZjjgrzjlByJgid" parameterType="java.lang.String" resultType="com.gtmap.fundsupervision.entity.FcjyClfZjjgrzjlEntity">
+        SELECT
+            rzjlid,
+            rzjlbh,
+            jgid,
+            hkzlbh,
+            zhh,
+            je,
+            hbzl,
+            fkrxm,
+            fkrzh,
+            jgyhbh,
+            dgfkyhbh,
+            dgfzyhbh,
+            dgtkhm,
+            dgtkzh,
+            dgfkyhmc,
+            dgfkyhjhh,
+            dgyhzh,
+            sjczsj,
+            yhlsh,
+            sfdg,
+            sflx,
+            sftk,
+            fhqk,
+            fhbz,
+            fhr,
+            fhrxm,
+            fhsj,
+            shrxm,
+            shsj,
+            shqk,
+            czrxm,
+            sfyx,
+            bz
+        FROM
+            fcjy_clf_zjjgrzjl
+        where
+            JGID = #{jgid}
+    </select>
+
+    <!--将缴纳的监管资金和银行流水号保存到资金监管入账记录表中-->
+    <update id="updateZjjgrzjlByjgidToJkqr">
+        UPDATE fcjy_clf_zjjgrzjl
+        SET
+            JE = #{zjgje},
+            YHLSH = #{yhlsh},
+            SJCZSJ = #{date}
+        WHERE
+            jgid = #{jgid}
+    </update>
+
+    <!--将支取的资金和银行流水号和操作时间保存到资金监管出账表中-->
+    <update id="updateZjjgrzjlByjgidToZqqr">
+        UPDATE FCJY_CLF_ZJJGCZJL
+        SET
+            JE = #{zjgje},
+            ZJSXBH = #{yhlsh},
+            SJCZSJ = #{date}
+        WHERE
+            jgid = #{jgid}
+    </update>
+
+    <!--通过监管id，将缴费金额清空-->
+    <update id="updateZjjgrzjlByjgidToCx">
+        UPDATE fcjy_clf_zjjgrzjl
+        SET
+            JE = #{je}
+        WHERE
+            jgid = #{jgid}
+    </update>
+
+</mapper>

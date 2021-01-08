@@ -1,0 +1,28 @@
+server:
+  port: 8080
+spring:
+  datasource:
+    url: jdbc:oracle:thin:@localhost:1521/orcl
+    username: scott
+    password: 123456
+    driver-class-name: oracle.jdbc.OracleDriver
+  thymeleaf:
+    enabled: true
+    prefix: classpath:/templates/  #前缀
+    cache: false  #是否使用缓存
+    mode: HTML  #严格的HTML语法模式
+    suffix: .html  #后缀名
+  devtools:
+    restart:
+      additional-paths: src/main/java
+#  security:
+#    user:
+#      name: admin
+#      password: 123
+mybatis:
+  config-location: classpath:mybatis/mybatis-config.xml
+  mapper-locations: classpath:com/gtmap/fundsupervision/mapper/*.xml
+logging:
+  level:
+    com:
+      gtmap: debug

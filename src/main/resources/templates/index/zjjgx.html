@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>资金监管箱</title>
+    <meta http-equiv="Content-Type" content="application/json;charset=utf-8"/>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../static/layui/css/layui.css"  media="all">
+</head>
+<body>
+<script type="text/html" id="toolbarDemo">
+    <div style="padding-top: 10px">
+        &nbsp;&nbsp;
+        <label>登记编号</label>
+        <input type="text" name="searchDjbh" id="searchDjbh" style="width: 100px">
+        &nbsp;&nbsp;
+        <label>协议编号</label>
+        <input type="text" name="searchXybh" id="searchXybh" style="width: 100px">
+        &nbsp;&nbsp;
+        <label>合同编号</label>
+        <input type="text" name="searchHtbh" id="searchHtbh" style="width: 100px">
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <button type="button" class="layui-btn layui-btn-sm" lay-event="searchData">查阅</button>
+        <button type="button" class="layui-btn layui-btn-sm" lay-event="emptySearch">清空</button>
+        <button type="button" class="layui-btn layui-btn-sm" lay-event="getCheckData">撤销</button>
+        <button type="button" class="layui-btn layui-btn-sm" lay-event="zjjgxyAdd">签订</button>
+        <button type="button" class="layui-btn layui-btn-sm" lay-event="jgsh">监管审核</button>
+    </div>
+</script>
+<table class="layui-hide" id="test" lay-filter="test"></table>
+
+<script src="../static/index/js/jquery.min.js"></script>
+<script src="../static/layui/layui.js" charset="utf-8"></script>
+
+<script>
+    layui.use('table', function(){
+        var table = layui.table;
+        table.render({
+            elem: '#test'
+            ,url:'/zjjgx/getData'
+            ,toolbar: '#toolbarDemo' //开启头部工具栏
+            ,defaultToolbar: ['filter']
+            ,title: '资金监管箱'
+            ,initSort: {
+                field: 'djbh'
+                ,type: 'asc'
+            }
+            ,cols: [
+                [
+                    {type: 'radio', fixed: 'left'}
+                    ,{field:'', title:'序号', width:50,type:'numbers', fixed: 'left'}
+                    ,{field:'djbh', title:'登记编号', width:100,sort:true}
+                    ,{field:'xybh', title:'协议编号',event:'xybh', width:100}
+                    ,{field:'ywxx', title:'业务细项', width:100}
+                    ,{field:'zrf', title:'转让方', width:100}
+                    ,{field:'srf', title:'受让方', width:100}
+                    ,{field:'zqr', title:'支取人', width:100}
+                    ,{field:'fwzl', title:'房屋坐落', width:100}
+                    ,{field:'qzhm', title:'权证号码', width:100}
+                    ,{field:'htbh', title:'合同编号', width:100,sort:true}
+                    ,{field:'dqblr', title:'当前办理人', width:100}
+                    ,{field:'bldw', title:'办理单位', width:100}
+                    ,{field:'qdrq', title:'签订日期', width:100}
+                    ,{field:'sfcx', title:'是否撤销', width:100}
+                ]
+            ]
+            ,page: true
+        });
+        //监听行单击事件（双击事件为：rowDouble）
+        table.on('tool(test)', function(obj){
+            var xybh = obj.data.xybh;
+            if (obj.event === 'xybh') {
+                layer.open({
+                    title: "资金监管协议",
+                    //调整弹框的大小
+                    area: ['1100px', '550px'],
+                    shadeClose: false,//点击旁边地方自动关闭
+                    //动画
+                    anim: 2,
+                    //弹出层的基本类型
+                    type: 2,
+                    //刚才定义的弹窗页面
+                    content: '../zjjgx/findZjjgxyByXybh?xybh=' + xybh,
+                    //关闭子页面后，刷新原页面
+                    end: function () {
+                        location.reload();
+                    }
+                });
+            }
+            //标注选中样式
+            obj.tr.addClass('layui-table-click').siblings().removeClass('layui-table-click');
+        });
+        //头工具栏事件
+        table.on('toolbar(test)', function(obj){
+            var checkStatus = table.checkStatus(obj.config.id);
+
+            //查阅功能
+            if (obj.event === 'searchData'){
+                var searchDjbh = $("#searchDjbh").val(); //登记编号
+                var searchXybh = $("#searchXybh").val(); //协议编号
+                var searchHtbh = $("#searchHtbh").val(); //合同编号
+                //将数据提交到后台
+                $.ajax({
+                    url: '../zjjgx/searchData?searchDjbh='+searchDjbh+'&searchXybh='+searchXybh+'&searchHtbh='+searchHtbh,
+                    dataType: 'json',
+                    success: function (obj) {
+                        if (obj.success){
+                            location.reload();
+                        }else {
+                            location.reload();
+                        }
+                    },
+                    error: function () {
+                        location.reload();
+                    }
+                });
+            }
+
+            //清空功能
+            if (obj.event === 'emptySearch'){
+                $("#searchDjbh").val(""); //登记编号
+                $("#searchXybh").val(""); //协议编号
+                $("#searchHtbh").val(""); //合同编号
+            }
+
+            //撤销功能
+            if (obj.event === 'getCheckData'){
+
+                //获取单选按钮
+                var data = checkStatus.data;
+                var s = JSON.stringify(data);
+                if (s.length <= 2) {
+                    layer.alert("请先选择，再进行操作");
+                    return;
+                }
+
+                layer.confirm('确认撤销吗？', {icon: 3, title:'提示'}, function(){
+                    $.ajax({
+                        url:'../zjjgx/cxZjjgx',
+                        data: {'zjjgx':s},
+                        type: 'post',
+                        dataType :'json',
+                        success: function (obj) {
+                            if (obj.success){ //撤销成功
+                                if (obj.data.sfjczj === '0') { //无缴存记录，直接刷新
+                                    layer.alert(obj.msg, '', function () {
+                                        location.reload();
+                                    });
+                                }
+                                if (obj.data.sfjczj === '1') { //有缴存记录
+                                    layer.open({ //打开新页面，进行买方退款资金的确认
+                                        title : "买方退款资金",
+                                        //调整弹框的大小
+                                        area:['1100px','550px'],
+                                        shadeClose:false,//点击旁边地方自动关闭
+                                        //动画
+                                        anim:2,
+                                        //弹出层的基本类型
+                                        type: 2,
+                                        //刚才定义的弹窗页面
+                                        content: '../zjjgx/mftk',
+                                        //关闭子页面后，刷新原页面
+                                        end: function () {
+                                            location.reload();
+                                        }
+                                    });
+                                }
+                            }else {
+                                layer.alert(obj.msg,'',function () {
+                                    location.reload();
+                                });
+                            }
+                        },
+                        error: function () {
+                            layer.alert("后台出错，请联系管理员",'',function () {
+                                location.reload();
+                            });
+                        }
+                    });
+                });
+            }
+
+            //资金监管协议添加功能
+            if (obj.event === 'zjjgxyAdd'){
+                layer.open({
+                    title : "资金监管",
+                    //调整弹框的大小
+                    area:['1100px','550px'],
+                    shadeClose:false,//点击旁边地方自动关闭
+                    //动画
+                    anim:2,
+                    //弹出层的基本类型
+                    type: 2,
+                    //刚才定义的弹窗页面
+                    content: '../zjjgx/zjjgxyAdd',
+                    //关闭子页面后，刷新原页面
+                    end: function () {
+                        location.reload();
+                    }
+                });
+            }
+
+            //监管审核
+            if (obj.event === 'jgsh'){
+                layer.open({
+                    title : "监管审核",
+                    //调整弹框的大小
+                    area:['800px','400px'],
+                    shadeClose:false,//点击旁边地方自动关闭
+                    //动画
+                    anim:2,
+                    //弹出层的基本类型
+                    type: 2,
+                    //刚才定义的弹窗页面
+                    content: '../zjjgx/jgsh',
+                    //关闭子页面后，刷新原页面
+                    end: function () {
+                        location.reload();
+                    }
+                });
+            }
+
+        });
+    });
+</script>
+
+</body>
+</html>

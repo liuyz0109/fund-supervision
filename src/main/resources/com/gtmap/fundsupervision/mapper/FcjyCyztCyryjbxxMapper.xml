@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.gtmap.fundsupervision.mapper.FcjyCyztCyryjbxxMapper">
+
+    <!--根据人员编号查询人员信息-->
+    <select id="findCyryjbxxByRyid" parameterType="java.lang.String" resultType="com.gtmap.fundsupervision.entity.FcjyCyztCyryjbxxEntity">
+        SELECT
+            ryid,
+            rybh,
+            rylb,
+            xm,
+            xb,
+            csrq,
+            zjlx,
+            zjhm,
+            zjdz,
+            zp,
+            gjdq,
+            sfcs,
+            txdz,
+            yzbm,
+            yddh,
+            lxdh,
+            dzyj,
+            sfzc,
+            whcd,
+            zslb,
+            zzdj,
+            sfcjjxjy,
+            jxjyxgxx,
+            cjsj,
+            xgsj,
+            sfyx,
+            zyzsbh,
+            cyryzt,
+            bz
+        FROM
+            fcjy_cyzt_cyryjbxx
+        where
+            RYID = #{ryid}
+    </select>
+
+</mapper>
