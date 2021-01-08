@@ -7,7 +7,6 @@ import com.gtmap.fundsupervision.dto.ZjjgxyZhxxDto;
 import com.gtmap.fundsupervision.entity.*;
 import com.gtmap.fundsupervision.service.*;
 import com.gtmap.fundsupervision.utils.UuidUtil;
-import com.gtmap.fundsupervision.utils.ZjjgxyZtUtil;
 import com.gtmap.fundsupervision.utils.ZjlbUtil;
 import com.gtmap.fundsupervision.vo.DataVo;
 import com.gtmap.fundsupervision.vo.JkmxjlVo;
@@ -178,8 +177,8 @@ public class ZjjgxServiceImpl implements ZjjgxService {
         fcjyClfZjjgxyEntity.setMsrmm("123"); //买受人密码
         fcjyClfZjjgxyEntity.setCmrmm("123"); //出卖人密码
         fcjyClfZjjgxyEntity.setCmrdyjyzt("0"); //出卖人抵押校验状态 0-未校验 1-抵押余额已输入 2-无抵押
-        fcjyClfZjjgxyEntity.setCxsj(new java.sql.Date(now.getTime())); //撤销时间
-        fcjyClfZjjgxyEntity.setGdsj(new java.sql.Date(now.getTime())); //归档时间
+//        fcjyClfZjjgxyEntity.setCxsj(new java.sql.Date(now.getTime())); //撤销时间
+//        fcjyClfZjjgxyEntity.setGdsj(new java.sql.Date(now.getTime())); //归档时间
         fcjyClfZjjgxyEntity.setZt("101"); //状态 101-草稿 103-变更中 201-初次确认 301-手工撤销 302-系统撤销 303-交易结束
         fcjyClfZjjgxyEntity.setSfyx("1"); //是否有效 1-有效 2-无效
         fcjyClfZjjgxyEntity.setBz("无备注"); //备注
@@ -642,8 +641,8 @@ public class ZjjgxServiceImpl implements ZjjgxService {
         if (null != zjjgrzjlByJgid && zjjgrzjlByJgid.getJe() == 0){ //无缴存资金
             map.put("sfjczj", "0"); //是否缴存资金 0-无 1-有
 
-            //更新资金监管协议的状态zt
-            fcjyClfZjjgxyService.updateZjjgxyByJgidToCx(jgid);
+            //更新资金监管协议的状态zt和撤销时间
+            fcjyClfZjjgxyService.updateZjjgxyByJgidToCx(jgid,new java.sql.Date((new Date()).getTime()));
         }
         if (null != zjjgrzjlByJgid && zjjgrzjlByJgid.getJe() > 0){ //有缴存资金
             map.put("sfjczj", "1"); //是否缴存资金 0-无 1-有
@@ -657,7 +656,6 @@ public class ZjjgxServiceImpl implements ZjjgxService {
 
         //保存协议撤销人和时间和情况
         fcjyClfZjjgxyBljdService.updateZjjgxyBljdByXycx(jgid,"1",jktzscr, scsj); //1-已生成
-
 
         return map;
     }
@@ -715,7 +713,8 @@ public class ZjjgxServiceImpl implements ZjjgxService {
         //将支取的资金和银行流水号和操作时间保存到资金监管出账表中
         fcjyClfZjjgrzjlService.updateZjjgrzjlByjgidToZqqr(jgid,zjgje,yhlsh,new java.sql.Date(date.getTime()));
 
-        //设置定时器，表示1分钟后，执行办结确认
+        /////////////////////////////////////////
+        //设置定时器，表示1分钟后，执行办结确认，归档操作
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
@@ -724,6 +723,8 @@ public class ZjjgxServiceImpl implements ZjjgxService {
                 fcjyClfZjjgxyBljdService.updateZjjgxyBljdByBjqr(jgid,"1",jktzscr, sdf.format(new Date()));
                 //修改协议状态为303-交易结束
                 fcjyClfZjjgxyService.updateZjjgxyZtByJgid(jgid, "303");
+                //修改协议归档时间
+                fcjyClfZjjgxyService.updateZjjgxyGdsjByJgid(jgid, new java.sql.Date((new Date()).getTime()));
             }
         }, 60000);
 
@@ -733,12 +734,28 @@ public class ZjjgxServiceImpl implements ZjjgxService {
     /**
      * 协议账户信息修改-修改的是监管合同主体的数据
      * @param zjjgxyZhxxDto
+     * @return
      */
     @Transactional
     @Override
-    public void updateZjjgxyZhxx(ZjjgxyZhxxDto zjjgxyZhxxDto) {
+    public String updateZjjgxyZhxx(ZjjgxyZhxxDto zjjgxyZhxxDto) {
         //监管id
         String jgid = zjjgxyZhxxDto.getXybh();
+
+        //判断协议状态，撤销或完结状态则取消操作
+        //资金监管协议
+        FcjyClfZjjgxyEntity zjjgxyByJgid = fcjyClfZjjgxyService.findZjjgxyByJgid(jgid);
+        if (null != zjjgxyByJgid.getZt() && (zjjgxyByJgid.getZt().equals("301") ||
+                zjjgxyByJgid.getZt().equals("302") || zjjgxyByJgid.getZt().equals("303"))){
+            return "3";
+        }
+
+        //判断是否存在交款确认，存在则不允许修改账户信息
+        //查询资金监管办理进度
+        FcjyClfZjjgxyBljdEntity zjjgxyBljdByJgid = fcjyClfZjjgxyBljdService.findZjjgxyBljdByJgid(jgid);
+        if (null != zjjgxyBljdByJgid.getJkqrsfqr() && zjjgxyBljdByJgid.getJkqrsfqr().equals("1")){ //存在交款确认行为，禁止修改
+            return "2";
+        }
 
         //账户信息设置
         String buyZtlb = "0"; //买方状态类别
@@ -753,6 +770,7 @@ public class ZjjgxServiceImpl implements ZjjgxService {
         fcjyClfZjjghtZtService.updateZjjghtZtByJgid(jgid, buyZtlb, buyyh, buyzh);
         fcjyClfZjjghtZtService.updateZjjghtZtByJgid(jgid, saleZtlb, saleyh, salezh);
 
+        return "1";
     }
 
     /**
@@ -1072,7 +1090,7 @@ public class ZjjgxServiceImpl implements ZjjgxService {
         fcjyClfZjjgrzjlService.updateZjjgrzjlByjgidToCx(jgid,je); //缴费金额清空
 
         //更新资金监管协议的状态zt
-        fcjyClfZjjgxyService.updateZjjgxyByJgidToCx(jgid);
+        fcjyClfZjjgxyService.updateZjjgxyByJgidToCx(jgid, new java.sql.Date((new Date()).getTime()));
 
         map.put("mftkCx", "1"); //1-成功
         return map;

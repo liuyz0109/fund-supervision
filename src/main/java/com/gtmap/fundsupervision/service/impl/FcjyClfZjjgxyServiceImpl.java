@@ -15,6 +15,7 @@ import com.gtmap.fundsupervision.vo.ZjjgxyVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -76,12 +77,13 @@ public class FcjyClfZjjgxyServiceImpl implements FcjyClfZjjgxyService {
     }
 
     /**
-     * 更新资金监管协议的状态zt
+     * 更新资金监管协议的状态zt和撤销时间
      * @param jgid
+     * @param date
      */
     @Override
-    public void updateZjjgxyByJgidToCx(String jgid) {
-        fcjyClfZjjgxyMapper.updateZjjgxyByJgidToCx(jgid);
+    public void updateZjjgxyByJgidToCx(String jgid, Date date) {
+        fcjyClfZjjgxyMapper.updateZjjgxyByJgidToCx(jgid,date);
     }
 
     /**
@@ -167,5 +169,15 @@ public class FcjyClfZjjgxyServiceImpl implements FcjyClfZjjgxyService {
         zjjgxyCountVoDataVo.setData(list);
 
         return zjjgxyCountVoDataVo;
+    }
+
+    /**
+     * 修改协议归档时间
+     * @param jgid
+     * @param date
+     */
+    @Override
+    public void updateZjjgxyGdsjByJgid(String jgid, Date date) {
+        fcjyClfZjjgxyMapper.updateZjjgxyGdsjByJgid(jgid, date);
     }
 }

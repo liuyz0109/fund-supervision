@@ -79,8 +79,6 @@
             msrmm,
             cmrmm,
             cmrdyjyzt,
-            cxsj,
-            gdsj,
             zt,
             sfyx,
             bz
@@ -102,8 +100,6 @@
             #{msrmm},
             #{cmrmm},
             #{cmrdyjyzt},
-            #{cxsj},
-            #{gdsj},
             #{zt},
             #{sfyx},
             #{bz}
@@ -141,11 +137,12 @@
             JGID = #{jgid}
     </select>
 
-    <!--更新资金监管协议的状态zt-->
-    <update id="updateZjjgxyByJgidToCx" parameterType="java.lang.String">
+    <!--更新资金监管协议的状态zt和撤销时间-->
+    <update id="updateZjjgxyByJgidToCx">
         UPDATE fcjy_clf_zjjgxy
         SET
-            ZT = '301'
+            ZT = '301',
+            CXSJ = #{date}
         WHERE
             jgid = #{jgid}
     </update>
@@ -234,5 +231,14 @@
         </where>
         order by f1.jgbh
     </select>
+
+    <!--修改协议归档时间-->
+    <update id="updateZjjgxyGdsjByJgid">
+        UPDATE fcjy_clf_zjjgxy
+        SET
+            GDSJ = #{date}
+        WHERE
+            jgid = #{jgid}
+    </update>
 
 </mapper>

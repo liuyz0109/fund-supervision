@@ -8,6 +8,7 @@ import com.gtmap.fundsupervision.vo.ZjjgxVo;
 import com.gtmap.fundsupervision.vo.ZjjgxyCountVo;
 import com.gtmap.fundsupervision.vo.ZjjgxyVo;
 
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -49,10 +50,11 @@ public interface FcjyClfZjjgxyService {
     FcjyClfZjjgxyEntity findZjjgxyByJgid(String jgid);
 
     /**
-     * 更新资金监管协议的状态zt
+     * 更新资金监管协议的状态zt和撤销时间
      * @param jgid
+     * @param date
      */
-    void updateZjjgxyByJgidToCx(String jgid);
+    void updateZjjgxyByJgidToCx(String jgid, Date date);
 
     /**
      * 修改协议状态-支取确认
@@ -77,4 +79,11 @@ public interface FcjyClfZjjgxyService {
      * @return
      */
     DataVo<ZjjgxyCountVo> getZjjgxyCountData(Integer page, Integer limit, ZjjgxyCountSearchDto zjjgxyCountSearchDto);
+
+    /**
+     * 修改协议归档时间
+     * @param jgid
+     * @param date
+     */
+    void updateZjjgxyGdsjByJgid(String jgid, Date date);
 }

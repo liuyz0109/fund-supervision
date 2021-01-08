@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -37,8 +38,8 @@ public interface FcjyClfZjjgxyMapper {
     //根据监管id查询监管协议
     FcjyClfZjjgxyEntity findZjjgxyByJgid(String jgid);
 
-    //更新资金监管协议的状态zt
-    void updateZjjgxyByJgidToCx(String jgid);
+    //更新资金监管协议的状态zt和撤销时间
+    void updateZjjgxyByJgidToCx(@Param("jgid") String jgid,@Param("date") Date date);
 
     //修改协议状态-支取确认
     void updateZjjgxyZtByJgid(@Param("jgid") String jgid,@Param("zt") String zt);
@@ -49,4 +50,6 @@ public interface FcjyClfZjjgxyMapper {
     //获取资金监管协议统计页面数据
     List<ZjjgxyCountVo> getZjjgxyCountData(ZjjgxyCountSearchDto zjjgxyCountSearchDto);
 
+    //修改协议归档时间
+    void updateZjjgxyGdsjByJgid(@Param("jgid") String jgid,@Param("date") Date date);
 }

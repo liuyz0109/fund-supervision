@@ -38,7 +38,7 @@ public interface ZjjgxService {
     String zqqr(String jgid);
 
     //协议账户信息修改
-    void updateZjjgxyZhxx(ZjjgxyZhxxDto zjjgxyZhxxDto);
+    String updateZjjgxyZhxx(ZjjgxyZhxxDto zjjgxyZhxxDto);
 
     //查询办理进度
     Map<String, String> findBljdByJgid(String jgid);

@@ -197,8 +197,14 @@ public class ZjjgxController {
                 }
                 if (permission.equals("permission3")){ //拥有permission3的权限用户才能修改账户信息
                     //协议账户信息修改
-                    zjjgxService.updateZjjgxyZhxx(zjjgxyZhxxDto);
-                    return new ResultVo(true, "账户信息修改完成");
+                    String zhxx = zjjgxService.updateZjjgxyZhxx(zjjgxyZhxxDto);
+                    if("1".equals(zhxx)) {
+                        return new ResultVo(true, "账户信息修改完成");
+                    }else if ("2".equals(zhxx)){
+                        return new ResultVo(false, "存在交款信息，禁止修改账户信息");
+                    }else if ("3".equals(zhxx)){
+                        return new ResultVo(false, "该协议已被撤销或完结，禁止修改账户信息");
+                    }
                 }
             }
             return new ResultVo(false, "用户权限不足，请联系管理员");
