@@ -62,9 +62,20 @@
             ]
         });
 
+        //登录功能
         $("#login-button").click(function () {
             $("#login-form").submit();
         });
+
+		//回车登录
+		var EnterSubmit = function(evt){
+			evt= window.event || evt;
+			if (evt.keyCode == 13){
+				//若按下了回车键，则执行login()方法登录系统
+				$("#login-form").submit();
+			}
+		};
+		window.document.onkeydown=EnterSubmit;
 
     });
 </script>
