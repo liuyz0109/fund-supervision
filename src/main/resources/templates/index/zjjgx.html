@@ -27,6 +27,7 @@
         <button type="button" class="layui-btn layui-btn-sm" lay-event="getCheckData">撤销</button>
         <button type="button" class="layui-btn layui-btn-sm" lay-event="zjjgxyAdd">签订</button>
         <button type="button" class="layui-btn layui-btn-sm" lay-event="jgsh">监管审核</button>
+        <button type="button" class="layui-btn layui-btn-sm" lay-event="close">关闭</button>
     </div>
 </script>
 <table class="layui-hide" id="test" lay-filter="test"></table>
@@ -220,6 +221,11 @@
                         location.reload();
                     }
                 });
+            }
+
+            //关闭
+            if (obj.event === 'close'){
+                window.parent.parent.tab.closeTab();
             }
 
         });
