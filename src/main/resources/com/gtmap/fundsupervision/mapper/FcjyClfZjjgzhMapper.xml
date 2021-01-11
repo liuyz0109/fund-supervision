@@ -58,4 +58,27 @@
         )
     </insert>
 
+    <!--将资金保存在买方监管账户中-->
+    <update id="updateZjjghtByBuy" parameterType="com.gtmap.fundsupervision.entity.FcjyClfZjjgzhEntity">
+        update fcjy_clf_zjjgzh
+        set HJJELJ = #{hjjelj},
+            DQJE = #{dqje}
+        where JGID = #{jgid} and MMSFBZ = #{mmsfbz}
+    </update>
+
+    <!--将资金从买方监管账户中取出-->
+    <update id="updateZjjghtByBuyOut" parameterType="com.gtmap.fundsupervision.entity.FcjyClfZjjgzhEntity">
+        update fcjy_clf_zjjgzh
+        set HCJELJ = #{hcjelj},
+            DQJE = #{dqje}
+        where JGID = #{jgid} and MMSFBZ = #{mmsfbz}
+    </update>
+
+    <!--将资金在卖方监管账户中存入-->
+    <update id="updateZjjghtBySaleIn" parameterType="com.gtmap.fundsupervision.entity.FcjyClfZjjgzhEntity">
+        update fcjy_clf_zjjgzh
+        set HCJELJ = #{hcjelj},
+            DQJE = #{dqje}
+        where JGID = #{jgid} and MMSFBZ = #{mmsfbz}
+    </update>
 </mapper>

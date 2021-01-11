@@ -706,7 +706,7 @@ public class ZjjgxServiceImpl implements ZjjgxService {
         FcjyClfZjjgczjlEntity zjjgczjlByJgid = fcjyClfZjjgczjlService.findZjjgczjlByJgid(jgid);
 
         //比对入账和出账的划款指令编号，不一致则退出
-        if (!zjjgrzjlByJgid.getHkzlbh().equals(zjjgczjlByJgid.getHkzlbh())){
+        if (!(zjjgrzjlByJgid.getHkzlbh() + "").equals(zjjgczjlByJgid.getHkzlbh())){
             return "5";
         }
 
@@ -720,6 +720,22 @@ public class ZjjgxServiceImpl implements ZjjgxService {
         //银行流水号 随机生成 查询交款明细时用
         Integer yhlsh = UuidUtil.getUuidNum();
         Date date = new Date();
+
+        //将资金从买方监管账户中取出
+        FcjyClfZjjgzhEntity fcjyClfZjjgzhEntityBuy = new FcjyClfZjjgzhEntity();
+        fcjyClfZjjgzhEntityBuy.setJgid(jgid); //监管id
+        fcjyClfZjjgzhEntityBuy.setMmsfbz("0"); //买方
+        fcjyClfZjjgzhEntityBuy.setHcjelj(zjgje); //划出金额
+        fcjyClfZjjgzhEntityBuy.setDqje(0); //当前余额
+        fcjyClfZjjgzhService.updateZjjghtByBuyOut(fcjyClfZjjgzhEntityBuy);
+
+        //将资金在卖方监管账户中存入
+        FcjyClfZjjgzhEntity fcjyClfZjjgzhEntity = new FcjyClfZjjgzhEntity();
+        fcjyClfZjjgzhEntity.setJgid(jgid); //监管id
+        fcjyClfZjjgzhEntity.setMmsfbz("1"); //卖方
+        fcjyClfZjjgzhEntity.setHcjelj(zjgje); //划出金额累计
+        fcjyClfZjjgzhEntity.setDqje(zjgje); //当前金额
+        fcjyClfZjjgzhService.updateZjjghtBySaleIn(fcjyClfZjjgzhEntity);
 
         //保存支取确认人和时间和情况
         fcjyClfZjjgxyBljdService.updateZjjgxyBljdByZqqr(jgid,"1",jktzscr, scsj); //1-已生成
@@ -901,6 +917,14 @@ public class ZjjgxServiceImpl implements ZjjgxService {
 
         //保存交款确认人和时间和情况
         fcjyClfZjjgxyBljdService.updateZjjgxyBljdByJkqr(jgid,"1",jktzscr, scsj); //1-已生成
+
+        //将资金保存在买方监管账户中
+        FcjyClfZjjgzhEntity fcjyClfZjjgzhEntity = new FcjyClfZjjgzhEntity();
+        fcjyClfZjjgzhEntity.setJgid(jgid); //监管id
+        fcjyClfZjjgzhEntity.setMmsfbz("0"); //买方
+        fcjyClfZjjgzhEntity.setHjjelj(zjgje); //划进金额累计
+        fcjyClfZjjgzhEntity.setDqje(zjgje); //当前余额
+        fcjyClfZjjgzhService.updateZjjghtByBuy(fcjyClfZjjgzhEntity); //保存数据
 
         //将缴纳的监管资金保存和银行流水号和实际操作时间到资金监管入账记录表中
         fcjyClfZjjgrzjlService.updateZjjgrzjlByjgidToJkqr(jgid,zjgje,yhlsh + "",new java.sql.Date(date.getTime()));
@@ -1098,10 +1122,17 @@ public class ZjjgxServiceImpl implements ZjjgxService {
         //根据监管id查询监管入账记录
         FcjyClfZjjgrzjlEntity zjjgrzjlByJgid = fcjyClfZjjgrzjlService.findZjjgrzjlByJgid(jgid);
         double je = zjjgrzjlByJgid.getJe(); //缴费金额
-        je = 0; //入账记录金额清空
+        double tkje = 0; //入账记录金额清空
 
         //退款-通过监管id，将缴费金额清空，返回给买方账户
-        fcjyClfZjjgrzjlService.updateZjjgrzjlByjgidToCx(jgid,je); //缴费金额清空
+        fcjyClfZjjgrzjlService.updateZjjgrzjlByjgidToCx(jgid,tkje); //缴费金额清空
+        //更新买方监管账户，添加入账金额je
+        FcjyClfZjjgzhEntity fcjyClfZjjgzhEntity = new FcjyClfZjjgzhEntity();
+        fcjyClfZjjgzhEntity.setJgid(jgid); //监管id
+        fcjyClfZjjgzhEntity.setMmsfbz("1"); //买方
+        fcjyClfZjjgzhEntity.setHjjelj(je); //划进金额累计
+        fcjyClfZjjgzhEntity.setDqje(je); //当前金额
+        fcjyClfZjjgzhService.updateZjjghtByBuy(fcjyClfZjjgzhEntity);
 
         //更新资金监管协议的状态zt
         fcjyClfZjjgxyService.updateZjjgxyByJgidToCx(jgid, new java.sql.Date((new Date()).getTime()));

@@ -26,4 +26,31 @@ public class FcjyClfZjjgzhServiceImpl implements FcjyClfZjjgzhService {
     public void insertZjjgzh(FcjyClfZjjgzhEntity fcjyClfZjjgzhEntity) {
         fcjyClfZjjgzhMapper.insertZjjgzh(fcjyClfZjjgzhEntity);
     }
+
+    /**
+     * 将资金保存在买方监管账户中
+     * @param fcjyClfZjjgzhEntity
+     */
+    @Override
+    public void updateZjjghtByBuy(FcjyClfZjjgzhEntity fcjyClfZjjgzhEntity) {
+        fcjyClfZjjgzhMapper.updateZjjghtByBuy(fcjyClfZjjgzhEntity);
+    }
+
+    /**
+     * 将资金从买方监管账户中取出
+     * @param fcjyClfZjjgzhEntityBuy
+     */
+    @Override
+    public void updateZjjghtByBuyOut(FcjyClfZjjgzhEntity fcjyClfZjjgzhEntityBuy) {
+        fcjyClfZjjgzhMapper.updateZjjghtByBuyOut(fcjyClfZjjgzhEntityBuy);
+    }
+
+    /**
+     * 将资金在卖方监管账户中存入
+     * @param fcjyClfZjjgzhEntity
+     */
+    @Override
+    public void updateZjjghtBySaleIn(FcjyClfZjjgzhEntity fcjyClfZjjgzhEntity) {
+        fcjyClfZjjgzhMapper.updateZjjghtBySaleIn(fcjyClfZjjgzhEntity);
+    }
 }
