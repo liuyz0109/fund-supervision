@@ -639,7 +639,7 @@ public class ZjjgxServiceImpl implements ZjjgxService {
         FcjyClfZjjgxyEntity zjjgxyByJgid = fcjyClfZjjgxyService.findZjjgxyByJgid(jgid);
         if (null != zjjgxyByJgid.getZt() && ("301".equals(zjjgxyByJgid.getZt()) || "302".equals(zjjgxyByJgid.getZt()) || "303".equals(zjjgxyByJgid.getZt()))){
             //已经撤销或者完结
-            map.put("sfcx", "1");
+            map.put("sfcx", "2");
             return map;
         }
 
@@ -704,6 +704,11 @@ public class ZjjgxServiceImpl implements ZjjgxService {
         FcjyClfZjjgrzjlEntity zjjgrzjlByJgid = fcjyClfZjjgrzjlService.findZjjgrzjlByJgid(jgid);
         //查询监管出账记录
         FcjyClfZjjgczjlEntity zjjgczjlByJgid = fcjyClfZjjgczjlService.findZjjgczjlByJgid(jgid);
+
+        //比对入账和出账的划款指令编号，不一致则退出
+        if (!zjjgrzjlByJgid.getHkzlbh().equals(zjjgczjlByJgid.getHkzlbh())){
+            return "5";
+        }
 
         //如果金额支取完成，则不能继续再支取确认
         if (zjjgczjlByJgid.getJe() == zjjgrzjlByJgid.getJe()){
@@ -894,7 +899,7 @@ public class ZjjgxServiceImpl implements ZjjgxService {
         Integer yhlsh = UuidUtil.getUuidNum();
         Date date = new Date();
 
-        //保存交款通知人和时间和情况
+        //保存交款确认人和时间和情况
         fcjyClfZjjgxyBljdService.updateZjjgxyBljdByJkqr(jgid,"1",jktzscr, scsj); //1-已生成
 
         //将缴纳的监管资金保存和银行流水号和实际操作时间到资金监管入账记录表中

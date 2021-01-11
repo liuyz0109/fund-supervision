@@ -133,16 +133,17 @@ public class ZjjgxController {
             if (null == map || map.size() == 0){
                 return new ResultVo(false, "撤销失败，请重试");
             }
-            if ("1".equals(map.get("sfcx"))) { //已经撤销或完结
+            if ("2".equals(map.get("sfcx"))) { //已经撤销或完结
                 return new ResultVo(false, "已撤销或已完结，取消操作");
             }
-            if ("0".equals(map.get("sfjczj"))){ //无缴存资金
-                return new ResultVo(true, "撤销成功（无缴存记录）",map);
-            }else if ("1".equals(map.get("sfjczj"))){
-                return new ResultVo(true, "撤销成功（有缴存记录）",map);
-            }else {
-                return new ResultVo(false, "撤销失败，请重试");
+
+            switch (map.get("sfjczj")){
+                case "0":
+                    return new ResultVo(true, "撤销成功（无缴存记录）",map);
+                case "1":
+                    return new ResultVo(true, "撤销成功（有缴存记录）",map);
             }
+            return new ResultVo(false, "撤销失败，请重试");
         } catch (Exception e) {
             e.printStackTrace();
             return new ResultVo(false, "撤销失败，请重试");
@@ -164,20 +165,26 @@ public class ZjjgxController {
         }
     }
 
-    //修改协议状态-支取确认
+    //支取确认
     @ResponseBody
     @GetMapping("/zqqr")
     public ResultVo zqqr(String xybh){
         try {
-            String zqqr = zjjgxService.zqqr(xybh);
-            if ("1".equals(zqqr)) {
-                return new ResultVo(true, "支取确认完成");
-            }else if ("2".equals(zqqr)){
-                return new ResultVo(false, "请先进行支取凭证生成，再重试");
-            }else if ("3".equals(zqqr)){
-                return new ResultVo(false, "支取已完成，请勿重复提交确认");
-            }else if ("4".equals(zqqr)){
-                return new ResultVo(false, "监管协议已撤销或完结，取消操作");
+            String zqqr = zjjgxService.zqqr(xybh); //获取操作结果
+
+            if (null != zqqr && zqqr.length() > 0){ //非空
+                switch (zqqr){
+                    case "1":
+                        return new ResultVo(true, "支取确认完成");
+                    case "2":
+                        return new ResultVo(false, "请先进行支取凭证生成，再重试");
+                    case "3":
+                        return new ResultVo(false, "支取已完成，请勿重复提交确认");
+                    case "4":
+                        return new ResultVo(false, "监管协议已撤销或完结，取消操作");
+                    case "5":
+                        return new ResultVo(false, "入账出账划款指令不一致，取消操作");
+                }
             }
             return new ResultVo(false, "支取确认失败，请重试");
         }catch (Exception e){
@@ -201,12 +208,16 @@ public class ZjjgxController {
                 if (permission.equals("permission3")){ //拥有permission3的权限用户才能修改账户信息
                     //协议账户信息修改
                     String zhxx = zjjgxService.updateZjjgxyZhxx(zjjgxyZhxxDto);
-                    if("1".equals(zhxx)) {
-                        return new ResultVo(true, "账户信息修改完成");
-                    }else if ("2".equals(zhxx)){
-                        return new ResultVo(false, "存在交款信息，禁止修改账户信息");
-                    }else if ("3".equals(zhxx)){
-                        return new ResultVo(false, "该协议已被撤销或完结，禁止修改账户信息");
+
+                    if (null != zhxx && zhxx.length() > 0){ //非空
+                        switch (zhxx){
+                            case "1":
+                                return new ResultVo(true, "账户信息修改完成");
+                            case "2":
+                                return new ResultVo(false, "存在交款信息，禁止修改账户信息");
+                            case "3":
+                                return new ResultVo(false, "该协议已被撤销或完结，禁止修改账户信息");
+                        }
                     }
                 }
             }
@@ -239,10 +250,14 @@ public class ZjjgxController {
                 return new ResultVo(false, "请先填写信息，保存后再重试");
             }
             String jktz = zjjgxService.jktz(xybh);
-            if ("1".equals(jktz)) {
-                return new ResultVo(true, "交款通知成功");
-            }else if ("4".equals(jktz)){
-                return new ResultVo(false, "监管协议已撤销或完结，取消操作");
+
+            if (null != jktz && jktz.length() > 0){ //非空
+                switch (jktz){
+                    case "1":
+                        return new ResultVo(true, "交款通知成功");
+                    case "4":
+                        return new ResultVo(false, "监管协议已撤销或完结，取消操作");
+                }
             }
             return new ResultVo(false, "交款通知失败，请重试");
         }catch (Exception e){
@@ -260,14 +275,18 @@ public class ZjjgxController {
                 return new ResultVo(false, "请先填写信息，保存后再重试");
             }
             String jkqr = zjjgxService.jkqr(xybh);
-            if ("1".equals(jkqr)) {
-                return new ResultVo(true, "交款确认成功");
-            }else if ("2".equals(jkqr)){
-                return new ResultVo(false, "请先推送交款通知后，再重试");
-            }else if ("3".equals(jkqr)){
-                return new ResultVo(false, "交款已完成，请勿重复提交确认");
-            }else if ("4".equals(jkqr)){
-                return new ResultVo(false, "监管协议已撤销或完结，取消操作");
+
+            if (null != jkqr){ //非空
+                switch (jkqr){
+                    case "1":
+                        return new ResultVo(true, "交款确认成功");
+                    case "2":
+                        return new ResultVo(false, "请先推送交款通知后，再重试");
+                    case "3":
+                        return new ResultVo(false, "交款已完成，请勿重复提交确认");
+                    case "4":
+                        return new ResultVo(false, "监管协议已撤销或完结，取消操作");
+                }
             }
             return new ResultVo(false, "交款确认失败，请重试");
         }catch (Exception e){
@@ -285,12 +304,16 @@ public class ZjjgxController {
                 return new ResultVo(false, "请先填写信息，保存后再重试");
             }
             String zqpz = zjjgxService.zqpz(xybh);
-            if ("1".equals(zqpz)) {
-                return new ResultVo(true, "生成支取凭证成功");
-            }else if ("2".equals(zqpz)){
-                return new ResultVo(false, "请先进行交款确认，再重试");
-            }else if ("3".equals(zqpz)){
-                return new ResultVo(false, "监管协议已撤销或完结，取消操作");
+
+            if (null != zqpz && zqpz.length() > 0) { //非空
+                switch (zqpz){
+                    case "1":
+                        return new ResultVo(true, "生成支取凭证成功");
+                    case "2":
+                        return new ResultVo(false, "请先进行交款确认，再重试");
+                    case "3":
+                        return new ResultVo(false, "监管协议已撤销或完结，取消操作");
+                }
             }
             return new ResultVo(false, "生成支取凭证失败，请重试");
         }catch (Exception e){
@@ -356,17 +379,16 @@ public class ZjjgxController {
             Map<String, String> map = zjjgxService.mftkCx(jgid,cxmm);
 
             String mftkCx = map.get("mftkCx");
-            if (null == mftkCx || mftkCx.length() == 0){ //数据为空
-                return new ResultVo(false, "买方退款和撤销失败，请重试");
-            }
-            if ("1".equals(mftkCx)){
-                return new ResultVo(true, "买方退款和撤销成功");
-            }
-            if ("2".equals(mftkCx)){
-                return new ResultVo(false, "存在卖方支取行为，禁止操作");
-            }
-            if ("3".equals(mftkCx)){
-                return new ResultVo(false, "撤销密码错误，请重试");
+
+            if (null != mftkCx && mftkCx.length() > 0){ //非空
+                switch (mftkCx){
+                    case "1":
+                        return new ResultVo(true, "买方退款和撤销成功");
+                    case "2":
+                        return new ResultVo(false, "存在卖方支取行为，禁止操作");
+                    case "3":
+                        return new ResultVo(false, "撤销密码错误，请重试");
+                }
             }
             return new ResultVo(false, "买方退款和撤销失败，请重试");
         }catch (Exception e){
@@ -377,7 +399,7 @@ public class ZjjgxController {
 
     //帮助文档下载
     @GetMapping("/helpDownload")
-    public void helpDownload(HttpServletRequest request, HttpServletResponse response){
+    public void helpDownload(HttpServletResponse response){
         File file = new File("D:\\javaidea\\fund-supervision\\src\\main\\resources\\static\\help.docx");
         String filename = "help.docx";
         response.setHeader("content-disposition", "attachment;filename=" + filename);
