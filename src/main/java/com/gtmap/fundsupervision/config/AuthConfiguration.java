@@ -2,13 +2,12 @@ package com.gtmap.fundsupervision.config;
 
 import com.gtmap.fundsupervision.entity.UserLoginEntity;
 import com.gtmap.fundsupervision.service.UserLoginService;
+import com.gtmap.fundsupervision.utils.MD5Util;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -57,9 +56,10 @@ public class AuthConfiguration extends WebSecurityConfigurerAdapter {
                 log.error("未找到用户名:{}",username);
                 throw new UsernameNotFoundException("未找到用户名:" + username);
             }
-            String password = users.get(0).getPassword();
+            String password = users.get(0).getPassword(); //一次加密密码-数据库查
+            String passwordConvert = MD5Util.convertMD5(password); //二次解密
             PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-            String passwordAfterEncoder = passwordEncoder.encode(password);
+            String passwordAfterEncoder = passwordEncoder.encode(passwordConvert);
             log.info("当前用户名：{}",username);
             return org.springframework.security.core.userdetails.User
                     .withUsername(username)

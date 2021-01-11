@@ -634,6 +634,15 @@ public class ZjjgxServiceImpl implements ZjjgxService {
 
         Map<String,String> map = new HashMap<>();
 
+        //查询协议是否已经撤销
+        //资金监管协议
+        FcjyClfZjjgxyEntity zjjgxyByJgid = fcjyClfZjjgxyService.findZjjgxyByJgid(jgid);
+        if (null != zjjgxyByJgid.getZt() && ("301".equals(zjjgxyByJgid.getZt()) || "302".equals(zjjgxyByJgid.getZt()) || "303".equals(zjjgxyByJgid.getZt()))){
+            //已经撤销或者完结
+            map.put("sfcx", "1");
+            return map;
+        }
+
         //判断是否存在已经缴存
         //资金监管入账记录
         FcjyClfZjjgrzjlEntity zjjgrzjlByJgid = fcjyClfZjjgrzjlService.findZjjgrzjlByJgid(jgid);

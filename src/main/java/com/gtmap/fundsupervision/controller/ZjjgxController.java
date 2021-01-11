@@ -133,6 +133,9 @@ public class ZjjgxController {
             if (null == map || map.size() == 0){
                 return new ResultVo(false, "撤销失败，请重试");
             }
+            if ("1".equals(map.get("sfcx"))) { //已经撤销或完结
+                return new ResultVo(false, "已撤销或已完结，取消操作");
+            }
             if ("0".equals(map.get("sfjczj"))){ //无缴存资金
                 return new ResultVo(true, "撤销成功（无缴存记录）",map);
             }else if ("1".equals(map.get("sfjczj"))){

@@ -36,14 +36,8 @@ public class XingYeBankWebServiceImpl implements XingYeBankWebService {
     @Override
     public List<XingYeBankZjjgxyDto> getAllData() {
         List<XingYeBankZjjgxyDto> list = new ArrayList<>();
-        if (null == fcjyClfZjjgxyMapper){
-            XingYeBankZjjgxyDto xingYeBankZjjgxyDto = new XingYeBankZjjgxyDto();
-            xingYeBankZjjgxyDto.setXybh("111");
-            xingYeBankZjjgxyDto.setJgje("111.11");
-            list.add(xingYeBankZjjgxyDto);
-            return list;
-        }
-        List<FcjyClfZjjgxyEntity> allData = fcjyClfZjjgxyMapper.getAllData();
+        List<FcjyClfZjjgxyEntity> allData = fcjyClfZjjgxyMapper.getAllData(); //数据获取
+        //数据封装
         for (FcjyClfZjjgxyEntity fcjyClfZjjgxyEntity : allData){
             XingYeBankZjjgxyDto xingYeBankZjjgxyDto = new XingYeBankZjjgxyDto();
             xingYeBankZjjgxyDto.setXybh(fcjyClfZjjgxyEntity.getJgid()); //协议编号
