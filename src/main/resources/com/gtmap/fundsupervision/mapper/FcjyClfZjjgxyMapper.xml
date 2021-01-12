@@ -56,8 +56,44 @@
         on f1.jgfwrybh = f5.ryid
         join FCJY_CYZT_CYQYJBXX f6
         on f1.jgfwjgbh = f6.qyid
-        where f1.jgbh like '%${searchDjbh}%' and f1.jgid like '%${searchXybh}%' and f4.htbh like '%${searchHtbh}%'
-        order by f1.jgbh
+        where (f1.zt like '10_' or f1.zt like '20_') and f1.jgbh like '%${searchDjbh}%' and f1.jgid like '%${searchXybh}%' and f4.htbh like '%${searchHtbh}%'
+        order by f1.qdxyrq desc
+    </select>
+
+    <!--页面数据-已完结-->
+    <select id="getZjjgxVoTwo" parameterType="java.lang.String" resultType="com.gtmap.fundsupervision.vo.ZjjgxVo">
+        select f1.jgbh as "djbh",f1.jgid as "xybh",f1.bz as "ywxx",f2.ztxm as "zrf",f3.ztxm as "srf",f2.ztxm as "zqr",f4.fwzl as "fwzl",f4.fwsyqzh as "qzhm",f4.htbh as "htbh",f5.xm as "dqblr",f6.qymc as "bldw",f1.qdxyrq as "qdrq",f1.zt as "sfcx"
+        from fcjy_clf_zjjgxy f1
+        join (select jgid,ztxm from fcjy_clf_zjjght_zt where ztlb = 1) f2
+        on f1.jgid = f2.jgid
+        join (select jgid,ztxm from fcjy_clf_zjjght_zt where ztlb = 0) f3
+        on f1.jgid = f3.jgid
+        join FCJY_CLF_ZJJGHT f4
+        on f1.jgid = f4.jgid
+        join FCJY_CYZT_CYRYJBXX f5
+        on f1.jgfwrybh = f5.ryid
+        join FCJY_CYZT_CYQYJBXX f6
+        on f1.jgfwjgbh = f6.qyid
+        where f1.zt = '303' and f1.jgbh like '%${searchDjbh}%' and f1.jgid like '%${searchXybh}%' and f4.htbh like '%${searchHtbh}%'
+        order by f1.qdxyrq desc
+    </select>
+
+    <!--页面数据-已撤销-->
+    <select id="getZjjgxVoThree" parameterType="java.lang.String" resultType="com.gtmap.fundsupervision.vo.ZjjgxVo">
+        select f1.jgbh as "djbh",f1.jgid as "xybh",f1.bz as "ywxx",f2.ztxm as "zrf",f3.ztxm as "srf",f2.ztxm as "zqr",f4.fwzl as "fwzl",f4.fwsyqzh as "qzhm",f4.htbh as "htbh",f5.xm as "dqblr",f6.qymc as "bldw",f1.qdxyrq as "qdrq",f1.zt as "sfcx"
+        from fcjy_clf_zjjgxy f1
+        join (select jgid,ztxm from fcjy_clf_zjjght_zt where ztlb = 1) f2
+        on f1.jgid = f2.jgid
+        join (select jgid,ztxm from fcjy_clf_zjjght_zt where ztlb = 0) f3
+        on f1.jgid = f3.jgid
+        join FCJY_CLF_ZJJGHT f4
+        on f1.jgid = f4.jgid
+        join FCJY_CYZT_CYRYJBXX f5
+        on f1.jgfwrybh = f5.ryid
+        join FCJY_CYZT_CYQYJBXX f6
+        on f1.jgfwjgbh = f6.qyid
+        where (f1.zt = '301' or f1.zt = '302') and f1.jgbh like '%${searchDjbh}%' and f1.jgid like '%${searchXybh}%' and f4.htbh like '%${searchHtbh}%'
+        order by f1.qdxyrq desc
     </select>
 
     <insert id="insertZjjgxy" parameterType="com.gtmap.fundsupervision.entity.FcjyClfZjjgxyEntity">
@@ -203,7 +239,7 @@
                 and f4.htbh like '%${searchHtbh}%'
             </if>
         </where>
-        order by f1.jgbh
+        order by f1.qdxyrq desc
     </select>
 
     <!--获取资金监管协议统计页面数据-->

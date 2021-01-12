@@ -60,4 +60,14 @@ public interface ZjjgxService {
 
     //买方退款和撤销
     Map<String, String> mftkCx(String jgid,String cxmm);
+
+    //页面数据-已完结
+    DataVo<ZjjgxVo> getDataTwo(String searchDjbh, String searchXybh, String searchHtbh, Integer page, Integer limit);
+
+    //页面数据-已撤销
+    DataVo<ZjjgxVo> getDataThree(String searchDjbh, String searchXybh, String searchHtbh, Integer page, Integer limit);
+
+    //办结确认
+    String bjqr(String jgid);
+
 }

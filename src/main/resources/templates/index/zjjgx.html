@@ -10,43 +10,123 @@
     <link rel="stylesheet" href="../static/layui/css/layui.css"  media="all">
 </head>
 <body>
-<script type="text/html" id="toolbarDemo">
-    <div style="padding-top: 10px">
-        &nbsp;&nbsp;
-        <label>登记编号</label>
-        <input type="text" name="searchDjbh" id="searchDjbh" style="width: 100px">
-        &nbsp;&nbsp;
-        <label>协议编号</label>
-        <input type="text" name="searchXybh" id="searchXybh" style="width: 100px">
-        &nbsp;&nbsp;
-        <label>合同编号</label>
-        <input type="text" name="searchHtbh" id="searchHtbh" style="width: 100px">
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        <button type="button" class="layui-btn layui-btn-sm" lay-event="searchData">查阅</button>
-        <button type="button" class="layui-btn layui-btn-sm" lay-event="emptySearch">清空</button>
-        <button type="button" class="layui-btn layui-btn-sm" lay-event="getCheckData">撤销</button>
-        <button type="button" class="layui-btn layui-btn-sm" lay-event="zjjgxyAdd">签订</button>
-        <button type="button" class="layui-btn layui-btn-sm" lay-event="jgsh">监管审核</button>
+<script type="text/html" id="toolbarDemo1">
+    <div class="layui-form-item" style="padding-top: 10px">
+        <div class="layui-inline">
+            <label class="layui-form-label" style="width: 100px">登记编号</label>
+            <input type="text" name="searchDjbh" id="searchDjbh" autocomplete="off" style="width: 100px" class="layui-input">
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label" style="width: 100px">协议编号</label>
+            <input type="text" name="searchXybh" id="searchXybh" autocomplete="off" style="width: 100px" class="layui-input">
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label" style="width: 100px">合同编号</label>
+            <input type="text" name="searchHtbh" id="searchHtbh" autocomplete="off" style="width: 100px" class="layui-input">
+        </div>
+        <div class="layui-inline">
+            <button type="button" class="layui-btn layui-btn-sm" lay-event="searchData">查阅</button>
+            <button type="button" class="layui-btn layui-btn-sm" lay-event="emptySearch">清空</button>
+            <button type="button" class="layui-btn layui-btn-sm" lay-event="zjjgxyAdd">签订</button>
+            <button type="button" class="layui-btn layui-btn-sm" lay-event="getCheckData">撤销</button>
+            <button type="button" class="layui-btn layui-btn-sm" lay-event="jgsh">监管审核</button>
+        </div>
     </div>
 </script>
-<table class="layui-hide" id="test" lay-filter="test"></table>
+
+<script type="text/html" id="toolbarDemo2">
+    <div class="layui-form-item" style="padding-top: 10px">
+        <div class="layui-inline">
+            <label class="layui-form-label" style="width: 100px">登记编号</label>
+            <input type="text" name="searchDjbhTwo" id="searchDjbhTwo" autocomplete="off" style="width: 100px" class="layui-input">
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label" style="width: 100px">协议编号</label>
+            <input type="text" name="searchXybhTwo" id="searchXybhTwo" autocomplete="off" style="width: 100px" class="layui-input">
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label" style="width: 100px">合同编号</label>
+            <input type="text" name="searchHtbhTwo" id="searchHtbhTwo" autocomplete="off" style="width: 100px" class="layui-input">
+        </div>
+        <div class="layui-inline">
+            <button type="button" class="layui-btn layui-btn-sm" lay-event="searchData">查阅</button>
+            <button type="button" class="layui-btn layui-btn-sm" lay-event="emptySearch">清空</button>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="toolbarDemo3">
+    <div class="layui-form-item" style="padding-top: 10px">
+        <div class="layui-inline">
+            <label class="layui-form-label" style="width: 100px">登记编号</label>
+            <input type="text" name="searchDjbhThree" id="searchDjbhThree" autocomplete="off" style="width: 100px" class="layui-input">
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label" style="width: 100px">协议编号</label>
+            <input type="text" name="searchXybhThree" id="searchXybhThree" autocomplete="off" style="width: 100px" class="layui-input">
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label" style="width: 100px">合同编号</label>
+            <input type="text" name="searchHtbhThree" id="searchHtbhThree" autocomplete="off" style="width: 100px" class="layui-input">
+        </div>
+        <div class="layui-inline">
+            <button type="button" class="layui-btn layui-btn-sm" lay-event="searchData">查阅</button>
+            <button type="button" class="layui-btn layui-btn-sm" lay-event="emptySearch">清空</button>
+        </div>
+    </div>
+</script>
+
+<!--撤销结果接收-->
+<input type="hidden" id="cxjg">
+<div class="layui-tab" lay-filter="zjjgx-tab">
+    <ul class="layui-tab-title">
+        <li lay-id="11" class="layui-this">正在办理</li>
+        <li lay-id="22">办理完结</li>
+        <li lay-id="33">已撤销</li>
+    </ul>
+    <div class="layui-tab-content">
+        <div class="layui-tab-item layui-show" >
+            <!--第一栏-->
+            <form id="firstFormShow">
+                <table class="layui-hide" id="test1" lay-filter="test1"></table>
+            </form>
+        </div>
+
+        <div class="layui-tab-item">
+            <!--第二栏-->
+            <form id="formSecond">
+                <table class="layui-hide" id="test2" lay-filter="test2"></table>
+            </form>
+        </div>
+
+        <div class="layui-tab-item">
+            <!--第三栏-->
+            <form>
+                <table class="layui-hide" id="test3" lay-filter="test3"></table>
+            </form>
+        </div>
+    </div>
+</div>
 
 <script src="../static/index/js/jquery.min.js"></script>
 <script src="../static/layui/layui.js" charset="utf-8"></script>
+<script src="../static/admin/js/common.js" type="text/javascript" charset="utf-8"></script>
 
 <script>
-    layui.use('table', function(){
-        var table = layui.table;
+    layui.use(['table','jquery','element'], function(){
+        var table = layui.table
+            ,$ = layui.jquery
+            ,element = layui.element;
 
         table.render({
-            elem: '#test'
-            ,url:'/zjjgx/getData'
-            ,toolbar: '#toolbarDemo' //开启头部工具栏
+            elem: '#test1'
+            ,url:'/zjjgx/getDataOne'
+            ,toolbar: '#toolbarDemo1' //开启头部工具栏
             ,defaultToolbar: ['filter']
             ,title: '资金监管箱'
             ,initSort: {
-                field: 'djbh'
-                ,type: 'asc'
+                field: 'qdrq'
+                ,type: 'desc'
             }
             ,cols: [
                 [
@@ -68,9 +148,75 @@
                 ]
             ]
             ,page: true
+            ,id: 'firstTable'
         });
+
+        table.render({
+            elem: '#test2'
+            ,url:'/zjjgx/getDataTwo'
+            ,toolbar: '#toolbarDemo2' //开启头部工具栏
+            ,defaultToolbar: ['filter']
+            ,title: '资金监管箱'
+            ,initSort: {
+                field: 'qdrq'
+                ,type: 'desc'
+            }
+            ,cols: [
+                [
+                    {field:'', title:'序号', width:50,type:'numbers', fixed: 'left'}
+                    ,{field:'djbh', title:'登记编号', width:120,sort:true}
+                    ,{field:'xybh', title:'协议编号',event:'xybh', width:120}
+                    ,{field:'ywxx', title:'业务细项', width:100}
+                    ,{field:'zrf', title:'转让方', width:100}
+                    ,{field:'srf', title:'受让方', width:100}
+                    ,{field:'zqr', title:'支取人', width:100}
+                    ,{field:'fwzl', title:'房屋坐落', width:100}
+                    ,{field:'qzhm', title:'权证号码', width:120}
+                    ,{field:'htbh', title:'合同编号', width:120,sort:true}
+                    ,{field:'dqblr', title:'当前办理人', width:100}
+                    ,{field:'bldw', title:'办理单位', width:100}
+                    ,{field:'qdrq', title:'签订日期', width:100}
+                    ,{field:'sfcx', title:'是否撤销', width:100}
+                ]
+            ]
+            ,page: true
+            ,id: 'secondTable'
+        });
+
+        table.render({
+            elem: '#test3'
+            ,url:'/zjjgx/getDataThree'
+            ,toolbar: '#toolbarDemo3' //开启头部工具栏
+            ,defaultToolbar: ['filter']
+            ,title: '资金监管箱'
+            ,initSort: {
+                field: 'qdrq'
+                ,type: 'desc'
+            }
+            ,cols: [
+                [
+                    {field:'', title:'序号', width:50,type:'numbers', fixed: 'left'}
+                    ,{field:'djbh', title:'登记编号', width:120,sort:true}
+                    ,{field:'xybh', title:'协议编号',event:'xybh', width:120}
+                    ,{field:'ywxx', title:'业务细项', width:100}
+                    ,{field:'zrf', title:'转让方', width:100}
+                    ,{field:'srf', title:'受让方', width:100}
+                    ,{field:'zqr', title:'支取人', width:100}
+                    ,{field:'fwzl', title:'房屋坐落', width:100}
+                    ,{field:'qzhm', title:'权证号码', width:120}
+                    ,{field:'htbh', title:'合同编号', width:120,sort:true}
+                    ,{field:'dqblr', title:'当前办理人', width:100}
+                    ,{field:'bldw', title:'办理单位', width:100}
+                    ,{field:'qdrq', title:'签订日期', width:100}
+                    ,{field:'sfcx', title:'是否撤销', width:100}
+                ]
+            ]
+            ,page: true
+            ,id: 'thirdTable'
+        });
+
         //监听行单击事件（双击事件为：rowDouble）
-        table.on('tool(test)', function(obj){
+        table.on('tool(test1)', function(obj){
             var xybh = obj.data.xybh;
             if (obj.event === 'xybh') {
                 layer.open({
@@ -86,15 +232,78 @@
                     content: '../zjjgx/findZjjgxyByXybh?xybh=' + xybh,
                     //关闭子页面后，刷新原页面
                     end: function () {
-                        location.reload();
+                        table.reload('firstTable',{ //定位到之前的数据表格
+                            page: {
+                                curr: 1 //重新从第 1 页开始
+                            }
+                        }, 'data');
                     }
                 });
             }
             //标注选中样式
             obj.tr.addClass('layui-table-click').siblings().removeClass('layui-table-click');
         });
+
+        //监听行单击事件（双击事件为：rowDouble）
+        table.on('tool(test2)', function(obj){
+            var xybh = obj.data.xybh;
+            if (obj.event === 'xybh') {
+                layer.open({
+                    title: "资金监管协议",
+                    //调整弹框的大小
+                    area: ['1100px', '550px'],
+                    shadeClose: false,//点击旁边地方自动关闭
+                    //动画
+                    anim: 2,
+                    //弹出层的基本类型
+                    type: 2,
+                    //刚才定义的弹窗页面
+                    content: '../zjjgx/findZjjgxyByXybh?xybh=' + xybh,
+                    //关闭子页面后，刷新原页面
+                    end: function () {
+                        table.reload('secondTable',{ //定位到之前的数据表格
+                            page: {
+                                curr: 1 //重新从第 1 页开始
+                            }
+                        }, 'data');
+                    }
+                });
+            }
+            //标注选中样式
+            obj.tr.addClass('layui-table-click').siblings().removeClass('layui-table-click');
+        });
+
+        //监听行单击事件（双击事件为：rowDouble）
+        table.on('tool(test3)', function(obj){
+            var xybh = obj.data.xybh;
+            if (obj.event === 'xybh') {
+                layer.open({
+                    title: "资金监管协议",
+                    //调整弹框的大小
+                    area: ['1100px', '550px'],
+                    shadeClose: false,//点击旁边地方自动关闭
+                    //动画
+                    anim: 2,
+                    //弹出层的基本类型
+                    type: 2,
+                    //刚才定义的弹窗页面
+                    content: '../zjjgx/findZjjgxyByXybh?xybh=' + xybh,
+                    //关闭子页面后，刷新原页面
+                    end: function () {
+                        table.reload('thirdTable',{ //定位到之前的数据表格
+                            page: {
+                                curr: 1 //重新从第 1 页开始
+                            }
+                        }, 'data');
+                    }
+                });
+            }
+            //标注选中样式
+            obj.tr.addClass('layui-table-click').siblings().removeClass('layui-table-click');
+        });
+
         //头工具栏事件
-        table.on('toolbar(test)', function(obj){
+        table.on('toolbar(test1)', function(obj){
             var checkStatus = table.checkStatus(obj.config.id);
 
             //查阅功能
@@ -108,7 +317,13 @@
                     dataType: 'json',
                     success: function (obj) {
                         if (obj.success){
-                            location.reload();
+
+                            table.reload('firstTable',{
+                                page: {
+                                    curr: 1 //重新从第 1 页开始
+                                }
+                            }, 'data');
+
                         }else {
                             location.reload();
                         }
@@ -133,7 +348,7 @@
                 var data = checkStatus.data;
                 var s = JSON.stringify(data);
                 if (s.length <= 2) {
-                    layer.alert("请先选择，再进行操作");
+                    layer.alert("请先在表格左侧进行选择，再进行操作");
                     return;
                 }
 
@@ -162,9 +377,14 @@
                                         type: 2,
                                         //刚才定义的弹窗页面
                                         content: '../zjjgx/mftk',
-                                        //关闭子页面后，刷新原页面
+                                        //关闭子页面后，弹出信息，刷新原页面
                                         end: function () {
-                                            location.reload();
+                                            //定义一个信息变量，保存新的页面传递过来的参数
+                                            var cxjg = $("#cxjg").val(); //撤销结果
+
+                                            layer.alert(cxjg, '', function () {
+                                                location.reload();
+                                            })
                                         }
                                     });
                                 }
@@ -186,7 +406,7 @@
             //资金监管协议添加功能
             if (obj.event === 'zjjgxyAdd'){
                 layer.open({
-                    title : "资金监管",
+                    title : "资金监管协议签订",
                     //调整弹框的大小
                     area:['1100px','550px'],
                     shadeClose:false,//点击旁边地方自动关闭
@@ -208,7 +428,7 @@
                 layer.open({
                     title : "监管审核",
                     //调整弹框的大小
-                    area:['800px','400px'],
+                    area:['1100px','550px'],
                     shadeClose:false,//点击旁边地方自动关闭
                     //动画
                     anim:2,
@@ -224,6 +444,90 @@
             }
 
         });
+
+
+        //头工具栏事件
+        table.on('toolbar(test2)', function(obj){
+            var checkStatus = table.checkStatus(obj.config.id);
+
+            //查阅功能
+            if (obj.event === 'searchData'){
+                var searchDjbhTwo = $("#searchDjbhTwo").val(); //登记编号
+                var searchXybhTwo = $("#searchXybhTwo").val(); //协议编号
+                var searchHtbhTwo = $("#searchHtbhTwo").val(); //合同编号
+                //将数据提交到后台
+                $.ajax({
+                    url: '../zjjgx/searchDataTwo?searchDjbhTwo='+searchDjbhTwo+'&searchXybhTwo='+searchXybhTwo+'&searchHtbhTwo='+searchHtbhTwo,
+                    dataType: 'json',
+                    success: function (obj) {
+                        if (obj.success){
+
+                            table.reload('secondTable',{
+                                page: {
+                                    curr: 1 //重新从第 1 页开始
+                                }
+                            }, 'data');
+
+                        }else {
+                            location.reload();
+                        }
+                    },
+                    error: function () {
+                        location.reload();
+                    }
+                });
+            }
+
+            //清空功能
+            if (obj.event === 'emptySearch'){
+                $("#searchDjbhTwo").val(""); //登记编号
+                $("#searchXybhTwo").val(""); //协议编号
+                $("#searchHtbhTwo").val(""); //合同编号
+            }
+
+        });
+
+        //头工具栏事件
+        table.on('toolbar(test3)', function(obj){
+            var checkStatus = table.checkStatus(obj.config.id);
+
+            //查阅功能
+            if (obj.event === 'searchData'){
+                var searchDjbhThree = $("#searchDjbhThree").val(); //登记编号
+                var searchXybhThree = $("#searchXybhThree").val(); //协议编号
+                var searchHtbhThree = $("#searchHtbhThree").val(); //合同编号
+                //将数据提交到后台
+                $.ajax({
+                    url: '../zjjgx/searchDataThree?searchDjbhThree='+searchDjbhThree+'&searchXybhThree='+searchXybhThree+'&searchHtbhThree='+searchHtbhThree,
+                    dataType: 'json',
+                    success: function (obj) {
+
+                        if (obj.success){
+                            table.reload('thirdTable',{
+                                page: {
+                                    curr: 1 //重新从第 1 页开始
+                                }
+                            }, 'data');
+
+                        }else {
+                            location.reload();
+                        }
+                    },
+                    error: function () {
+                        location.reload();
+                    }
+                });
+            }
+
+            //清空功能
+            if (obj.event === 'emptySearch'){
+                $("#searchDjbhThree").val(""); //登记编号
+                $("#searchXybhThree").val(""); //协议编号
+                $("#searchHtbhThree").val(""); //合同编号
+            }
+
+        });
+
     });
 </script>
 

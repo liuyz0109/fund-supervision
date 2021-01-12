@@ -35,21 +35,100 @@ public class ZjjgxController {
     @Autowired
     private ZjjgxService zjjgxService;
 
-    //首页面展示数据
+    //首页面展示数据-正在办理
     @ResponseBody
-    @GetMapping("/getData")
+    @GetMapping("/getDataOne")
     public DataVo<ZjjgxVo> getData(Integer page, Integer limit,HttpSession session) {
         //从session中读取数据
-        String searchDjbh = (String) session.getAttribute("searchDjbh");
-        String searchXybh = (String) session.getAttribute("searchXybh");
-        String searchHtbh = (String) session.getAttribute("searchHtbh");
+        String searchDjbh = (String) session.getAttribute("searchDjbhOne");
+        String searchXybh = (String) session.getAttribute("searchXybhOne");
+        String searchHtbh = (String) session.getAttribute("searchHtbhOne");
         DataVo<ZjjgxVo> data = zjjgxService.getData(searchDjbh, searchXybh, searchHtbh, page, limit);
         //读取完成后,清空session中的值
-        session.setAttribute("searchDjbh","");
-        session.setAttribute("searchXybh","");
-        session.setAttribute("searchHtbh","");
+        session.setAttribute("searchDjbhOne","");
+        session.setAttribute("searchXybhOne","");
+        session.setAttribute("searchHtbhOne","");
 
         return data;
+    }
+
+    //保存查询条件到session-正在办理
+    @ResponseBody
+    @GetMapping("/searchData")
+    public ResultVo searchData(String searchDjbh,String searchXybh,String searchHtbh,HttpSession session){
+        try {
+            session.setAttribute("searchDjbhOne",searchDjbh);
+            session.setAttribute("searchXybhOne",searchXybh);
+            session.setAttribute("searchHtbhOne",searchHtbh);
+            return new ResultVo(true, "查询条件设置成功");
+        }catch (Exception e) {
+            e.printStackTrace();
+            return new ResultVo(false, "查询条件设置错误");
+        }
+    }
+
+    //页面数据-已完结
+    @ResponseBody
+    @GetMapping("/getDataTwo")
+    public DataVo<ZjjgxVo> getDataTwo(Integer page, Integer limit,HttpSession session){
+        //从session中读取数据
+        String searchDjbh = (String) session.getAttribute("searchDjbhTwo");
+        String searchXybh = (String) session.getAttribute("searchXybhTwo");
+        String searchHtbh = (String) session.getAttribute("searchHtbhTwo");
+        DataVo<ZjjgxVo> data = zjjgxService.getDataTwo(searchDjbh, searchXybh, searchHtbh, page, limit);
+        //读取完成后,清空session中的值
+        session.setAttribute("searchDjbhTwo","");
+        session.setAttribute("searchXybhTwo","");
+        session.setAttribute("searchHtbhTwo","");
+
+        return data;
+    }
+
+    //保存查询条件到session-已完结
+    @ResponseBody
+    @GetMapping("/searchDataTwo")
+    public ResultVo searchDataTwo(String searchDjbhTwo,String searchXybhTwo,String searchHtbhTwo,HttpSession session){
+        try {
+            session.setAttribute("searchDjbhTwo",searchDjbhTwo);
+            session.setAttribute("searchXybhTwo",searchXybhTwo);
+            session.setAttribute("searchHtbhTwo",searchHtbhTwo);
+            return new ResultVo(true, "查询条件设置成功");
+        }catch (Exception e) {
+            e.printStackTrace();
+            return new ResultVo(false, "查询条件设置错误");
+        }
+    }
+
+    //页面数据-已撤销
+    @ResponseBody
+    @GetMapping("/getDataThree")
+    public DataVo<ZjjgxVo> getDataThree(Integer page, Integer limit,HttpSession session){
+        //从session中读取数据
+        String searchDjbh = (String) session.getAttribute("searchDjbhThree");
+        String searchXybh = (String) session.getAttribute("searchXybhThree");
+        String searchHtbh = (String) session.getAttribute("searchHtbhThree");
+        DataVo<ZjjgxVo> data = zjjgxService.getDataThree(searchDjbh, searchXybh, searchHtbh, page, limit);
+        //读取完成后,清空session中的值
+        session.setAttribute("searchDjbhThree","");
+        session.setAttribute("searchXybhThree","");
+        session.setAttribute("searchHtbhThree","");
+
+        return data;
+    }
+
+    //保存查询条件到session-已撤销
+    @ResponseBody
+    @GetMapping("/searchDataThree")
+    public ResultVo searchDataThree(String searchDjbhThree,String searchXybhThree,String searchHtbhThree,HttpSession session){
+        try {
+            session.setAttribute("searchDjbhThree",searchDjbhThree);
+            session.setAttribute("searchXybhThree",searchXybhThree);
+            session.setAttribute("searchHtbhThree",searchHtbhThree);
+            return new ResultVo(true, "查询条件设置成功");
+        }catch (Exception e) {
+            e.printStackTrace();
+            return new ResultVo(false, "查询条件设置错误");
+        }
     }
 
     //弹出资金监管协议添加页面
@@ -150,21 +229,6 @@ public class ZjjgxController {
         }
     }
 
-    //保存查询条件到session
-    @ResponseBody
-    @GetMapping("/searchData")
-    public ResultVo searchData(String searchDjbh,String searchXybh,String searchHtbh,HttpSession session){
-        try {
-            session.setAttribute("searchDjbh",searchDjbh);
-            session.setAttribute("searchXybh",searchXybh);
-            session.setAttribute("searchHtbh",searchHtbh);
-            return new ResultVo(true, "查询条件设置成功");
-        }catch (Exception e) {
-            e.printStackTrace();
-            return new ResultVo(false, "查询条件设置错误");
-        }
-    }
-
     //支取确认
     @ResponseBody
     @GetMapping("/zqqr")
@@ -255,6 +319,8 @@ public class ZjjgxController {
                 switch (jktz){
                     case "1":
                         return new ResultVo(true, "交款通知成功");
+                    case "2":
+                        return new ResultVo(false, "存在买方交款信息，请勿重复进行交款通知");
                     case "4":
                         return new ResultVo(false, "监管协议已撤销或完结，取消操作");
                 }
@@ -308,17 +374,19 @@ public class ZjjgxController {
             if (null != zqpz && zqpz.length() > 0) { //非空
                 switch (zqpz){
                     case "1":
-                        return new ResultVo(true, "生成支取凭证成功");
+                        return new ResultVo(true, "支取通知成功");
                     case "2":
                         return new ResultVo(false, "请先进行交款确认，再重试");
                     case "3":
                         return new ResultVo(false, "监管协议已撤销或完结，取消操作");
+                    case "4":
+                        return new ResultVo(false, "存在卖方支取信息，请勿重复进行支取通知");
                 }
             }
-            return new ResultVo(false, "生成支取凭证失败，请重试");
+            return new ResultVo(false, "支取通知失败，请重试");
         }catch (Exception e){
             e.printStackTrace();
-            return new ResultVo(false, "生成支取凭证失败，请重试");
+            return new ResultVo(false, "支取通知失败，请重试");
         }
     }
 
@@ -431,6 +499,31 @@ public class ZjjgxController {
     public ResultVo getJgshData(ZJjgFcxxVo zJjgFcxxVo) {
 //        System.out.println(zJjgFcxxVo);
         return new ResultVo(true, "监管审核数据保存成功");
+    }
+
+    //办结确认
+    @ResponseBody
+    @GetMapping("/bjqr")
+    public ResultVo bjqr(String xybh){
+        try {
+            String bjqr = zjjgxService.bjqr(xybh);
+            if (null != bjqr && bjqr.length() > 0){ //非空
+                switch (bjqr){
+                    case "1":
+                        return new ResultVo(true, "办结确认成功");
+                    case "2":
+                        return new ResultVo(false, "流程未进行完，禁止办结确认操作");
+                    case "3":
+                        return new ResultVo(false, "协议已撤销，禁止办结确认操作");
+                    case "4":
+                        return new ResultVo(false, "协议已办结，禁止办结确认操作");
+                }
+            }
+            return new ResultVo(false, "办结确认失败，请重试");
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResultVo(false, "后端数据出错，请重试");
+        }
     }
 
 }

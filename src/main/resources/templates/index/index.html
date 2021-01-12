@@ -22,21 +22,16 @@
 				    <a href="javascript:;"><i class="iconfont">&#xe607;</i>办公栏</a>
 				    <dl class="layui-nav-child">
 				      <dd><a href="javascript:;" data-url="/index/zjjgx" data-id='1' data-text="资金监管箱"><span class="l-line"></span>资金监管箱</a></dd>
-				      <dd><a href="javascript:;"  data-id='2' data-text="资金监管对账"><span class="l-line"></span>资金监管对账</a></dd>
-				      <dd><a href="javascript:;"  data-id='3' data-text="批量办理箱"><span class="l-line"></span>批量办理箱</a></dd>
 				    </dl>
 				  </li>
 				  <li class="layui-nav-item">
 				    <a href="javascript:;"><i class="iconfont">&#xe607;</i>查询栏</a>
 				    <dl class="layui-nav-child">
-				      <dd><a href="javascript:;" data-url="/index/zjjgxy" data-id='4' data-text="资金监管查询"><span class="l-line"></span>资金监管查询</a></dd>
-				      <dd><a href="javascript:;" data-url="/index/zjjgxyCount" data-id='5' data-text="资金监管统计"><span class="l-line"></span>资金监管统计</a></dd>
-				      <dd><a href="javascript:;"  data-id='6' data-text="日志查询"><span class="l-line"></span>日志查询</a></dd>
+					  <dd><a href="javascript:;" data-url="/index/zjjgxy" data-id='4' data-text="资金监管查询"><span class="l-line"></span>资金监管查询</a></dd>
+					  <dd><a href="javascript:;" data-url="/index/zjjgxyCount" data-id='5' data-text="资金监管统计"><span class="l-line"></span>资金监管统计</a></dd>
+			          <dd id="qzcxdd"><a href="javascript:;" data-url="/index/qzcx" data-id='12' data-text="权证查询"><span class="l-line"></span>权证查询</a></dd>
 				    </dl>
 				  </li>
-					<!--动态拼接-有监管权限的用户登录才有-->
-					<div id="jggn"></div>
-					<!-------------------------------------->
 				</ul>
 			</div>
 			<!--右侧内容-->
@@ -87,28 +82,30 @@
 		<script src="../static/admin/layui/layui.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../static/admin/js/common.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../static/admin/js/main.js" type="text/javascript" charset="utf-8"></script>
-        <script>
-            /*获取用户名*/
-            $(document).ready(function () {
-                $.ajax({
-                    url: "/login/getUsername",
-                    type: 'get',
-                    dataType: 'json',
-                    success: function (data){
-                    	//获取登陆者名称
-                        $('#login_username').html(data.username);
 
-                        //判断用户权限
+        <script>
+
+			/*获取用户名*/
+			$(document).ready(function () {
+				$.ajax({
+					url: "/login/getUsername",
+					type: 'get',
+					dataType: 'json',
+					success: function (data) {
+						//获取登陆者名称
+						$('#login_username').html(data.username);
+
+						//判断用户权限
 						var permissions = data.permissions;
 						//需要拥有 permission3 的权限才能监管
-						if (null != permissions && "" != permissions && permissions.indexOf("permission3") != -1) {
-							//页面内容展示-监管功能栏
-							var _html = document.getElementById('jggnhtml').innerHTML;
-							document.getElementById('jggn').innerHTML = _html;
+						if (null != permissions && "" != permissions && permissions.indexOf("permission3") == '-1') {
+							//监管功能隐藏
+							$("#qzcxdd").prop('style', 'display:none');
 						}
-                    }
-                });
-            });
+					}
+				});
+			});
+
             /*获取当前时间*/
             function biao(){
                 var div = document.getElementById("time");
@@ -123,20 +120,6 @@
             }
             setInterval("biao()",1000);  //setInterval定时器:第一个值为biao()这个方法，第二个值为多少秒执行一次。
         </script>
-
-		<script type="text/html" id="jggnhtml">
-			<li class="layui-nav-item">
-				<a href="javascript:;"><i class="iconfont">&#xe607;</i>监管栏</a>
-				<dl class="layui-nav-child">
-					<dd><a href="javascript:;" data-url="/index/qzcx" data-id='12' data-text="权证查询"><span class="l-line"></span>权证查询</a></dd>
-					<dd><a href="javascript:;"  data-id='7' data-text="受理"><span class="l-line"></span>受理</a></dd>
-					<dd><a href="javascript:;"  data-id='8' data-text="审批箱"><span class="l-line"></span>审批箱</a></dd>
-					<dd><a href="javascript:;"  data-id='9' data-text="查询"><span class="l-line"></span>查询</a></dd>
-					<dd><a href="javascript:;"  data-id='10' data-text="统计"><span class="l-line"></span>统计</a></dd>
-					<dd><a href="javascript:;"  data-id='11' data-text="权限"><span class="l-line"></span>权限</a></dd>
-				</dl>
-			</li>
-		</script>
 
 	</body>
 

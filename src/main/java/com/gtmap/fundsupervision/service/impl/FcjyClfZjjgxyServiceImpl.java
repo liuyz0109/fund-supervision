@@ -180,4 +180,28 @@ public class FcjyClfZjjgxyServiceImpl implements FcjyClfZjjgxyService {
     public void updateZjjgxyGdsjByJgid(String jgid, Date date) {
         fcjyClfZjjgxyMapper.updateZjjgxyGdsjByJgid(jgid, date);
     }
+
+    /**
+     * 页面数据-已完结
+     * @param searchDjbh
+     * @param searchXybh
+     * @param searchHtbh
+     * @return
+     */
+    @Override
+    public List<ZjjgxVo> getZjjgxVoTwo(String searchDjbh, String searchXybh, String searchHtbh) {
+        return fcjyClfZjjgxyMapper.getZjjgxVoTwo(searchDjbh, searchXybh, searchHtbh);
+    }
+
+    /**
+     * 页面数据-已撤销
+     * @param searchDjbh
+     * @param searchXybh
+     * @param searchHtbh
+     * @return
+     */
+    @Override
+    public List<ZjjgxVo> getZjjgxVoThree(String searchDjbh, String searchXybh, String searchHtbh) {
+        return fcjyClfZjjgxyMapper.getZjjgxVoThree(searchDjbh, searchXybh, searchHtbh);
+    }
 }

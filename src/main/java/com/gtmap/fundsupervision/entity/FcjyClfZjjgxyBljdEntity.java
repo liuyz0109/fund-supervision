@@ -24,7 +24,7 @@ public class FcjyClfZjjgxyBljdEntity implements Serializable {
     private String xycxsfcx; //协议撤销
     private String xycxcxr;
     private String xycxcxrq;
-    private String sczqpzsfsc; //生成支取凭证
+    private String sczqpzsfsc; //支取通知
     private String sczqpzscr;
     private String sczqpzscrq;
     private String zqqrsfqr; //支取确认

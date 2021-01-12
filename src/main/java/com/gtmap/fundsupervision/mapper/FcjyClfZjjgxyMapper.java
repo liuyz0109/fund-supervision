@@ -52,4 +52,10 @@ public interface FcjyClfZjjgxyMapper {
 
     //修改协议归档时间
     void updateZjjgxyGdsjByJgid(@Param("jgid") String jgid,@Param("date") Date date);
+
+    //页面数据-已完结
+    List<ZjjgxVo> getZjjgxVoTwo(@Param("searchDjbh") String searchDjbh,@Param("searchXybh") String searchXybh,@Param("searchHtbh") String searchHtbh);
+
+    //页面数据-已撤销
+    List<ZjjgxVo> getZjjgxVoThree(@Param("searchDjbh") String searchDjbh,@Param("searchXybh") String searchXybh,@Param("searchHtbh") String searchHtbh);
 }

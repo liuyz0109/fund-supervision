@@ -647,24 +647,24 @@ public class ZjjgxServiceImpl implements ZjjgxService {
         //资金监管入账记录
         FcjyClfZjjgrzjlEntity zjjgrzjlByJgid = fcjyClfZjjgrzjlService.findZjjgrzjlByJgid(jgid);
 
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        //保存协议撤销人和时间
+        String jktzscr = SecurityContextHolder.getContext().getAuthentication().getName(); //当前登陆者
+        String scsj = sdf.format(new Date());
+
         if (null != zjjgrzjlByJgid && zjjgrzjlByJgid.getJe() == 0){ //无缴存资金
             map.put("sfjczj", "0"); //是否缴存资金 0-无 1-有
 
             //更新资金监管协议的状态zt和撤销时间
             fcjyClfZjjgxyService.updateZjjgxyByJgidToCx(jgid,new java.sql.Date((new Date()).getTime()));
+
+            //保存协议撤销人和时间和情况
+            fcjyClfZjjgxyBljdService.updateZjjgxyBljdByXycx(jgid,"1",jktzscr, scsj); //1-已生成
         }
+
         if (null != zjjgrzjlByJgid && zjjgrzjlByJgid.getJe() > 0){ //有缴存资金
             map.put("sfjczj", "1"); //是否缴存资金 0-无 1-有
         }
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-        //保存协议撤销人和时间
-        String jktzscr = SecurityContextHolder.getContext().getAuthentication().getName(); //当前登陆者
-        String scsj = sdf.format(new Date());
-
-        //保存协议撤销人和时间和情况
-        fcjyClfZjjgxyBljdService.updateZjjgxyBljdByXycx(jgid,"1",jktzscr, scsj); //1-已生成
 
         return map;
     }
@@ -742,21 +742,6 @@ public class ZjjgxServiceImpl implements ZjjgxService {
 
         //将支取的资金和银行流水号和操作时间保存到资金监管出账表中
         fcjyClfZjjgrzjlService.updateZjjgrzjlByjgidToZqqr(jgid,zjgje,yhlsh,new java.sql.Date(date.getTime()));
-
-        /////////////////////////////////////////
-        //设置定时器，表示1分钟后，执行办结确认，归档操作
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                //保存办结确认状态、确认人、时间
-                fcjyClfZjjgxyBljdService.updateZjjgxyBljdByBjqr(jgid,"1",jktzscr, sdf.format(new Date()));
-                //修改协议状态为303-交易结束
-                fcjyClfZjjgxyService.updateZjjgxyZtByJgid(jgid, "303");
-                //修改协议归档时间
-                fcjyClfZjjgxyService.updateZjjgxyGdsjByJgid(jgid, new java.sql.Date((new Date()).getTime()));
-            }
-        }, 60000);
 
         return "1";
     }
@@ -862,6 +847,14 @@ public class ZjjgxServiceImpl implements ZjjgxService {
             return "4";
         }
 
+        //判断是否存在交款确认，存在则禁止再次交款通知
+        //查询资金监管办理进度
+        FcjyClfZjjgxyBljdEntity zjjgxyBljdByJgid = fcjyClfZjjgxyBljdService.findZjjgxyBljdByJgid(jgid);
+        if (null != zjjgxyBljdByJgid.getJkqrsfqr() && zjjgxyBljdByJgid.getJkqrsfqr().equals("1")){
+            //存在交款确认，禁止交款通知
+            return "2";
+        }
+
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         //保存交款通知生成人和时间
@@ -952,6 +945,12 @@ public class ZjjgxServiceImpl implements ZjjgxService {
         FcjyClfZjjgxyBljdEntity zjjgxyBljdByJgid = fcjyClfZjjgxyBljdService.findZjjgxyBljdByJgid(jgid);
         if (null == zjjgxyBljdByJgid.getJkqrqrr() || null == zjjgxyBljdByJgid.getJkqrqrrq() || null == zjjgxyBljdByJgid.getJkqrsfqr()){
             return "2";
+        }
+
+        //是否存在支取确认，存在则禁止支取凭证操作
+        if (null != zjjgxyBljdByJgid.getZqqrsfqr() && zjjgxyBljdByJgid.getZqqrsfqr().equals("1")){
+            //存在支取确认
+            return "4";
         }
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -1139,6 +1138,143 @@ public class ZjjgxServiceImpl implements ZjjgxService {
 
         map.put("mftkCx", "1"); //1-成功
         return map;
+    }
+
+    /**
+     * 页面数据-已完结
+     * @param searchDjbh
+     * @param searchXybh
+     * @param searchHtbh
+     * @param page
+     * @param limit
+     * @return
+     */
+    @Override
+    public DataVo<ZjjgxVo> getDataTwo(String searchDjbh, String searchXybh, String searchHtbh, Integer page, Integer limit) {
+        //封装DataVo<ZjjgxVo>数据
+        DataVo<ZjjgxVo> zjjgxVoDataVo = new DataVo<>();
+        zjjgxVoDataVo.setCode(0);
+        zjjgxVoDataVo.setMsg("");
+
+        //分页
+        PageHelper.startPage(page, limit);
+        //查询资金监管数据
+        List<ZjjgxVo> allData = fcjyClfZjjgxyService.getZjjgxVoTwo(searchDjbh,searchXybh,searchHtbh);
+
+        //协议状态 根据资金监管协议状态zt工具类判断
+        for (ZjjgxVo zjjgxVo : allData){
+            if ("301".equals(zjjgxVo.getSfcx()) || "302".equals(zjjgxVo.getSfcx())){
+                zjjgxVo.setSfcx("是");
+            }else {
+                zjjgxVo.setSfcx("否");
+            }
+        }
+
+        //进行pageInfo包装
+        PageInfo<ZjjgxVo> pageInfo = new PageInfo<>(allData);
+        List<ZjjgxVo> list = pageInfo.getList();
+
+        zjjgxVoDataVo.setCount((int)pageInfo.getTotal());
+        zjjgxVoDataVo.setData(list);
+
+        //返回数据
+        return zjjgxVoDataVo;
+    }
+
+    /**
+     * 页面数据-已撤销
+     * @param searchDjbh
+     * @param searchXybh
+     * @param searchHtbh
+     * @param page
+     * @param limit
+     * @return
+     */
+    @Override
+    public DataVo<ZjjgxVo> getDataThree(String searchDjbh, String searchXybh, String searchHtbh, Integer page, Integer limit) {
+        //封装DataVo<ZjjgxVo>数据
+        DataVo<ZjjgxVo> zjjgxVoDataVo = new DataVo<>();
+        zjjgxVoDataVo.setCode(0);
+        zjjgxVoDataVo.setMsg("");
+
+        //分页
+        PageHelper.startPage(page, limit);
+        //查询资金监管数据
+        List<ZjjgxVo> allData = fcjyClfZjjgxyService.getZjjgxVoThree(searchDjbh,searchXybh,searchHtbh);
+
+        //协议状态 根据资金监管协议状态zt工具类判断
+        for (ZjjgxVo zjjgxVo : allData){
+            if ("301".equals(zjjgxVo.getSfcx()) || "302".equals(zjjgxVo.getSfcx())){
+                zjjgxVo.setSfcx("是");
+            }else {
+                zjjgxVo.setSfcx("否");
+            }
+        }
+
+        //进行pageInfo包装
+        PageInfo<ZjjgxVo> pageInfo = new PageInfo<>(allData);
+        List<ZjjgxVo> list = pageInfo.getList();
+
+        zjjgxVoDataVo.setCount((int)pageInfo.getTotal());
+        zjjgxVoDataVo.setData(list);
+
+        //返回数据
+        return zjjgxVoDataVo;
+    }
+
+    /**
+     * 办结确认
+     * @param jgid
+     * @return
+     */
+    @Transactional
+    @Override
+    public String bjqr(String jgid) {
+        //判断流程是否走完
+        //查询资金监管办理进度
+        FcjyClfZjjgxyBljdEntity zjjgxyBljdByJgid = fcjyClfZjjgxyBljdService.findZjjgxyBljdByJgid(jgid);
+        String jktzsfsc = zjjgxyBljdByJgid.getJktzsfsc();//交款通知
+        String jkqrsfqr = zjjgxyBljdByJgid.getJkqrsfqr();//交款确认
+        String sczqpzsfsc = zjjgxyBljdByJgid.getSczqpzsfsc();//支取通知
+        String zqqrsfqr = zjjgxyBljdByJgid.getZqqrsfqr();//支取确认
+        //流程未走完
+        if (null == jktzsfsc || jktzsfsc.length() == 0){
+            return "2";
+        }
+        if (null == jkqrsfqr || jkqrsfqr.length() == 0){
+            return "2";
+        }
+        if (null == sczqpzsfsc || sczqpzsfsc.length() == 0){
+            return "2";
+        }
+        if (null == zqqrsfqr || zqqrsfqr.length() == 0){
+            return "2";
+        }
+
+        String xycxsfcx = zjjgxyBljdByJgid.getXycxsfcx();//协议撤销
+        if (null != xycxsfcx && xycxsfcx.equals("1")){
+            //协议已撤销
+            return "3";
+        }
+
+        String bjqrsfbj = zjjgxyBljdByJgid.getBjqrsfbj();//办结确认
+        if (null != bjqrsfbj && bjqrsfbj.equals("1")){
+            //协议已办结
+            return "4";
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        //办结确认人信息
+        String jktzscr = SecurityContextHolder.getContext().getAuthentication().getName(); //当前登陆者
+
+        //保存办结确认状态、确认人、时间
+        fcjyClfZjjgxyBljdService.updateZjjgxyBljdByBjqr(jgid,"1",jktzscr, sdf.format(new Date()));
+        //修改协议状态为303-交易结束
+        fcjyClfZjjgxyService.updateZjjgxyZtByJgid(jgid, "303");
+        //修改协议归档时间
+        fcjyClfZjjgxyService.updateZjjgxyGdsjByJgid(jgid, new java.sql.Date((new Date()).getTime()));
+        return "1";
     }
 
 }

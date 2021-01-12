@@ -86,4 +86,22 @@ public interface FcjyClfZjjgxyService {
      * @param date
      */
     void updateZjjgxyGdsjByJgid(String jgid, Date date);
+
+    /**
+     * 页面数据-已完结
+     * @param searchDjbh
+     * @param searchXybh
+     * @param searchHtbh
+     * @return
+     */
+    List<ZjjgxVo> getZjjgxVoTwo(String searchDjbh, String searchXybh, String searchHtbh);
+
+    /**
+     * 页面数据-已撤销
+     * @param searchDjbh
+     * @param searchXybh
+     * @param searchHtbh
+     * @return
+     */
+    List<ZjjgxVo> getZjjgxVoThree(String searchDjbh, String searchXybh, String searchHtbh);
 }
