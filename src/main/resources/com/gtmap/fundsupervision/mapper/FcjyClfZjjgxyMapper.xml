@@ -244,7 +244,7 @@
 
     <!--获取资金监管协议统计页面数据-->
     <select id="getZjjgxyCountData" parameterType="com.gtmap.fundsupervision.dto.ZjjgxyCountSearchDto" resultType="com.gtmap.fundsupervision.vo.ZjjgxyCountVo">
-        select f2.qymc as "bldw",f3.dgfkyhmc as "jgyh",f4.fwmj as "jzmj",f1.htzje as "cjje",f1.zjgje as "jgje",f3.je as "rzje",f6.je as "zqje"
+        select f3.dgfkyhmc as "jgyh",count(f3.dgfkyhmc) as "jgsl",sum(f4.fwmj) as "jzmj",sum(f1.htzje) as "cjje",sum(f1.zjgje) as "jgje",sum(f3.je) as "rzje",sum(f6.je) as "zqje"
         from FCJY_CLF_ZJJGXY f1
         join FCJY_CYZT_CYQYJBXX f2
         on f1.jgfwjgbh = f2.qyid
@@ -261,11 +261,11 @@
             <if test="searchJsrq != null and searchJsrq != ''">
                 and to_char(f1.gdsj,'yyyy-mm-dd') = #{searchJsrq}
             </if>
-            <if test="searchJgyh != null and searchJgyh != ''">
-                and f3.dgfkyhmc like '%${searchJgyh}%'
+            <if test="searchXyzt != null and searchXyzt != ''">
+                and f1.zt like '%${searchXyzt}%'
             </if>
         </where>
-        order by f1.jgbh
+        group by f3.dgfkyhmc
     </select>
 
     <!--修改协议归档时间-->

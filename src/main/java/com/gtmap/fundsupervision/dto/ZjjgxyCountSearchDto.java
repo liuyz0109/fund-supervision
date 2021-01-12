@@ -12,6 +12,5 @@ import lombok.Data;
 public class ZjjgxyCountSearchDto {
     private String searchJyrq; //交易日期
     private String searchJsrq; //结束日期
-    private String searchJgyh; //监管银行
-    private String searchBldw; //办理单位
+    private String searchXyzt; //协议状态
 }

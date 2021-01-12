@@ -22,21 +22,16 @@
                 <input type="text" name="searchJsrq" id="searchJsrq" readonly lay-verify="date" placeholder="yyyy-MM-dd" style="width: 100px" class="layui-input">
             </div>
             <div class="layui-inline">
-                <label class="layui-form-label" style="width: 100px">监管银行</label>
+                <label class="layui-form-label" style="width: 100px">协议状态</label>
                 <div class="layui-input-inline" style="width: 100px">
-                    <select name="searchJgyh" id="searchJgyh">
+                    <select name="searchXyzt" id="searchXyzt">
                         <option value="">全部</option>
-                        <option value="监管开户行1">监管银行1</option>
-                        <option value="监管开户行2">监管银行2</option>
-                    </select>
-                </div>
-            </div>
-            <div class="layui-inline">
-                <label class="layui-form-label" style="width: 100px">办理单位</label>
-                <div class="layui-input-inline" style="width: 100px">
-                    <select name="searchBldw" id="searchBldw">
-                        <option value="">全部</option>
-                        <option value="企业名称">企业名称</option>
+                        <option value="101">草稿</option>
+                        <option value="103">变更中</option>
+                        <option value="201">初次确认</option>
+                        <option value="301">手工撤销</option>
+                        <option value="302">系统撤销</option>
+                        <option value="303">交易结束</option>
                     </select>
                 </div>
             </div>
@@ -70,19 +65,17 @@
             ,toolbar: '#toolbarDemo' //开启头部工具栏
             ,defaultToolbar: ['exports']
             ,title: '资金监管统计'
-            ,totalRow: true
             ,cols: [
                 [
-                    {field:'bldw', title:'办理单位', width:100, totalRowText: '合计'}
-                    ,{field:'jgyh', title:'监管银行', width:150}
-                    ,{field:'jgsl', title:'监管数量', width:100, totalRow: true, totalRowType:'int'}
-                    ,{field:'jzmj', title:'建筑面积', width:100, totalRow: true}
-                    ,{field:'cjje', title:'成交金额', width:100, totalRow: true}
-                    ,{field:'jgje', title:'监管金额', width:100, totalRow: true}
-                    ,{field:'rzje', title:'入账金额', width:100, totalRow: true}
-                    ,{field:'zqje', title:'支取金额', width:100, totalRow: true}
-                    ,{field:'jyje', title:'结余金额', width:100, totalRow: true}
-                    ,{field:'fx', title:'付息', width:100, totalRow: true}
+                    {field:'jgyh', title:'监管银行', width:150}
+                    ,{field:'jgsl', title:'监管数量', width:100}
+                    ,{field:'jzmj', title:'建筑面积', width:100}
+                    ,{field:'cjje', title:'成交金额', width:100}
+                    ,{field:'jgje', title:'监管金额', width:100}
+                    ,{field:'rzje', title:'入账金额', width:100}
+                    ,{field:'zqje', title:'支取金额', width:100}
+                    ,{field:'jyje', title:'结余金额', width:100}
+                    ,{field:'fx', title:'付息', width:100}
                 ]
             ]
             ,page: true
@@ -94,15 +87,6 @@
 
             //查阅功能
             if (obj.event === 'searchData'){
-                // var searchQdrq = $("#searchQdrq").val(); //签订日期
-                // var searchJsrq = $("#searchJsrq").val(); //结束日期
-                // var searchXybh = $("#searchXybh").val(); //协议编号
-                // var searchZrf = $("#searchZrf").val(); //转让方
-                // var searchSrf = $("#searchSrf").val(); //受让方
-                // var searchDjbh = $("#searchDjbh").val(); //登记编号
-                // var searchXyzt = $("#searchXyzt").val(); //协议状态
-                // var searchJgyh = $("#searchJgyh").val(); //监管银行
-                // var searchHtbh = $("#searchHtbh").val(); //合同编号
                 //将数据提交到后台
                 $.ajax({
                     url: '../zjjgxy/searchZjjgxyCountData',

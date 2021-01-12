@@ -156,9 +156,8 @@ public class FcjyClfZjjgxyServiceImpl implements FcjyClfZjjgxyService {
 
         //数据封装
         for (ZjjgxyCountVo zjjgxyCountVo : zjjgxyCountVoList){
-            zjjgxyCountVo.setJgsl("1"); //监管数量
             zjjgxyCountVo.setJyje(Double.parseDouble(zjjgxyCountVo.getRzje()) - Double.parseDouble(zjjgxyCountVo.getZqje()) + ""); //结余金额-入账减去支取
-            zjjgxyCountVo.setFx("0"); //付息
+            zjjgxyCountVo.setFx("0.0"); //付息
         }
 
         //进行pageInfo包装
