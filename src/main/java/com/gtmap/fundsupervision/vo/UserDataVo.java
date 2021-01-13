@@ -2,6 +2,7 @@ package com.gtmap.fundsupervision.vo;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -11,7 +12,7 @@ import java.util.List;
  */
 
 @Data
-public class UserDataVo {
+public class UserDataVo implements Serializable {
     private String id;
     private String username;
     private List<String> permissions;

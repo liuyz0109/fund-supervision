@@ -40,14 +40,14 @@
                                 <div class="layui-inline">
                                     <label class="layui-form-label">业务类型</label>
                                     <div class="layui-input-inline">
-                                        <select name="ywlxone" id="ywlxone" class="layui-select" lay-verify="required" lay-filter="ywlxone" style="width: 200px">
+                                        <select name="ywlxone" id="ywlxone" class="layui-select" lay-verify="select" lay-filter="ywlxone" style="width: 200px">
                                             <option value="">请选择</option>
                                             <option value="1">不纳入资金监管</option>
                                             <option value="2">部分监管</option>
                                         </select>
                                     </div>
                                     <div class="layui-input-inline">
-                                        <select name="ywlxtwo" id="ywlxtwo" class="layui-select" lay-verify="required" lay-filter="ywlxtwo" style="width: 200px">
+                                        <select name="ywlxtwo" id="ywlxtwo" class="layui-select" lay-verify="select" lay-filter="ywlxtwo" style="width: 200px">
 
                                         </select>
                                     </div>
@@ -58,19 +58,19 @@
                                 <div class="layui-inline">
                                     <label class="layui-form-label">卖方姓名</label>
                                     <div class="layui-input-inline">
-                                        <input type="text" id="salexm" name="salexm" readonly autocomplete="off" class="layui-input" style="width: 200px;border:1px solid #DDD;background-color:#F5F5F5;color:#ACA899;">
+                                        <input type="text" id="salexm" name="salexm" readonly lay-verify="cqzh" autocomplete="off" class="layui-input" style="width: 200px;border:1px solid #DDD;background-color:#F5F5F5;color:#ACA899;">
                                     </div>
                                 </div>
                                 <div class="layui-inline">
                                     <label class="layui-form-label">联系方式</label>
                                     <div class="layui-input-inline">
-                                        <input type="text" id="salelxfs" name="salelxfs" readonly autocomplete="off" class="layui-input" style="width: 200px;border:1px solid #DDD;background-color:#F5F5F5;color:#ACA899;">
+                                        <input type="text" id="salelxfs" name="salelxfs" readonly lay-verify="cqzh" autocomplete="off" class="layui-input" style="width: 200px;border:1px solid #DDD;background-color:#F5F5F5;color:#ACA899;">
                                     </div>
                                 </div>
                                 <div class="layui-inline">
                                     <label class="layui-form-label">身份证号</label>
                                     <div class="layui-input-inline">
-                                        <input type="text" id="salesfzh" name="salesfzh" readonly autocomplete="off" class="layui-input" style="width: 200px;border:1px solid #DDD;background-color:#F5F5F5;color:#ACA899;">
+                                        <input type="text" id="salesfzh" name="salesfzh" readonly lay-verify="cqzh" autocomplete="off" class="layui-input" style="width: 200px;border:1px solid #DDD;background-color:#F5F5F5;color:#ACA899;">
                                     </div>
                                 </div>
                             </div>
@@ -78,13 +78,13 @@
                                 <div class="layui-inline">
                                     <label class="layui-form-label">卖方委托人</label>
                                     <div class="layui-input-inline">
-                                        <input type="text" id="salewtr" name="salewtr" readonly autocomplete="off" class="layui-input" style="width: 200px;border:1px solid #DDD;background-color:#F5F5F5;color:#ACA899;">
+                                        <input type="text" id="salewtr" name="salewtr" readonly lay-verify="cqzh" autocomplete="off" class="layui-input" style="width: 200px;border:1px solid #DDD;background-color:#F5F5F5;color:#ACA899;">
                                     </div>
                                 </div>
                                 <div class="layui-inline">
                                     <label class="layui-form-label">联系方式</label>
                                     <div class="layui-input-inline">
-                                        <input type="text" id="salewtrlxfs" name="salewtrlxfs" readonly autocomplete="off" class="layui-input" style="width: 200px;border:1px solid #DDD;background-color:#F5F5F5;color:#ACA899;">
+                                        <input type="text" id="salewtrlxfs" name="salewtrlxfs" readonly lay-verify="cqzh" autocomplete="off" class="layui-input" style="width: 200px;border:1px solid #DDD;background-color:#F5F5F5;color:#ACA899;">
                                     </div>
                                 </div>
                             </div>
@@ -93,19 +93,19 @@
                                 <div class="layui-inline">
                                     <label class="layui-form-label">买方姓名</label>
                                     <div class="layui-input-inline">
-                                        <input type="text" id="buyxm" name="buyxm" readonly autocomplete="off" class="layui-input" style="width: 200px;border:1px solid #DDD;background-color:#F5F5F5;color:#ACA899;">
+                                        <input type="text" id="buyxm" name="buyxm" readonly lay-verify="cqzh" autocomplete="off" class="layui-input" style="width: 200px;border:1px solid #DDD;background-color:#F5F5F5;color:#ACA899;">
                                     </div>
                                 </div>
                                 <div class="layui-inline">
                                     <label class="layui-form-label">联系方式</label>
                                     <div class="layui-input-inline">
-                                        <input type="text" id="buylxfs" name="buylxfs" readonly autocomplete="off" class="layui-input" style="width: 200px;border:1px solid #DDD;background-color:#F5F5F5;color:#ACA899;">
+                                        <input type="text" id="buylxfs" name="buylxfs" readonly lay-verify="cqzh" autocomplete="off" class="layui-input" style="width: 200px;border:1px solid #DDD;background-color:#F5F5F5;color:#ACA899;">
                                     </div>
                                 </div>
                                 <div class="layui-inline">
                                     <label class="layui-form-label">身份证号</label>
                                     <div class="layui-input-inline">
-                                        <input type="text" id="buysfzh" name="buysfzh" readonly autocomplete="off" class="layui-input" style="width: 200px;border:1px solid #DDD;background-color:#F5F5F5;color:#ACA899;">
+                                        <input type="text" id="buysfzh" name="buysfzh" readonly lay-verify="cqzh" autocomplete="off" class="layui-input" style="width: 200px;border:1px solid #DDD;background-color:#F5F5F5;color:#ACA899;">
                                     </div>
                                 </div>
                             </div>
@@ -113,13 +113,13 @@
                                 <div class="layui-inline">
                                     <label class="layui-form-label">买方委托人</label>
                                     <div class="layui-input-inline">
-                                        <input type="text" id="buywtr" name="buywtr" readonly autocomplete="off" class="layui-input" style="width: 200px;border:1px solid #DDD;background-color:#F5F5F5;color:#ACA899;">
+                                        <input type="text" id="buywtr" name="buywtr" readonly lay-verify="cqzh" autocomplete="off" class="layui-input" style="width: 200px;border:1px solid #DDD;background-color:#F5F5F5;color:#ACA899;">
                                     </div>
                                 </div>
                                 <div class="layui-inline">
                                     <label class="layui-form-label">联系方式</label>
                                     <div class="layui-input-inline">
-                                        <input type="text" id="buywtrlxfs" name="buywtrlxfs" readonly autocomplete="off" class="layui-input" style="width: 200px;border:1px solid #DDD;background-color:#F5F5F5;color:#ACA899;">
+                                        <input type="text" id="buywtrlxfs" name="buywtrlxfs" readonly lay-verify="cqzh" autocomplete="off" class="layui-input" style="width: 200px;border:1px solid #DDD;background-color:#F5F5F5;color:#ACA899;">
                                     </div>
                                 </div>
                             </div>
@@ -131,7 +131,7 @@
                                 <div class="layui-inline">
                                     <label class="layui-form-label">产权证号</label>
                                     <div class="layui-input-inline">
-                                        <input type="text" id="cqzh" name="cqzh" autocomplete="off" class="layui-input" style="width: 200px">
+                                        <input type="text" id="cqzh" name="cqzh" lay-verify="cqzh" autocomplete="off" class="layui-input" style="width: 200px">
                                     </div>
                                     <button type="button" id="findHt" style="height:23px;width:50px;margin-left: 43px;margin-top:5px;background-color: #1E9FFF;border-style: none;cursor:pointer">
                                         <span style="color: #FFFFFF;font-size: 14px">选择</span>
@@ -142,7 +142,7 @@
                                 <div class="layui-inline">
                                     <label class="layui-form-label">房屋坐落</label>
                                     <div class="layui-input-inline">
-                                        <input type="text" id="fwzl" name="fwzl" readonly autocomplete="off" class="layui-input" style="width: 600px;border:1px solid #DDD;background-color:#F5F5F5;color:#ACA899;">
+                                        <input type="text" id="fwzl" name="fwzl" readonly lay-verify="cqzh" autocomplete="off" class="layui-input" style="width: 600px;border:1px solid #DDD;background-color:#F5F5F5;color:#ACA899;">
                                     </div>
                                 </div>
                             </div>
@@ -150,7 +150,7 @@
                                 <div class="layui-inline">
                                     <label class="layui-form-label">登记机构</label>
                                     <div class="layui-input-block" style="width: 420px">
-                                        <select name="jfkhh" id="jfkhh" lay-verify="required">
+                                        <select name="jfkhh" id="jfkhh" lay-verify="select">
                                             <option value="">请选择登记机构</option>
                                             <option value="登记机构1">登记机构1</option>
                                             <option value="登记机构2">登记机构2</option>
@@ -162,13 +162,13 @@
                                 <div class="layui-inline">
                                     <label class="layui-form-label">受理人</label>
                                     <div class="layui-input-inline">
-                                        <input type="text" id="slr" name="slr" readonly autocomplete="off" class="layui-input" style="width: 200px;border:1px solid #DDD;background-color:#F5F5F5;color:#ACA899;">
+                                        <input type="text" id="slr" name="slr" readonly lay-verify="cqzh" autocomplete="off" class="layui-input" style="width: 200px;border:1px solid #DDD;background-color:#F5F5F5;color:#ACA899;">
                                     </div>
                                 </div>
                                 <div class="layui-inline">
                                     <label class="layui-form-label">收件日期</label>
                                     <div class="layui-input-inline">
-                                        <input type="text" id="sjrq" name="sjrq" readonly autocomplete="off" class="layui-input" style="width: 200px;border:1px solid #DDD;background-color:#F5F5F5;color:#ACA899;">
+                                        <input type="text" id="sjrq" name="sjrq" readonly lay-verify="cqzh" autocomplete="off" class="layui-input" style="width: 200px;border:1px solid #DDD;background-color:#F5F5F5;color:#ACA899;">
                                     </div>
                                 </div>
                             </div>
@@ -270,9 +270,14 @@
 
             //自定义验证
             form.verify({
-                htbh: function (value) {
+                cqzh: function (value) {
                     if (null == value || '' === value){
-                        return "<em style='color: black'>" + "请先选择合同再继续" + "</em>";
+                        return "<em style='color: black'>" + "请先选择产权证号再继续" + "</em>";
+                    }
+                }
+                ,select: function (value) {
+                    if (null == value || '' === value){
+                        return "<em style='color: black'>" + "请先选择再继续" + "</em>";
                     }
                 }
                 ,djbh: [

@@ -1,21 +1,14 @@
 package com.gtmap.fundsupervision.controller;
 
-import com.gtmap.fundsupervision.entity.UserLoginEntity;
 import com.gtmap.fundsupervision.service.UserLoginService;
-import com.gtmap.fundsupervision.vo.DataVo;
 import com.gtmap.fundsupervision.vo.UserDataVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author <a href="mailto:liuyaozong@gtmap.cn">liuyaozong</a>

@@ -5,6 +5,10 @@ import com.github.pagehelper.PageInfo;
 import com.gtmap.fundsupervision.dto.ZjjgxyDto;
 import com.gtmap.fundsupervision.dto.ZjjgxyZhxxDto;
 import com.gtmap.fundsupervision.entity.*;
+import com.gtmap.fundsupervision.myenum.ShiFouEnum;
+import com.gtmap.fundsupervision.myenum.YouXiaoXingEnum;
+import com.gtmap.fundsupervision.myenum.ZhuTiLeiBieEnum;
+import com.gtmap.fundsupervision.myenum.ZjjgxyZtEnum;
 import com.gtmap.fundsupervision.service.*;
 import com.gtmap.fundsupervision.utils.UuidUtil;
 import com.gtmap.fundsupervision.utils.ZjlbUtil;
@@ -80,7 +84,7 @@ public class ZjjgxServiceImpl implements ZjjgxService {
 
         //协议状态 根据资金监管协议状态zt工具类判断
         for (ZjjgxVo zjjgxVo : allData){
-            if ("301".equals(zjjgxVo.getSfcx()) || "302".equals(zjjgxVo.getSfcx())){
+            if (ZjjgxyZtEnum.SHOUGONGCHEXIAO.getCode().equals(zjjgxVo.getSfcx()) || ZjjgxyZtEnum.XITONGCHEXIAO.getCode().equals(zjjgxVo.getSfcx())){
                 zjjgxVo.setSfcx("是");
             }else {
                 zjjgxVo.setSfcx("否");
@@ -117,11 +121,11 @@ public class ZjjgxServiceImpl implements ZjjgxService {
         FcjyClfMmhtZtEntity fcjyClfMmhtZtEntitySale = new FcjyClfMmhtZtEntity(); //存量房买卖合同主体-出卖人
         for(FcjyClfMmhtZtEntity fcjyClfMmhtZtEntity : mmhtZtByHtbhList){
             //存量房买卖合同主体-买受人
-            if ("0".equals(fcjyClfMmhtZtEntity.getZtlb())){
+            if (ZhuTiLeiBieEnum.BUY.getCode().equals(fcjyClfMmhtZtEntity.getZtlb())){
                 fcjyClfMmhtZtEntityBuy = fcjyClfMmhtZtEntity;
             }
             //存量房买卖合同主体-出卖人
-            if ("1".equals(fcjyClfMmhtZtEntity.getZtlb())){
+            if (ZhuTiLeiBieEnum.SALE.getCode().equals(fcjyClfMmhtZtEntity.getZtlb())){
                 fcjyClfMmhtZtEntitySale = fcjyClfMmhtZtEntity;
             }
         }
@@ -179,8 +183,8 @@ public class ZjjgxServiceImpl implements ZjjgxService {
         fcjyClfZjjgxyEntity.setCmrdyjyzt("0"); //出卖人抵押校验状态 0-未校验 1-抵押余额已输入 2-无抵押
 //        fcjyClfZjjgxyEntity.setCxsj(new java.sql.Date(now.getTime())); //撤销时间
 //        fcjyClfZjjgxyEntity.setGdsj(new java.sql.Date(now.getTime())); //归档时间
-        fcjyClfZjjgxyEntity.setZt("101"); //状态 101-草稿 103-变更中 201-初次确认 301-手工撤销 302-系统撤销 303-交易结束
-        fcjyClfZjjgxyEntity.setSfyx("1"); //是否有效 1-有效 2-无效
+        fcjyClfZjjgxyEntity.setZt(ZjjgxyZtEnum.CAOGAO.getCode()); //状态 101-草稿 103-变更中 201-初次确认 301-手工撤销 302-系统撤销 303-交易结束
+        fcjyClfZjjgxyEntity.setSfyx(YouXiaoXingEnum.YOUXIAO.getCode()); //是否有效 1-有效 2-无效
         fcjyClfZjjgxyEntity.setBz("无备注"); //备注
         //资金监管协议数据-over
 
@@ -286,7 +290,7 @@ public class ZjjgxServiceImpl implements ZjjgxService {
         fcjyClfZjjgzhBuy.setJgid(zjjgxyDto.getXybh()); //监管id
         fcjyClfZjjgzhBuy.setMmsfbz(fcjyClfMmhtZtEntityBuy.getZtlb()); //买卖双方标志 0-买受人 1-出卖人
         fcjyClfZjjgzhBuy.setZhlb("1"); //账户类别 1-监管子账户
-        fcjyClfZjjgzhBuy.setSfdg("1"); //是否对公 1-是 0-否
+        fcjyClfZjjgzhBuy.setSfdg(ShiFouEnum.SHI.getCode()); //是否对公 1-是 0-否
         fcjyClfZjjgzhBuy.setZhsyr(fcjyClfMmhtZtEntityBuy.getHm()); //账户所有人-监管合同主体
         fcjyClfZjjgzhBuy.setZhh(fcjyClfMmhtZtEntityBuy.getZh()); //账户号-监管合同主体
         fcjyClfZjjgzhBuy.setYhbh(fcjyClfMmhtZtEntityBuy.getYh()); //银行编号-监管合同主体
@@ -302,7 +306,7 @@ public class ZjjgxServiceImpl implements ZjjgxService {
         fcjyClfZjjgzhBuy.setDqje(0); //当前余额
         fcjyClfZjjgzhBuy.setYhdqye(0); //银行当前余额
         fcjyClfZjjgzhBuy.setHbzl("1"); //货币种类 1-人民币
-        fcjyClfZjjgzhBuy.setJzbz("0"); //鉴证标志 0-未鉴证
+        fcjyClfZjjgzhBuy.setJzbz(ShiFouEnum.FOU.getCode()); //鉴证标志 0-未鉴证-否
         fcjyClfZjjgzhBuy.setJzsj(new java.sql.Date(now.getTime())); //鉴证时间
         //鉴证人编号
         Integer jzrbh = UuidUtil.getUuidNum();
@@ -318,7 +322,7 @@ public class ZjjgxServiceImpl implements ZjjgxService {
         fcjyClfZjjgzhSale.setJgid(zjjgxyDto.getXybh()); //监管id
         fcjyClfZjjgzhSale.setMmsfbz(fcjyClfMmhtZtEntitySale.getZtlb()); //买卖双方标志 0-买受人 1-出卖人
         fcjyClfZjjgzhSale.setZhlb("1"); //账户类别 1-监管子账户
-        fcjyClfZjjgzhSale.setSfdg("1"); //是否对公 1-是 0-否
+        fcjyClfZjjgzhSale.setSfdg(ShiFouEnum.SHI.getCode()); //是否对公 1-是 0-否
         fcjyClfZjjgzhSale.setZhsyr(fcjyClfMmhtZtEntitySale.getHm()); //账户所有人
         fcjyClfZjjgzhSale.setZhh(fcjyClfMmhtZtEntitySale.getZh()); //账户号
         fcjyClfZjjgzhSale.setYhbh(fcjyClfMmhtZtEntitySale.getYh()); //银行编号
@@ -332,7 +336,7 @@ public class ZjjgxServiceImpl implements ZjjgxService {
         fcjyClfZjjgzhSale.setDqje(0); //当前余额
         fcjyClfZjjgzhSale.setYhdqye(0); //银行当前余额
         fcjyClfZjjgzhSale.setHbzl("1"); //货币种类 1-人民币
-        fcjyClfZjjgzhSale.setJzbz("0"); //鉴证标志 0-未鉴证
+        fcjyClfZjjgzhSale.setJzbz(ShiFouEnum.FOU.getCode()); //鉴证标志 0-未鉴证-否
         fcjyClfZjjgzhSale.setJzsj(new java.sql.Date(now.getTime())); //鉴证时间
         fcjyClfZjjgzhSale.setJzrbh(jzrbh + ""); //鉴证人编号
         fcjyClfZjjgzhSale.setZt("1"); //资金监管账号状态 1-正常 0-作废
@@ -366,10 +370,10 @@ public class ZjjgxServiceImpl implements ZjjgxService {
         fcjyClfZjjgrzjlEntity.setDgyhzh(zjjgxyDto.getJszh()); //对公银行账户
         fcjyClfZjjgrzjlEntity.setSjczsj(new java.sql.Date(now.getTime())); //实际操作时间
         fcjyClfZjjgrzjlEntity.setYhlsh(""); //银行流水号
-        fcjyClfZjjgrzjlEntity.setSfdg("1"); //是否对公 1-是 0-否
-        fcjyClfZjjgrzjlEntity.setSflx("0"); //是否利息 1-是 0-否
-        fcjyClfZjjgrzjlEntity.setSftk("0"); //是否退款 1-是 0-否
-        fcjyClfZjjgrzjlEntity.setFhqk("0"); //复核情况 0-未复核 1-已复核
+        fcjyClfZjjgrzjlEntity.setSfdg(ShiFouEnum.SHI.getCode()); //是否对公 1-是 0-否
+        fcjyClfZjjgrzjlEntity.setSflx(ShiFouEnum.FOU.getCode()); //是否利息 1-是 0-否
+        fcjyClfZjjgrzjlEntity.setSftk(ShiFouEnum.FOU.getCode()); //是否退款 1-是 0-否
+        fcjyClfZjjgrzjlEntity.setFhqk(ShiFouEnum.FOU.getCode()); //复核情况 0-未复核 1-已复核
         fcjyClfZjjgrzjlEntity.setFhbz("无入账复核备注"); //复核备注
         fcjyClfZjjgrzjlEntity.setFhr("入账复核人"); //复核人
         fcjyClfZjjgrzjlEntity.setFhrxm("入账复核人姓名"); //复核人姓名
@@ -378,7 +382,7 @@ public class ZjjgxServiceImpl implements ZjjgxService {
         fcjyClfZjjgrzjlEntity.setShsj(new java.sql.Date(now.getTime())); //审核时间
         fcjyClfZjjgrzjlEntity.setShqk("无入账审核情况"); //审核情况
         fcjyClfZjjgrzjlEntity.setCzrxm(SecurityContextHolder.getContext().getAuthentication().getName()); //操作人姓名 当前登陆者
-        fcjyClfZjjgrzjlEntity.setSfyx("1"); //是否有效 1-是 0-否
+        fcjyClfZjjgrzjlEntity.setSfyx(YouXiaoXingEnum.YOUXIAO.getCode()); //是否有效 1-是 0-否
         fcjyClfZjjgrzjlEntity.setBz("无入账备注"); //备注
         //资金监管入账记录-over
 
@@ -397,9 +401,9 @@ public class ZjjgxServiceImpl implements ZjjgxService {
         fcjyClfZjjgczjlEntity.setSkfyhjhh(yhjhh + ""); //收款方银行交换号
         fcjyClfZjjgczjlEntity.setHkrq(new java.sql.Date(now.getTime())); //划款日期
         fcjyClfZjjgczjlEntity.setSjczsj(new java.sql.Date(now.getTime())); //实际操作时间
-        fcjyClfZjjgczjlEntity.setZlzt("0"); //指令状态 0-未出账 1-已出账
-        fcjyClfZjjgczjlEntity.setHktj("0"); //划款途径 0-转账 1-汇款
-        fcjyClfZjjgczjlEntity.setFhqk("0"); //复核情况 0-未复核 1-已复核
+        fcjyClfZjjgczjlEntity.setZlzt(ShiFouEnum.FOU.getCode()); //指令状态 0-未出账 1-已出账
+        fcjyClfZjjgczjlEntity.setHktj(ShiFouEnum.FOU.getCode()); //划款途径 0-转账 1-汇款
+        fcjyClfZjjgczjlEntity.setFhqk(ShiFouEnum.FOU.getCode()); //复核情况 0-未复核 1-已复核
         fcjyClfZjjgczjlEntity.setFhbz("无出账复核备注"); //复核备注
         fcjyClfZjjgczjlEntity.setFhr("出账复核人"); //复核人
         fcjyClfZjjgczjlEntity.setFhrxm("出账复核人姓名"); //复核人姓名
@@ -412,7 +416,7 @@ public class ZjjgxServiceImpl implements ZjjgxService {
         fcjyClfZjjgczjlEntity.setJgyhbh(zjjgxyDto.getJszh()); //监管银行编号
         fcjyClfZjjgczjlEntity.setZjsxbh(""); //资金属性编号-支取的银行流水号
         fcjyClfZjjgczjlEntity.setCzrxm(SecurityContextHolder.getContext().getAuthentication().getName()); //操作人姓名
-        fcjyClfZjjgczjlEntity.setSfyx("1"); //是否有效 1-是 0-否
+        fcjyClfZjjgczjlEntity.setSfyx(YouXiaoXingEnum.YOUXIAO.getCode()); //是否有效 1-是 0-否
         fcjyClfZjjgczjlEntity.setBz2("无出账备注"); //备注
         //资金监管出账记录-over
 
@@ -472,11 +476,11 @@ public class ZjjgxServiceImpl implements ZjjgxService {
         FcjyClfZjjghtZtEntity fcjyClfZjjghtZtEntitySale = new FcjyClfZjjghtZtEntity(); //存量房买卖合同主体-出卖人
         for(FcjyClfZjjghtZtEntity fcjyClfZjjghtZtEntity : zjjghtZtByJgid){
             //存量房买卖合同主体-买受人
-            if ("0".equals(fcjyClfZjjghtZtEntity.getZtlb())){
+            if (ZhuTiLeiBieEnum.BUY.getCode().equals(fcjyClfZjjghtZtEntity.getZtlb())){
                 fcjyClfZjjghtZtEntityBuy = fcjyClfZjjghtZtEntity;
             }
             //存量房买卖合同主体-出卖人
-            if ("1".equals(fcjyClfZjjghtZtEntity.getZtlb())){
+            if (ZhuTiLeiBieEnum.SALE.getCode().equals(fcjyClfZjjghtZtEntity.getZtlb())){
                 fcjyClfZjjghtZtEntitySale = fcjyClfZjjghtZtEntity;
             }
         }
@@ -591,11 +595,11 @@ public class ZjjgxServiceImpl implements ZjjgxService {
         FcjyClfZjjghtZtEntity fcjyClfZjjghtZtEntitySale = new FcjyClfZjjghtZtEntity(); //存量房买卖合同主体-出卖人
         for(FcjyClfZjjghtZtEntity fcjyClfZjjghtZtEntity : zjjghtZtByJgid){
             //存量房买卖合同主体-买受人
-            if ("0".equals(fcjyClfZjjghtZtEntity.getZtlb())){
+            if (ZhuTiLeiBieEnum.BUY.getCode().equals(fcjyClfZjjghtZtEntity.getZtlb())){
                 fcjyClfZjjghtZtEntityBuy = fcjyClfZjjghtZtEntity;
             }
             //存量房买卖合同主体-出卖人
-            if ("1".equals(fcjyClfZjjghtZtEntity.getZtlb())){
+            if (ZhuTiLeiBieEnum.SALE.getCode().equals(fcjyClfZjjghtZtEntity.getZtlb())){
                 fcjyClfZjjghtZtEntitySale = fcjyClfZjjghtZtEntity;
             }
         }
@@ -637,7 +641,9 @@ public class ZjjgxServiceImpl implements ZjjgxService {
         //查询协议是否已经撤销
         //资金监管协议
         FcjyClfZjjgxyEntity zjjgxyByJgid = fcjyClfZjjgxyService.findZjjgxyByJgid(jgid);
-        if (null != zjjgxyByJgid.getZt() && ("301".equals(zjjgxyByJgid.getZt()) || "302".equals(zjjgxyByJgid.getZt()) || "303".equals(zjjgxyByJgid.getZt()))){
+        if (null != zjjgxyByJgid.getZt() && (ZjjgxyZtEnum.SHOUGONGCHEXIAO.getCode().equals(zjjgxyByJgid.getZt()) ||
+                ZjjgxyZtEnum.XITONGCHEXIAO.getCode().equals(zjjgxyByJgid.getZt()) ||
+                ZjjgxyZtEnum.JIAOYIJIESHU.getCode().equals(zjjgxyByJgid.getZt()))){
             //已经撤销或者完结
             map.put("sfcx", "2");
             return map;
@@ -679,7 +685,9 @@ public class ZjjgxServiceImpl implements ZjjgxService {
 
         //判断是否已经撤销或者完结
         FcjyClfZjjgxyEntity zjjgxyByJgid = fcjyClfZjjgxyService.findZjjgxyByJgid(jgid);
-        if (null != zjjgxyByJgid.getZt() && ("301".equals(zjjgxyByJgid.getZt()) || "302".equals(zjjgxyByJgid.getZt()) || "303".equals(zjjgxyByJgid.getZt()))){
+        if (null != zjjgxyByJgid.getZt() && (ZjjgxyZtEnum.SHOUGONGCHEXIAO.getCode().equals(zjjgxyByJgid.getZt()) ||
+                ZjjgxyZtEnum.XITONGCHEXIAO.getCode().equals(zjjgxyByJgid.getZt()) ||
+                ZjjgxyZtEnum.JIAOYIJIESHU.getCode().equals(zjjgxyByJgid.getZt()))){
             //已经撤销或者完结
             return "4";
         }
@@ -691,7 +699,7 @@ public class ZjjgxServiceImpl implements ZjjgxService {
             return "2";
         }
 
-        String zt = "201"; //资金监管协议zt 初次确认
+        String zt = ZjjgxyZtEnum.CHUCIQUEREN.getCode(); //资金监管协议zt 初次确认
         fcjyClfZjjgxyService.updateZjjgxyZtByJgid(jgid,zt);
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -760,8 +768,9 @@ public class ZjjgxServiceImpl implements ZjjgxService {
         //判断协议状态，撤销或完结状态则取消操作
         //资金监管协议
         FcjyClfZjjgxyEntity zjjgxyByJgid = fcjyClfZjjgxyService.findZjjgxyByJgid(jgid);
-        if (null != zjjgxyByJgid.getZt() && (zjjgxyByJgid.getZt().equals("301") ||
-                zjjgxyByJgid.getZt().equals("302") || zjjgxyByJgid.getZt().equals("303"))){
+        if (null != zjjgxyByJgid.getZt() && (zjjgxyByJgid.getZt().equals(ZjjgxyZtEnum.SHOUGONGCHEXIAO.getCode()) ||
+                zjjgxyByJgid.getZt().equals(ZjjgxyZtEnum.XITONGCHEXIAO.getCode()) ||
+                zjjgxyByJgid.getZt().equals(ZjjgxyZtEnum.JIAOYIJIESHU.getCode()))){
             return "3";
         }
 
@@ -773,11 +782,11 @@ public class ZjjgxServiceImpl implements ZjjgxService {
         }
 
         //账户信息设置
-        String buyZtlb = "0"; //买方状态类别
+        String buyZtlb = ZhuTiLeiBieEnum.BUY.getCode(); //买方状态类别
         String buyyh = zjjgxyZhxxDto.getBuyyh();//买方银行
         String buyzh = zjjgxyZhxxDto.getBuyzh();//买方账户
 
-        String saleZtlb = "1"; //卖方状态类别
+        String saleZtlb = ZhuTiLeiBieEnum.SALE.getCode(); //卖方状态类别
         String saleyh = zjjgxyZhxxDto.getSaleyh();//卖方银行
         String salezh = zjjgxyZhxxDto.getSalezh();//卖方账户
 
@@ -842,7 +851,9 @@ public class ZjjgxServiceImpl implements ZjjgxService {
 
         //判断是否已经撤销或者完结
         FcjyClfZjjgxyEntity zjjgxyByJgid = fcjyClfZjjgxyService.findZjjgxyByJgid(jgid);
-        if (null != zjjgxyByJgid.getZt() && ("301".equals(zjjgxyByJgid.getZt()) || "302".equals(zjjgxyByJgid.getZt()) || "303".equals(zjjgxyByJgid.getZt()))){
+        if (null != zjjgxyByJgid.getZt() && (ZjjgxyZtEnum.SHOUGONGCHEXIAO.getCode().equals(zjjgxyByJgid.getZt()) ||
+                ZjjgxyZtEnum.XITONGCHEXIAO.getCode().equals(zjjgxyByJgid.getZt()) ||
+                ZjjgxyZtEnum.JIAOYIJIESHU.getCode().equals(zjjgxyByJgid.getZt()))){
             //已经撤销或者完结
             return "4";
         }
@@ -877,7 +888,9 @@ public class ZjjgxServiceImpl implements ZjjgxService {
 
         //判断是否已经撤销或者完结
         FcjyClfZjjgxyEntity zjjgxyByJgid = fcjyClfZjjgxyService.findZjjgxyByJgid(jgid);
-        if (null != zjjgxyByJgid.getZt() && ("301".equals(zjjgxyByJgid.getZt()) || "302".equals(zjjgxyByJgid.getZt()) || "303".equals(zjjgxyByJgid.getZt()))){
+        if (null != zjjgxyByJgid.getZt() && (ZjjgxyZtEnum.SHOUGONGCHEXIAO.getCode().equals(zjjgxyByJgid.getZt()) ||
+                ZjjgxyZtEnum.XITONGCHEXIAO.getCode().equals(zjjgxyByJgid.getZt()) ||
+                ZjjgxyZtEnum.JIAOYIJIESHU.getCode().equals(zjjgxyByJgid.getZt()))){
             //已经撤销或者完结
             return "4";
         }
@@ -935,7 +948,9 @@ public class ZjjgxServiceImpl implements ZjjgxService {
 
         //判断是否已经撤销或者完结
         FcjyClfZjjgxyEntity zjjgxyByJgid = fcjyClfZjjgxyService.findZjjgxyByJgid(jgid);
-        if (null != zjjgxyByJgid.getZt() && ("301".equals(zjjgxyByJgid.getZt()) || "302".equals(zjjgxyByJgid.getZt()) || "303".equals(zjjgxyByJgid.getZt()))){
+        if (null != zjjgxyByJgid.getZt() && (ZjjgxyZtEnum.SHOUGONGCHEXIAO.getCode().equals(zjjgxyByJgid.getZt()) ||
+                ZjjgxyZtEnum.XITONGCHEXIAO.getCode().equals(zjjgxyByJgid.getZt()) ||
+                ZjjgxyZtEnum.JIAOYIJIESHU.getCode().equals(zjjgxyByJgid.getZt()))){
             //已经撤销或者完结
             return "3";
         }
@@ -992,11 +1007,11 @@ public class ZjjgxServiceImpl implements ZjjgxService {
         FcjyClfZjjghtZtEntity fcjyClfZjjghtZtEntitySale = new FcjyClfZjjghtZtEntity(); //存量房买卖合同主体-出卖人
         for(FcjyClfZjjghtZtEntity fcjyClfZjjghtZtEntity : zjjghtZtByJgid){
             //存量房买卖合同主体-买受人
-            if ("0".equals(fcjyClfZjjghtZtEntity.getZtlb())){
+            if (ZhuTiLeiBieEnum.BUY.getCode().equals(fcjyClfZjjghtZtEntity.getZtlb())){
                 fcjyClfZjjghtZtEntityBuy = fcjyClfZjjghtZtEntity;
             }
             //存量房买卖合同主体-出卖人
-            if ("1".equals(fcjyClfZjjghtZtEntity.getZtlb())){
+            if (ZhuTiLeiBieEnum.SALE.getCode().equals(fcjyClfZjjghtZtEntity.getZtlb())){
                 fcjyClfZjjghtZtEntitySale = fcjyClfZjjghtZtEntity;
             }
         }
@@ -1163,7 +1178,7 @@ public class ZjjgxServiceImpl implements ZjjgxService {
 
         //协议状态 根据资金监管协议状态zt工具类判断
         for (ZjjgxVo zjjgxVo : allData){
-            if ("301".equals(zjjgxVo.getSfcx()) || "302".equals(zjjgxVo.getSfcx())){
+            if (ZjjgxyZtEnum.SHOUGONGCHEXIAO.getCode().equals(zjjgxVo.getSfcx()) || ZjjgxyZtEnum.XITONGCHEXIAO.getCode().equals(zjjgxVo.getSfcx())){
                 zjjgxVo.setSfcx("是");
             }else {
                 zjjgxVo.setSfcx("否");
@@ -1204,7 +1219,7 @@ public class ZjjgxServiceImpl implements ZjjgxService {
 
         //协议状态 根据资金监管协议状态zt工具类判断
         for (ZjjgxVo zjjgxVo : allData){
-            if ("301".equals(zjjgxVo.getSfcx()) || "302".equals(zjjgxVo.getSfcx())){
+            if (ZjjgxyZtEnum.SHOUGONGCHEXIAO.getCode().equals(zjjgxVo.getSfcx()) || ZjjgxyZtEnum.XITONGCHEXIAO.getCode().equals(zjjgxVo.getSfcx())){
                 zjjgxVo.setSfcx("是");
             }else {
                 zjjgxVo.setSfcx("否");

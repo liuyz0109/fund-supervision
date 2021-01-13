@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>资金监管协议</title>
+    <meta http-equiv="Content-Type" content="application/json;charset=utf-8"/>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../static/layui/css/layui.css"  media="all">
+</head>
+<body>
+<script type="text/html" id="toolbarDemo">
+    <form id="searchForm">
+        <div class="layui-form-item" style="padding-top: 10px">
+            <div class="layui-inline">
+                <label class="layui-form-label" style="width: 100px">交易日期</label>
+                <input type="text" name="searchJyrq" id="searchJyrq" readonly lay-verify="date" placeholder="yyyy-MM-dd" style="width: 100px" class="layui-input">
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label" style="width: 100px">结束日期</label>
+                <input type="text" name="searchJsrq" id="searchJsrq" readonly lay-verify="date" placeholder="yyyy-MM-dd" style="width: 100px" class="layui-input">
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label" style="width: 100px">监管银行</label>
+                <div class="layui-input-inline" style="width: 100px">
+                    <select name="searchJgyh" id="searchJgyh">
+                        <option value="">全部</option>
+                        <option value="监管开户行1">监管银行1</option>
+                        <option value="监管开户行2">监管银行2</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label" style="width: 100px">办理单位</label>
+                <div class="layui-input-inline" style="width: 100px">
+                    <select name="searchBldw" id="searchBldw">
+                        <option value="">全部</option>
+                        <option value="企业名称">企业名称</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline" style="padding-left: 12px">
+                <button type="button" class="layui-btn layui-btn-sm" lay-event="searchData">统计</button>
+            </div>
+        </div>
+    </form>
+</script>
+<table class="layui-hide" id="test" lay-filter="test"></table>
+
+<script src="../static/index/js/jquery.min.js"></script>
+<script src="../static/layui/layui.js" charset="utf-8"></script>
+
+<script>
+    layui.use(['table','laydate'], function(){
+        var table = layui.table
+            ,laydate = layui.laydate;
+
+        //日期
+        laydate.render({
+            elem: '#searchJyrq'
+        });
+        laydate.render({
+            elem: '#searchJsrq'
+        });
+
+        table.render({
+            elem: '#test'
+            ,url:'/zjjgxy/getZjjgxyCountData'
+            ,toolbar: '#toolbarDemo' //开启头部工具栏
+            ,defaultToolbar: ['exports']
+            ,title: '资金监管统计'
+            ,totalRow: true
+            ,cols: [
+                [
+                    {field:'bldw', title:'办理单位', width:100, totalRowText: '合计'}
+                    ,{field:'jgyh', title:'监管银行', width:150}
+                    ,{field:'jgsl', title:'监管数量', width:100, totalRow: true, totalRowType:'int'}
+                    ,{field:'jzmj', title:'建筑面积', width:100, totalRow: true}
+                    ,{field:'cjje', title:'成交金额', width:100, totalRow: true}
+                    ,{field:'jgje', title:'监管金额', width:100, totalRow: true}
+                    ,{field:'rzje', title:'入账金额', width:100, totalRow: true}
+                    ,{field:'zqje', title:'支取金额', width:100, totalRow: true}
+                    ,{field:'jyje', title:'结余金额', width:100, totalRow: true}
+                    ,{field:'fx', title:'付息', width:100, totalRow: true}
+                ]
+            ]
+            ,page: true
+        });
+
+        //头工具栏事件
+        table.on('toolbar(test)', function(obj){
+            var checkStatus = table.checkStatus(obj.config.id);
+
+            //查阅功能
+            if (obj.event === 'searchData'){
+                // var searchQdrq = $("#searchQdrq").val(); //签订日期
+                // var searchJsrq = $("#searchJsrq").val(); //结束日期
+                // var searchXybh = $("#searchXybh").val(); //协议编号
+                // var searchZrf = $("#searchZrf").val(); //转让方
+                // var searchSrf = $("#searchSrf").val(); //受让方
+                // var searchDjbh = $("#searchDjbh").val(); //登记编号
+                // var searchXyzt = $("#searchXyzt").val(); //协议状态
+                // var searchJgyh = $("#searchJgyh").val(); //监管银行
+                // var searchHtbh = $("#searchHtbh").val(); //合同编号
+                //将数据提交到后台
+                $.ajax({
+                    url: '../zjjgxy/searchZjjgxyCountData',
+                    dataType: 'json',
+                    type: 'post',
+                    data: $("#searchForm").serialize(),
+                    success: function (obj) {
+                        if (obj.success){
+                            location.reload();
+                        }else {
+                            location.reload();
+                        }
+                    },
+                    error: function () {
+                        location.reload();
+                    }
+                });
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

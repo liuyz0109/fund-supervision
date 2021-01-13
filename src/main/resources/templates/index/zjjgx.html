@@ -381,8 +381,7 @@
                                         end: function () {
                                             //定义一个信息变量，保存新的页面传递过来的参数
                                             var cxjg = $("#cxjg").val(); //撤销结果
-
-                                            layer.alert(cxjg, '', function () {
+                                            layer.alert(cxjg, function () {
                                                 location.reload();
                                             })
                                         }
