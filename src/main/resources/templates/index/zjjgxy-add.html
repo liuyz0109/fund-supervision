@@ -20,6 +20,8 @@
                     <div class="layui-tab-item layui-show" id="firstPrint">
                         <!--第一栏-->
                         <form class="layui-form" id="firstForm">
+                            <!--令牌接收框-->
+                            <input type="hidden" id="token" name="token">
                             <div class="layui-form-item">
                                 <div class="layui-inline">
                                     <label class="layui-form-label"><b>合同编号</b></label>
@@ -377,7 +379,9 @@
             form.on('submit(demo1)', function(){
                 //协议编号赋值uuid
                 $('#xybh').val(getUUID());
-
+                //获取父页面的令牌
+                var addtoken = $(window.parent.document).find('#lingpai').val();
+                $("#token").val(addtoken); //hidden赋值
                 layui.use('jquery',function(){
                     var $=layui.$;
                     $.ajax({

@@ -148,7 +148,7 @@ public class ZjjghtServiceImpl implements ZjjghtService {
      */
     @Override
     public DataVo<FcxxVo> findFcxxByCqzh(Integer page, Integer limit, String cqzhOld) {
-        //封装DataVo<ClfMmhtVo>数据
+        //封装DataVo<FcxxVo>数据
         DataVo<FcxxVo> zjjghtVoDataVo = new DataVo<>();
         zjjghtVoDataVo.setCode(0);
         zjjghtVoDataVo.setMsg("");

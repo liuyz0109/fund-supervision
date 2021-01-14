@@ -56,7 +56,20 @@
         on f1.jgfwrybh = f5.ryid
         join FCJY_CYZT_CYQYJBXX f6
         on f1.jgfwjgbh = f6.qyid
-        where (f1.zt like '10_' or f1.zt like '20_') and f1.jgbh like '%${searchDjbh}%' and f1.jgid like '%${searchXybh}%' and f4.htbh like '%${searchHtbh}%'
+        <where>
+            <if test="1 == 1">
+                (f1.zt like '10_' or f1.zt like '20_')
+            </if>
+            <if test="searchDjbh != null and searchDjbh != ''">
+                and instr(f1.jgbh,#{searchDjbh})>0
+            </if>
+            <if test="searchXybh != null and searchXybh != ''">
+                and instr(f1.jgid,#{searchXybh})>0
+            </if>
+            <if test="searchHtbh != null and searchHtbh != ''">
+                and instr(f4.htbh,#{searchHtbh})>0
+            </if>
+        </where>
         order by f1.qdxyrq desc
     </select>
 
@@ -74,7 +87,20 @@
         on f1.jgfwrybh = f5.ryid
         join FCJY_CYZT_CYQYJBXX f6
         on f1.jgfwjgbh = f6.qyid
-        where f1.zt = '303' and f1.jgbh like '%${searchDjbh}%' and f1.jgid like '%${searchXybh}%' and f4.htbh like '%${searchHtbh}%'
+        <where>
+            <if test="1 == 1">
+                f1.zt = '303'
+            </if>
+            <if test="searchDjbh != null and searchDjbh != ''">
+                and instr(f1.jgbh,#{searchDjbh})>0
+            </if>
+            <if test="searchXybh != null and searchXybh != ''">
+                and instr(f1.jgid,#{searchXybh})>0
+            </if>
+            <if test="searchHtbh != null and searchHtbh != ''">
+                and instr(f4.htbh,#{searchHtbh})>0
+            </if>
+        </where>
         order by f1.qdxyrq desc
     </select>
 
@@ -92,7 +118,20 @@
         on f1.jgfwrybh = f5.ryid
         join FCJY_CYZT_CYQYJBXX f6
         on f1.jgfwjgbh = f6.qyid
-        where (f1.zt = '301' or f1.zt = '302') and f1.jgbh like '%${searchDjbh}%' and f1.jgid like '%${searchXybh}%' and f4.htbh like '%${searchHtbh}%'
+        <where>
+            <if test="1 == 1">
+                f1.zt = '301'
+            </if>
+            <if test="searchDjbh != null and searchDjbh != ''">
+                and instr(f1.jgbh,#{searchDjbh})>0
+            </if>
+            <if test="searchXybh != null and searchXybh != ''">
+                and instr(f1.jgid,#{searchXybh})>0
+            </if>
+            <if test="searchHtbh != null and searchHtbh != ''">
+                and instr(f4.htbh,#{searchHtbh})>0
+            </if>
+        </where>
         order by f1.qdxyrq desc
     </select>
 
@@ -218,25 +257,25 @@
                 and to_char(f1.gdsj,'yyyy-mm-dd') = #{searchJsrq}
             </if>
             <if test="searchXybh != null and searchXybh != ''">
-                and f1.jgid like '%${searchXybh}%'
+                and instr(f1.jgid,#{searchXybh})>0
             </if>
             <if test="searchZrf != null and searchZrf != ''">
-                and f2.ztxm like '%${searchZrf}%'
+                and instr(f2.ztxm,#{searchZrf})>0
             </if>
             <if test="searchSrf != null and searchSrf != ''">
-                and f3.ztxm like '%${searchSrf}%'
+                and instr(f3.ztxm,#{searchSrf})>0
             </if>
             <if test="searchDjbh != null and searchDjbh != ''">
-                and f1.jgbh like '%${searchDjbh}%'
+                and instr(f1.jgbh,#{searchDjbh})>0
             </if>
             <if test="searchXyzt != null and searchXyzt != ''">
-                and f1.zt like '%${searchXyzt}%'
+                and instr(f1.zt,#{searchXyzt})>0
             </if>
             <if test="searchJgyh != null and searchJgyh != ''">
-                and f8.dgfkyhmc like '%${searchJgyh}%'
+                and instr(f8.dgfkyhmc,#{searchJgyh})>0
             </if>
             <if test="searchHtbh != null and searchHtbh != ''">
-                and f4.htbh like '%${searchHtbh}%'
+                and instr(f4.htbh,#{searchHtbh})>0
             </if>
         </where>
         order by f1.qdxyrq desc
@@ -262,7 +301,7 @@
                 and to_char(f1.gdsj,'yyyy-mm-dd') = #{searchJsrq}
             </if>
             <if test="searchXyzt != null and searchXyzt != ''">
-                and f1.zt like '%${searchXyzt}%'
+                and instr(f1.zt,#{searchXyzt})>0
             </if>
         </where>
         group by f3.dgfkyhmc

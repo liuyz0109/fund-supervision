@@ -78,6 +78,7 @@
 
 <!--撤销结果接收-->
 <input type="hidden" id="cxjg">
+<input type="hidden" id="lingpai">
 <div class="layui-tab" lay-filter="zjjgx-tab">
     <ul class="layui-tab-title">
         <li lay-id="11" class="layui-this">正在办理</li>
@@ -112,6 +113,15 @@
 <script src="../static/layui/layui.js" charset="utf-8"></script>
 <script src="../static/admin/js/common.js" type="text/javascript" charset="utf-8"></script>
 
+<script>
+    //生成32uuid
+    function getUUID() {
+        function S4() {
+            return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+        }
+        return (S4() + S4() + S4() + S4() + S4() + S4() + S4() + S4());
+    }
+</script>
 <script>
     layui.use(['table','jquery','element'], function(){
         var table = layui.table
@@ -404,6 +414,9 @@
 
             //资金监管协议添加功能
             if (obj.event === 'zjjgxyAdd'){
+                var token = getUUID();
+                //隐藏框赋值，作为令牌
+                $("#lingpai").val(token);
                 layer.open({
                     title : "资金监管协议签订",
                     //调整弹框的大小
@@ -414,7 +427,7 @@
                     //弹出层的基本类型
                     type: 2,
                     //刚才定义的弹窗页面
-                    content: '../zjjgx/zjjgxyAdd',
+                    content: '../zjjgx/zjjgxyAdd?token='+token,
                     //关闭子页面后，刷新原页面
                     end: function () {
                         location.reload();

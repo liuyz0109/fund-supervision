@@ -2,6 +2,8 @@ package com.gtmap.fundsupervision.dto;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * @author <a href="mailto:liuyaozong@gtmap.cn">liuyaozong</a>
  * @version 1.0, 2020/12/22
@@ -9,7 +11,7 @@ import lombok.Data;
  */
 
 @Data
-public class ZjjgxyDto {
+public class ZjjgxyDto implements Serializable {
     private String htbh; //合同编号
     private String qzlx; //权证类型
     private String qzhm; //权证号码
@@ -49,4 +51,6 @@ public class ZjjgxyDto {
     private String jszh; //监管开户行结算账户
     private String jfkhh; //甲方开户行
     private String jfjszh; //甲方开户行结算账户
+
+    private String token; //令牌
 }

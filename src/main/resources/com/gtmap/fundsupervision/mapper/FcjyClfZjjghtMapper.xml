@@ -7,7 +7,11 @@
     <select id="getDataByHtbh" parameterType="java.lang.String" resultType="com.gtmap.fundsupervision.vo.ClfMmhtListVo">
         select htbh as "htbh",cqrxm as "cqr",fwzl as "cqzl"
         from FCJY_CLF_ZJJGHT
-        where htbh like '%${htbhOld}%'
+        <where>
+            <if test="htbhOld != null and htbhOld != ''">
+                instr(htbh,#{htbhOld})>0
+            </if>
+        </where>
     </select>
 
     <!--保存资金监管合同-->

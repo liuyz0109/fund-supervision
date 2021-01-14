@@ -10,7 +10,11 @@
         from FCJY_CLF_MMHT f1
         join FCJY_CLF_MMHT_FWQSGK f2
         on f1.htid = f2.htid
-        where f1.htbh like '%${htbhOld}%'
+        <where>
+            <if test="htbhOld != null and htbhOld != ''">
+                instr(f1.htbh,#{htbhOld})>0
+            </if>
+        </where>
     </select>
 
     <!--存量房买卖合同Vo-->
@@ -173,7 +177,14 @@
         from FCJY_CLF_MMHT f1
         join FCJY_CLF_MMHT_ZT f2
         on f1.htbh = f2.htbh
-        where f1.cqzh like '%${cqzh}%' and f2.ztlb = '1'
+        <where>
+            <if test="cqzh != null and cqzh != ''">
+                instr(f1.cqzh,#{cqzh})>0
+            </if>
+            <if test="1 == 1">
+                and f2.ztlb = '1'
+            </if>
+        </where>
     </select>
 
     <!--获取选择的房产信息-->
@@ -197,7 +208,17 @@
         on f1.hbh = f2.hbh
         join FCJY_CLF_JJHT f3
         on f2.jjhtbh = f3.jjhtbh
-        where f1.cqzh like '%${searchCqzh}%' and f3.qlr like '%${searchXm}%' and f3.zjhm like '%${searchSfzh}%'
+        <where>
+            <if test="searchCqzh != null and searchCqzh != ''">
+                instr(f1.cqzh,#{searchCqzh})>0
+            </if>
+            <if test="searchXm != null and searchXm != ''">
+                and instr(f3.qlr,#{searchXm})>0
+            </if>
+            <if test="searchSfzh != null and searchSfzh != ''">
+                and instr(f3.zjhm,#{searchSfzh})>0
+            </if>
+        </where>
     </select>
 
 </mapper>

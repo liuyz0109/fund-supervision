@@ -6,6 +6,17 @@ spring:
     username: scott
     password: 123456
     driver-class-name: oracle.jdbc.OracleDriver
+  redis:
+    database: 0
+    host: 192.168.188.128
+    port: 6379
+    password:
+    pool:
+      max-active: 8
+      max-wait: -1
+      max-idle: 8
+      min-idle: 0
+    timeout: 5000
   thymeleaf:
     enabled: true
     prefix: classpath:/templates/  #前缀

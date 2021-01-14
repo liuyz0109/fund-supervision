@@ -1,12 +1,17 @@
 package com.gtmap.fundsupervision.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.gtmap.fundsupervision.dto.ZjjgxyDto;
 import com.gtmap.fundsupervision.dto.ZjjgxyZhxxDto;
 import com.gtmap.fundsupervision.service.ZjjgxService;
 import com.gtmap.fundsupervision.vo.*;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +26,7 @@ import java.io.OutputStream;
 import java.net.URLDecoder;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author <a href="mailto:liuyaozong@gtmap.cn">liuyaozong</a>
@@ -34,6 +40,9 @@ public class ZjjgxController {
 
     @Autowired
     private ZjjgxService zjjgxService;
+
+    @Autowired
+    private StringRedisTemplate template;
 
     //首页面展示数据-正在办理
     @ResponseBody
@@ -133,7 +142,14 @@ public class ZjjgxController {
 
     //弹出资金监管协议添加页面
     @GetMapping("/zjjgxyAdd")
-    public String zjjgxyAdd() {
+    public String zjjgxyAdd(String token) {
+        //创建令牌
+        //用户名+token作为key,uuid作为value
+        //获取登录用户信息-redis查询
+        String s = template.opsForValue().get(SecurityContextHolder.getContext().getAuthentication().getName());
+        UserDataVo userDataVo = JSONArray.parseObject(s, UserDataVo.class);
+        String key = userDataVo.getUsername() + "_token";
+        template.opsForValue().set(key, token, 30, TimeUnit.MINUTES);
         return "index/zjjgxy-add";
     }
 
@@ -142,9 +158,28 @@ public class ZjjgxController {
     @PostMapping("/saveZjjgxy")
     public ResultVo saveZjjgxy(ZjjgxyDto zjjgxyDto, Model model) {
         try {
-            zjjgxService.saveZjjgxy(zjjgxyDto);
+            //进行令牌校验
+            //获取登录用户信息-redis查询
+            String s = template.opsForValue().get(SecurityContextHolder.getContext().getAuthentication().getName());
+            UserDataVo userDataVo = JSONArray.parseObject(s, UserDataVo.class);
+            String key = userDataVo.getUsername() + "_token";
+            //获取redis中的令牌信息
+            String token_redis = template.opsForValue().get(key);
+            if (null == userDataVo || userDataVo.toString().length() == 0){
+                //无数据
+                return new ResultVo(false, "登录已失效，请重新登录");
+            }
+            if (null == token_redis || null == zjjgxyDto.getToken() || !token_redis.equals(zjjgxyDto.getToken())){
+                //令牌比对失败
+                return new ResultVo(false, "请勿重复提交，请在关闭页面后重新尝试");
+            }
+            //令牌比对成功
+            zjjgxService.saveZjjgxy(zjjgxyDto); //执行操作
+            //清除redis中的令牌信息
+            template.delete(key);
             return new ResultVo(true, "协议保存成功");
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResultVo(false, "协议保存失败");
         }
     }
@@ -260,10 +295,11 @@ public class ZjjgxController {
     //协议账户信息修改
     @ResponseBody
     @PostMapping("/zhxxSave")
-    public ResultVo zhxxSave(ZjjgxyZhxxDto zjjgxyZhxxDto,HttpSession session){
+    public ResultVo zhxxSave(ZjjgxyZhxxDto zjjgxyZhxxDto){
         try {
-            //获取登录用户信息
-            UserDataVo userDataVo = (UserDataVo) session.getAttribute("userDataVo");
+            //获取登录用户信息-redis查询
+            String s = template.opsForValue().get(SecurityContextHolder.getContext().getAuthentication().getName());
+            UserDataVo userDataVo = JSONArray.parseObject(s, UserDataVo.class);
             List<String> permissions = userDataVo.getPermissions(); //权限
             for (String permission : permissions){
                 if (null == permission && 0 == permission.length()){
